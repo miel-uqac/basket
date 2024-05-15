@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { showLoginError, hideLoginError, showApp, showLoginState, showLoginForm } from "./ui";
-import { getAuth, connectAuthEmulator, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
+import { getAuth, connectAuthEmulator, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, sendEmailVerification} from "firebase/auth";
 import { getDatabase, connectDatabaseEmulator } from "firebase/database";
 
 // Your web app's Firebase configuration
@@ -23,7 +23,18 @@ const db = getDatabase(app);
 const loginEmailPassword = async () => {
   const loginEmail = document.querySelector("#txtEmail").value;
   const loginPassword = document.querySelector("#txtPassword").value;
+
+
   try {
+    if (user.emailVerified) {
+      console.log("User is logged in and email is verified");
+      showApp();
+      showLoginState(user);
+    } else {
+      console.log("Email is not verified");
+      await signOut(auth); 
+      alert("Please verify your email before logging in.");
+    }
     const userCredential = await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
     console.log(userCredential.user);
   } catch (error) {
@@ -38,6 +49,8 @@ const createAccount = async () => {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, loginEmail, loginPassword);
     console.log(userCredential.user);
+    await sendEmailVerification(auth.currentUser);
+    console.log("Email de vérification envoyé !");
   } catch (error) {
     console.log(error);
     showLoginError(error);
@@ -46,12 +59,13 @@ const createAccount = async () => {
 
 const monitorAuthState = async () => {
   onAuthStateChanged(auth, user => {
-    if (user) {
+    if (user.emailVerified) {
       console.log();
       showApp();
       showLoginState(user);
       hideLoginError();
     } else {
+      signOut(auth);
       showLoginForm();
       const lblAuthState = document.querySelector("#lblAuthState");
       lblAuthState.textContent = "You are not logged in";
