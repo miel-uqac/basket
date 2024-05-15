@@ -1,5 +1,4 @@
 const path = require('path');
-
 module.exports = (env) => {
     const isProduction = env.production; 
     return {
@@ -11,8 +10,7 @@ module.exports = (env) => {
             filename: 'bundle.js'
         },
         optimization: isProduction ? {
-            minimize: true,
-
-        } : {}
+            minimize: true
+        } : {},
     };
 };
