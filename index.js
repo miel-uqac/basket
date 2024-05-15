@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { showLoginError, hideLoginError, showApp, showLoginState, showLoginForm } from "./ui";
-import { getAuth, connectAuthEmulator, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, sendEmailVerification} from "firebase/auth";
+import { getAuth, connectAuthEmulator, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, sendEmailVerification } from "firebase/auth";
 import { getDatabase, connectDatabaseEmulator } from "firebase/database";
 
 // Your web app's Firebase configuration
@@ -24,8 +24,10 @@ const loginEmailPassword = async () => {
   const loginEmail = document.querySelector("#txtEmail").value;
   const loginPassword = document.querySelector("#txtPassword").value;
 
-
   try {
+    const userCredential = await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
+    const user = userCredential.user;
+
     if (user.emailVerified) {
       console.log("User is logged in and email is verified");
       showApp();
@@ -34,9 +36,8 @@ const loginEmailPassword = async () => {
       console.log("Email is not verified");
       await signOut(auth); 
       alert("Please verify your email before logging in.");
+      await sendEmailVerification(user);
     }
-    const userCredential = await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
-    console.log(userCredential.user);
   } catch (error) {
     console.log(error);
     showLoginError(error);
@@ -59,13 +60,18 @@ const createAccount = async () => {
 
 const monitorAuthState = async () => {
   onAuthStateChanged(auth, user => {
-    if (user.emailVerified) {
-      console.log();
-      showApp();
-      showLoginState(user);
-      hideLoginError();
+    if (user) {
+      if (user.emailVerified) {
+        showApp();
+        showLoginState(user);
+        hideLoginError();
+      } else {
+        signOut(auth);
+        showLoginForm();
+        const lblAuthState = document.querySelector("#lblAuthState");
+        lblAuthState.textContent = "Please verify your email before logging in.";
+      }
     } else {
-      signOut(auth);
       showLoginForm();
       const lblAuthState = document.querySelector("#lblAuthState");
       lblAuthState.textContent = "You are not logged in";
@@ -73,22 +79,22 @@ const monitorAuthState = async () => {
   });
 };
 
-  const btnLogin = document.querySelector("#btnLogin");
-  btnLogin.addEventListener("click", loginEmailPassword);
+const btnLogin = document.querySelector("#btnLogin");
+btnLogin.addEventListener("click", loginEmailPassword);
 
-  const buttonCreate = document.querySelector("#button");
-  buttonCreate.addEventListener("click", createAccount);
+const buttonCreate = document.querySelector("#buttonCreateAccount");
+buttonCreate.addEventListener("click", createAccount);
 
-  if (location.hostname === "127.0.0.1") {
-    connectAuthEmulator(auth, "http://127.0.0.1:5002");
-    connectDatabaseEmulator(db, "127.0.0.1", 8000);
-  }
+if (location.hostname === "127.0.0.1") {
+  connectAuthEmulator(auth, "http://127.0.0.1:5002");
+  connectDatabaseEmulator(db, "127.0.0.1", 8000);
+}
 
-  monitorAuthState();
+monitorAuthState();
 
-  const logout = async () => {
-    await signOut(auth);
-  }
-  
-  const btnLogout = document.querySelector("#btnLogout");
-  btnLogout.addEventListener("click", logout);
+const logout = async () => {
+  await signOut(auth);
+};
+
+const btnLogout = document.querySelector("#btnLogout");
+btnLogout.addEventListener("click", logout);
