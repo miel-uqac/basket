@@ -94,6 +94,7 @@ monitorAuthState();
 
 const logout = async () => {
   await signOut(auth);
+  //test
 };
 
 const btnLogout = document.querySelector("#btnLogout");
