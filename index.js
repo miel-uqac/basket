@@ -16,7 +16,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);frameElement
 const auth = getAuth(app);
 const db = getDatabase(app);
 
@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnLogin = document.querySelector("#btnLogin");
   btnLogin.addEventListener("click", loginEmailPassword);
 
-  const buttonCreate = document.querySelector("#buttonCreateAccount");
+  const buttonCreate = document.querySelector("#button");
   buttonCreate.addEventListener("click", createAccount);
 
   if (location.hostname === "127.0.0.1") {
