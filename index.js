@@ -1,15 +1,9 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-//import { getAnalytics } from "firebase/analytics";
-import { getAuth, connectAuthEmulator } from "firebase/auth";
-import { getFunctions, connectFunctionsEmulator } from "firebase/functions";
+import { showLoginError, hideLoginError, showApp, showLoginState, showLoginForm } from "./ui";
+import { getAuth, connectAuthEmulator, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
 import { getDatabase, connectDatabaseEmulator } from "firebase/database";
 
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
 // Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyBOV4kut3iU7qaJ2PTR84wR9C0rjsXU2wY",
   authDomain: "truqac-test.firebaseapp.com",
@@ -23,13 +17,64 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const auth = getAuth();
-const functions = getFunctions(app);
-const db = getDatabase();
-//const analytics = getAnalytics(app);
+const auth = getAuth(app);
+const db = getDatabase(app);
 
-if (location.hostname === "127.0.0.1") {
+const loginEmailPassword = async () => {
+  const loginEmail = document.querySelector("#txtEmail").value;
+  const loginPassword = document.querySelector("#txtPassword").value;
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
+    console.log(userCredential.user);
+  } catch (error) {
+    console.log(error);
+    showLoginError(error);
+  }
+};
+
+const createAccount = async () => {
+  const loginEmail = document.querySelector("#txtEmail").value;
+  const loginPassword = document.querySelector("#txtPassword").value;
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, loginEmail, loginPassword);
+    console.log(userCredential.user);
+  } catch (error) {
+    console.log(error);
+    showLoginError(error);
+  }
+};
+
+const monitorAuthState = async () => {
+  onAuthStateChanged(auth, user => {
+    if (user) {
+      console.log();
+      showApp();
+      showLoginState(user);
+      hideLoginError();
+    } else {
+      showLoginForm();
+      const lblAuthState = document.querySelector("#lblAuthState");
+      lblAuthState.textContent = "You are not logged in";
+    }
+  });
+};
+
+  const btnLogin = document.querySelector("#btnLogin");
+  btnLogin.addEventListener("click", loginEmailPassword);
+
+  const buttonCreate = document.querySelector("#button");
+  buttonCreate.addEventListener("click", createAccount);
+
+  if (location.hostname === "127.0.0.1") {
     connectAuthEmulator(auth, "http://127.0.0.1:5002");
-    connectFunctionsEmulator(functions, "127.0.0.1", 4001);
     connectDatabaseEmulator(db, "127.0.0.1", 8000);
-}
+  }
+
+  monitorAuthState();
+
+  const logout = async () => {
+    await signOut(auth);
+  }
+  
+  const btnLogout = document.querySelector("#btnLogout");
+  btnLogout.addEventListener("click", logout);
