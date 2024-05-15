@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { showLoginError, hideLoginError, showApp, showLoginState, showLoginForm } from "./ui";
-import { getAuth, connectAuthEmulator, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
+import { getAuth, connectAuthEmulator, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, sendEmailVerification } from "firebase/auth";
 import { getDatabase, connectDatabaseEmulator } from "firebase/database";
 
 // Your web app's Firebase configuration
@@ -16,48 +16,69 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);frameElement
 const auth = getAuth(app);
 const db = getDatabase(app);
 
-const loginEmailPassword = async () => {
-  const loginEmail = document.querySelector("#txtEmail").value;
-  const loginPassword = document.querySelector("#txtPassword").value;
-  try {
-    const userCredential = await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
-    console.log(userCredential.user);
-  } catch (error) {
-    console.log(error);
-    showLoginError(error);
-  }
-};
+document.addEventListener('DOMContentLoaded', () => {
+  const loginEmailPassword = async () => {
+    const loginEmail = document.querySelector("#txtEmail").value;
+    const loginPassword = document.querySelector("#txtPassword").value;
 
-const createAccount = async () => {
-  const loginEmail = document.querySelector("#txtEmail").value;
-  const loginPassword = document.querySelector("#txtPassword").value;
-  try {
-    const userCredential = await createUserWithEmailAndPassword(auth, loginEmail, loginPassword);
-    console.log(userCredential.user);
-  } catch (error) {
-    console.log(error);
-    showLoginError(error);
-  }
-};
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
+      const user = userCredential.user;
 
-const monitorAuthState = async () => {
-  onAuthStateChanged(auth, user => {
-    if (user) {
-      console.log();
-      showApp();
-      showLoginState(user);
-      hideLoginError();
-    } else {
-      showLoginForm();
-      const lblAuthState = document.querySelector("#lblAuthState");
-      lblAuthState.textContent = "You are not logged in";
+      if (user.emailVerified) {
+        console.log("User is logged in and email is verified");
+        showApp();
+        showLoginState(user);
+      } else {
+        console.log("Email is not verified");
+        await signOut(auth); 
+        alert("Please verify your email before logging in.");
+        await sendEmailVerification(user);
+      }
+    } catch (error) {
+      console.log(error);
+      showLoginError(error);
     }
-  });
-};
+  };
+
+  const createAccount = async () => {
+    const loginEmail = document.querySelector("#txtEmail").value;
+    const loginPassword = document.querySelector("#txtPassword").value;
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, loginEmail, loginPassword);
+      console.log(userCredential.user);
+      await sendEmailVerification(auth.currentUser);
+      console.log("Email de vérification envoyé !");
+    } catch (error) {
+      console.log(error);
+      showLoginError(error);
+    }
+  };
+
+  const monitorAuthState = async () => {
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        if (user.emailVerified) {
+          showApp();
+          showLoginState(user);
+          hideLoginError();
+        } else {
+          signOut(auth);
+          showLoginForm();
+          const lblAuthState = document.querySelector("#lblAuthState");
+          lblAuthState.textContent = "Please verify your email before logging in.";
+        }
+      } else {
+        showLoginForm();
+        const lblAuthState = document.querySelector("#lblAuthState");
+        lblAuthState.textContent = "You are not logged in";
+      }
+    });
+  };
 
   const btnLogin = document.querySelector("#btnLogin");
   btnLogin.addEventListener("click", loginEmailPassword);
@@ -74,7 +95,8 @@ const monitorAuthState = async () => {
 
   const logout = async () => {
     await signOut(auth);
-  }
-  
+  };
+
   const btnLogout = document.querySelector("#btnLogout");
   btnLogout.addEventListener("click", logout);
+});
