@@ -8,8 +8,11 @@ export const ErreurConnexion = (error) => {
   
   if (error.code === AuthErrorCodes.INVALID_PASSWORD || error.code === AuthErrorCodes.INVALID_EMAIL)
     ConnexionMessageErreur.textContent = 'Mauvais identifiant de connexion';
-  else if(error.code === error.code === AuthErrorCodes.UNVERIFIED_EMAIL)
+  else if(error.code === AuthErrorCodes.UNVERIFIED_EMAIL)
     ConnexionMessageErreur.textContent = 'Email pas vérifié';
+  else{
+    ConnexionMessageErreur.textContent = '';
+  }
 };
 
 export const RenitialisationErreurConnexion = () => {
