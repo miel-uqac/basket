@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { ErreurConnexion, hideLoginError, Application, EtatConnexion, showLoginForm } from "./ui";
+import { ErreurConnexion, hideLoginError, Application, EtatConnexion, showLoginForm, RenitialisationErreurConnexion } from "./ui";
 import { getAuth, connectAuthEmulator, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, sendEmailVerification } from "firebase/auth";
 import { getDatabase, connectDatabaseEmulator } from "firebase/database";
 
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const user = userIdentifiant.user;
 
       if (user.emailVerified) {
-        console.log('Utilisateur connecté et email vérifié');
+        RenitialisationErreurConnexion();
         Application();
         EtatConnexion(user);
       } else {
