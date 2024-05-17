@@ -6,20 +6,28 @@ export const ErreurConnexion = (error) => {
 
   divConnexionErreur.style.display = 'block';
   
-  if (error.code === AuthErrorCodes.INVALID_PASSWORD) {
-    ConnexionMessageErreur.textContent = 'Mauvais mot de passe';
-  } else {
-    ConnexionMessageErreur.textContent = `Error: ${error.message}`;
-  }
+  if (error.code === AuthErrorCodes.INVALID_PASSWORD || error.code === AuthErrorCodes.INVALID_EMAIL)
+    ConnexionMessageErreur.textContent = 'Mauvais identifiant de connexion';
+  else if(error.code === error.code === AuthErrorCodes.UNVERIFIED_EMAIL)
+    ConnexionMessageErreur.textContent = 'Email pas vérifié';
 };
+
+export const RenitialisationErreurConnexion = () => {
+  const divConnexionErreur = document.querySelector('#ConnexionErreur');
+  divConnexionErreur.style.display = 'none';
+  
+  const ConnexionMessageErreur = document.querySelector('#ConnexionMessageErreur');
+  ConnexionMessageErreur.textContent = '';
+};
+
 
 export const hideLoginError = () => {
   const divLoginError = document.querySelector('#divLoginError');
   divLoginError.style.display = 'none';
 };
 
-export const showApp = () => {
-  console.log("App is shown");
+export const Application = () => {
+  console.log("Application affiché");
 };
 
 export const EtatConnexion = (user) => {
