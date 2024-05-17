@@ -13,12 +13,12 @@ export const ErreurConnexion = (error) => {
 };
 
 export const RenitialisationErreurConnexion = () => {
-  const divConnexionErreur = document.querySelector('#ConnexionErreur');
-  divConnexionErreur.style.display = 'none';
-  
   const ConnexionMessageErreur = document.querySelector('#ConnexionMessageErreur');
   ConnexionMessageErreur.textContent = '';
-};
+
+  const divConnexionErreur = document.querySelector('#ConnexionErreur');
+  divConnexionErreur.style.display = 'none';
+  };
 
 
 export const hideLoginError = () => {
