@@ -1,9 +1,9 @@
 import { initializeApp } from "firebase/app";
-import { showLoginError, hideLoginError, showApp, showLoginState, showLoginForm } from "./ui";
+import { ErreurConnexion, hideLoginError, Application, EtatConnexion, showLoginForm, RenitialisationErreurConnexion } from "./ui";
 import { getAuth, connectAuthEmulator, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, sendEmailVerification } from "firebase/auth";
 import { getDatabase, connectDatabaseEmulator } from "firebase/database";
 
-// Your web app's Firebase configuration
+// Configuration application Web FireBase
 const firebaseConfig = {
   apiKey: "AIzaSyBOV4kut3iU7qaJ2PTR84wR9C0rjsXU2wY",
   authDomain: "truqac-test.firebaseapp.com",
@@ -15,33 +15,32 @@ const firebaseConfig = {
   measurementId: "G-X3Z94L3PF6"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);frameElement
+// Variable d'initialisation de l'application, l'authentification, et de la base de données
+const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getDatabase(app);
 
-document.addEventListener('DOMContentLoaded', () => {
-  const loginEmailPassword = async () => {
-    const loginEmail = document.querySelector("#txtEmail").value;
-    const loginPassword = document.querySelector("#txtPassword").value;
 
+// Chargement du JavaScript après le chargement de la page HTML
+document.addEventListener('DOMContentLoaded', () => {
+
+  // Fonction de connexion avec email et mot de passe rattaché au bouton de connexion
+  const FonctionConnexionEmailMotDePasse = async () => {
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
-      const user = userCredential.user;
+
+      const userIdentifiant = await signInWithEmailAndPassword(auth, document.querySelector("#txtEmail").value, document.querySelector("#txtPassword").value);
+      const user = userIdentifiant.user;
 
       if (user.emailVerified) {
-        console.log("User is logged in and email is verified");
-        showApp();
-        showLoginState(user);
+        RenitialisationErreurConnexion();
+        Application();
+        EtatConnexion(user);
       } else {
-        console.log("Email is not verified");
-        await signOut(auth); 
-        alert("Please verify your email before logging in.");
-        await sendEmailVerification(user);
+        console.log('email pas vérifié');
+        await signOut(auth);
       }
     } catch (error) {
-      console.log(error);
-      showLoginError(error);
+      ErreurConnexion(error);
     }
   };
 
@@ -55,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log("Email de vérification envoyé !");
     } catch (error) {
       console.log(error);
-      showLoginError(error);
+      ErreurConnexion(error);
     }
   };
 
@@ -63,8 +62,8 @@ document.addEventListener('DOMContentLoaded', () => {
     onAuthStateChanged(auth, user => {
       if (user) {
         if (user.emailVerified) {
-          showApp();
-          showLoginState(user);
+          Application();
+          EtatConnexion(user);
           hideLoginError();
         } else {
           signOut(auth);
@@ -81,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const btnLogin = document.querySelector("#btnLogin");
-  btnLogin.addEventListener("click", loginEmailPassword);
+  btnLogin.addEventListener("click", FonctionConnexionEmailMotDePasse);
 
   const buttonCreate = document.querySelector("#button");
   buttonCreate.addEventListener("click", createAccount);

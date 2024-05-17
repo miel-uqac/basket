@@ -4,7 +4,7 @@ module.exports = (env) => {
     return {
         mode: isProduction ? 'production' : 'development',
         devtool: isProduction ? 'hidden-source-map' : 'eval-source-map',
-        entry: './index.js',
+        entry: './javascript/index.js',
         output: {
             path: path.resolve(__dirname, 'public/build'),
             filename: 'bundle.js'
