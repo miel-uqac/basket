@@ -5,25 +5,42 @@ export const ErreurConnexion = (error) => {
   const ConnexionMessageErreur = document.querySelector('#ConnexionMessageErreur');
 
   divConnexionErreur.style.display = 'block';
-  
-  if (error.code === AuthErrorCodes.INVALID_PASSWORD || error.code === AuthErrorCodes.INVALID_EMAIL)
-    ConnexionMessageErreur.textContent = 'Mauvais identifiant de connexion';
-  else if(error.code === AuthErrorCodes.UNVERIFIED_EMAIL)
-    ConnexionMessageErreur.textContent = 'Email pas vérifié';
-  else{
-    ConnexionMessageErreur.textContent = '';
+  console.log(error.code) 
+  if (error.code === AuthErrorCodes.INVALID_LOGIN_CREDENTIALS) {
+    ConnexionMessageErreur.textContent = 'Mauvais identifiants';
+  } 
+  else if(error.code === AuthErrorCodes.EMAIL_EXISTS){
+    ConnexionMessageErreur.textContent = 'Cette email a déjà un compte lié';
+  }
+  else if(error.code === AuthErrorCodes.INVALID_EMAIL){
+    ConnexionMessageErreur.textContent = 'Cette email est invalide'; 
+  }
+  else if(error === AuthErrorCodes.UNVERIFIED_EMAIL){
+    ConnexionMessageErreur.textContent = 'Cette email n\'a pas été vérifié'; 
+  }
+  else if(error.code === 'auth/missing-password'){
+    ConnexionMessageErreur.textContent = 'Mot de passe manquant'; 
+  }
+  else if(error.code === AuthErrorCodes.TOO_MANY_ATTEMPTS_TRY_LATER){
+    ConnexionMessageErreur.textContent = 'trop de tentative ressayer plus tard'; 
+  }
+  else {
+    ConnexionMessageErreur.textContent = `Error: ${error.message}`;
   }
 };
 
 export const RenitialisationErreurConnexion = () => {
-  const ConnexionMessageErreur = document.querySelector('#ConnexionMessageErreur');
-  ConnexionMessageErreur.textContent = '';
-
   const divConnexionErreur = document.querySelector('#ConnexionErreur');
-  divConnexionErreur.style.display = 'none';
+
+  if(divConnexionErreur.style.display === 'block'){
+    const ConnexionMessageErreur = document.querySelector('#ConnexionMessageErreur');
+
+    ConnexionMessageErreur.textContent = '';
+    divConnexionErreur.style.display = 'none';
+  }
   };
 
-
+// ------------
 export const hideLoginError = () => {
   const divLoginError = document.querySelector('#divLoginError');
   divLoginError.style.display = 'none';
