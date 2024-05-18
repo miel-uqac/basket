@@ -17,7 +17,7 @@ const firebaseConfig = {
 
 // Variable d'initialisation de l'application, l'authentification, et de la base de données
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+export const auth = getAuth(app);
 const db = getDatabase(app);
 
 

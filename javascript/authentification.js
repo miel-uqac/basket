@@ -1,3 +1,4 @@
+import { auth } from "./index";
 import { erreurAuthentification, applicationAffichage, etatConnexion, renitialisationErreurAuthentification, afficherFormulaireConnexion } from "./ui";
 import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, sendEmailVerification, AuthErrorCodes } from "firebase/auth";
 
@@ -14,7 +15,7 @@ import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateC
 
       if (user.emailVerified) {
         renitialisationErreurAuthentification();
-        Application();
+        applicationAffichage();
         etatConnexion(user);
       } else { 
         erreurAuthentification(AuthErrorCodes.UNVERIFIED_EMAIL);
