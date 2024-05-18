@@ -1,11 +1,15 @@
 import { AuthErrorCodes } from "firebase/auth";
 
-export const ErreurConnexion = (error) => {
+/**
+ * Fonction permettant de gérer les erreurs d'authentification de Firebase en les affichant visuellement à l'utilisateur.
+ * @param {Object} error - L'objet d'erreur renvoyé par Firebase.
+ */
+export const erreurAuthentification = (error) => {
   const divConnexionErreur = document.querySelector('#ConnexionErreur');
   const ConnexionMessageErreur = document.querySelector('#ConnexionMessageErreur');
 
   divConnexionErreur.style.display = 'block';
-  console.log(error.code) 
+
   if (error.code === AuthErrorCodes.INVALID_LOGIN_CREDENTIALS) {
     ConnexionMessageErreur.textContent = 'Mauvais identifiants';
   } 
@@ -29,7 +33,11 @@ export const ErreurConnexion = (error) => {
   }
 };
 
-export const RenitialisationErreurConnexion = () => {
+/**
+ * Fonction effaçant les erreurs affichées à l'utilisateur.
+ * @return {void}
+ */
+export const renitialisationErreurAuthentification = () => {
   const divConnexionErreur = document.querySelector('#ConnexionErreur');
 
   if(divConnexionErreur.style.display === 'block'){
@@ -38,22 +46,29 @@ export const RenitialisationErreurConnexion = () => {
     ConnexionMessageErreur.textContent = '';
     divConnexionErreur.style.display = 'none';
   }
-  };
-
-// ------------
-export const hideLoginError = () => {
-  const divLoginError = document.querySelector('#divLoginError');
-  divLoginError.style.display = 'none';
 };
 
-export const Application = () => {
+/**
+ * Fonction affichant l'application une fois que l'utilisateur a été authentifié.
+ * @return {void}
+ */
+export const applicationAffichage = () => {
   console.log("Application affiché");
 };
 
-export const EtatConnexion = (user) => {
+/**
+ * Fonction affichant l'état de connexion de l'utilisateur.
+ * @param {Object} user - L'objet user renvoyé par Firebase.
+ * @return {void}
+ */
+export const etatConnexion = (user) => {
   console.log(`Utilisateur connecter avec : ${user.email}`);
 };
 
-export const showLoginForm = () => {
+/**
+ * Fonction affichant le formulaire de connexion si l'utilisateur n'est pas connecté.
+ * @return {void}
+ */
+export const afficherFormulaireConnexion = () => {
   console.log("Show login form");
 };
