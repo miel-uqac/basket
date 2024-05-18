@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
-import { ErreurConnexion, hideLoginError, Application, EtatConnexion, showLoginForm, RenitialisationErreurConnexion } from "./ui";
-import { getAuth, connectAuthEmulator, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, sendEmailVerification, AuthErrorCodes } from "firebase/auth";
+import { getAuth, connectAuthEmulator} from "firebase/auth";
 import { getDatabase, connectDatabaseEmulator } from "firebase/database";
+import {connexionEmailMotDePasse,creerCompte,surveillanceEtatAuthentification,deconnexion} from "./authentification";
 
 // Configuration application Web FireBase
 const firebaseConfig = {
@@ -21,83 +21,25 @@ const auth = getAuth(app);
 const db = getDatabase(app);
 
 
+// Connexion aux Emulateurs Firebase si l'application est exécutée en local
+if (location.hostname === "127.0.0.1") {
+  connectAuthEmulator(auth, "http://127.0.0.1:5002");
+  connectDatabaseEmulator(db, "127.0.0.1", 8000);
+}
+
 // Chargement du JavaScript après le chargement de la page HTML
 document.addEventListener('DOMContentLoaded', () => {
 
-  // Fonction de connexion avec email et mot de passe rattaché au bouton de connexion
-  const FonctionConnexionEmailMotDePasse = async () => {
-    try {
+  surveillanceEtatAuthentification();
 
-      const userIdentifiant = await signInWithEmailAndPassword(auth, document.querySelector("#txtEmail").value, document.querySelector("#txtPassword").value);
-      const user = userIdentifiant.user;
+  // Ajout des divers fonctions à un bouton de l'interface
+  const btnConnexion = document.querySelector("#btnConnexion");
+  btnConnexion.addEventListener("click", connexionEmailMotDePasse);
 
-      if (user.emailVerified) {
-        RenitialisationErreurConnexion();
-        Application();
-        EtatConnexion(user);
-      } else { 
-        ErreurConnexion(AuthErrorCodes.UNVERIFIED_EMAIL);
-        await signOut(auth);
-      }
-    } catch (error) {
-      ErreurConnexion(error);
-    }
-  };
+  const btnCreationCompte = document.querySelector("#btnCreationCompte");
+  btnCreationCompte.addEventListener("click", creerCompte);
 
-  // ---------------------
-  const createAccount = async () => {
-    const loginEmail = document.querySelector("#txtEmail").value;
-    const loginPassword = document.querySelector("#txtPassword").value;
-    try {
-      RenitialisationErreurConnexion();
-      const userCredential = await createUserWithEmailAndPassword(auth, loginEmail, loginPassword);
-      console.log(userCredential.user);
-      await sendEmailVerification(auth.currentUser);
-      console.log("Email de vérification envoyé !");
-    } catch (error) {
-      console.log(error);
-      ErreurConnexion(error);
-    }
-  };
 
-  const monitorAuthState = async () => {
-    onAuthStateChanged(auth, user => {
-      if (user) {
-        if (user.emailVerified) {
-          Application();
-          EtatConnexion(user);
-          hideLoginError();
-        } else {
-          signOut(auth);
-          showLoginForm();
-          const lblAuthState = document.querySelector("#lblAuthState");
-          lblAuthState.textContent = "Please verify your email before logging in.";
-        }
-      } else {
-        showLoginForm();
-        const lblAuthState = document.querySelector("#lblAuthState");
-        lblAuthState.textContent = "You are not logged in";
-      }
-    });
-  };
-
-  const btnLogin = document.querySelector("#btnLogin");
-  btnLogin.addEventListener("click", FonctionConnexionEmailMotDePasse);
-
-  const buttonCreate = document.querySelector("#button");
-  buttonCreate.addEventListener("click", createAccount);
-
-  if (location.hostname === "127.0.0.1") {
-    connectAuthEmulator(auth, "http://127.0.0.1:5002");
-    connectDatabaseEmulator(db, "127.0.0.1", 8000);
-  }
-
-  monitorAuthState();
-
-  const logout = async () => {
-    await signOut(auth);
-  };
-
-  const btnLogout = document.querySelector("#btnLogout");
-  btnLogout.addEventListener("click", logout);
+  const btnDeconnexion = document.querySelector("#btnDeconnexion");
+  btnDeconnexion.addEventListener("click", deconnexion);
 });
