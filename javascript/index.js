@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { ErreurConnexion, hideLoginError, Application, EtatConnexion, showLoginForm, RenitialisationErreurConnexion } from "./ui";
-import { getAuth, connectAuthEmulator, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, sendEmailVerification } from "firebase/auth";
+import { getAuth, connectAuthEmulator, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, sendEmailVerification, AuthErrorCodes } from "firebase/auth";
 import { getDatabase, connectDatabaseEmulator } from "firebase/database";
 
 // Configuration application Web FireBase
@@ -35,8 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
         RenitialisationErreurConnexion();
         Application();
         EtatConnexion(user);
-      } else {
-        console.log('email pas vérifié');
+      } else { 
+        ErreurConnexion(AuthErrorCodes.UNVERIFIED_EMAIL);
         await signOut(auth);
       }
     } catch (error) {
@@ -44,10 +44,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
+  // ---------------------
   const createAccount = async () => {
     const loginEmail = document.querySelector("#txtEmail").value;
     const loginPassword = document.querySelector("#txtPassword").value;
     try {
+      RenitialisationErreurConnexion();
       const userCredential = await createUserWithEmailAndPassword(auth, loginEmail, loginPassword);
       console.log(userCredential.user);
       await sendEmailVerification(auth.currentUser);
