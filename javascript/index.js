@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, connectAuthEmulator} from "firebase/auth";
 import { getDatabase, connectDatabaseEmulator } from "firebase/database";
-import {connexionEmailMotDePasse,creerCompte,surveillanceEtatAuthentification,deconnexion} from "./authentification";
+import {connexionEmailMotDePasse,creerCompte,surveillanceEtatAuthentification} from "./authentification";
 
 // Configuration application Web FireBase
 const firebaseConfig = {
@@ -39,7 +39,4 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnCreationCompte = document.querySelector("#btnCreationCompte");
   btnCreationCompte.addEventListener("click", creerCompte);
 
-
-  const btnDeconnexion = document.querySelector("#btnDeconnexion");
-  btnDeconnexion.addEventListener("click", deconnexion);
 });

@@ -1,0 +1,200 @@
+.entete {
+    margin-top: 20px;
+    position: relative;
+    text-align: center;
+}
+
+footer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-left: 1%;
+    padding-bottom: 20px;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+}
+
+footer a {
+    color: white;
+    text-decoration: none;
+    margin: 4px 0;
+    text-align: left;
+    font-size: 10px;
+}
+
+.formulaireconnexion #condition,.formulaireconnexion #politique{
+    display: flex;
+    color: aliceblue;
+    text-decoration: none;
+}
+
+.formulaireconnexion {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.formulaireconnexion a{
+    width: 90%;
+    max-width: 350px;
+    height: 10px;
+    box-sizing: border-box;
+}
+
+.formulaireconnexion input{
+    border-radius: 50px;
+    width: 90%;
+    max-width: 350px;
+    height: 40px;
+    box-sizing: border-box;
+}
+
+.formulaireconnexion a {
+    color: white;
+    text-decoration: none;
+    
+}
+
+
+#ConnexionErreur {
+    color: red;
+    width: 90%;
+    max-width: 350px;
+    height: 10px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    font-size: 13px;
+}
+
+
+.formulaireconnexion input::placeholder {
+    color: black;
+}
+
+#txtPassword {
+    margin-top: 40px;
+}
+
+#btnConnexion{
+    margin-top: 20px;
+}
+
+#btnMotdepasseoublier{
+    margin-top: 20px;
+    font-size: 10px;
+}
+#btnCreationCompte{
+    margin-top: 20px;
+}
+
+
+.entete h1 {
+    color: #576E23;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    font-size: 16px;
+}
+
+.entete img {
+    width: 150px;
+    opacity: 0.15;
+}
+
+/* Pour les écrans plus petits */
+@media (max-width: 480px) {
+    .entete img {
+        width: 100%;
+        max-width: 175px;
+    }
+
+    .entete h1 {
+        font-size: 35px;
+    }
+
+    .formulaireconnexion input {
+        width: 90%;  
+        max-width: 260px;
+        height: 40px;
+    }
+
+    #ConnexionErreur{
+        width: 90%;  
+        max-width: 260px;
+    }
+
+    .formulaireconnexion a{
+        width: 90%;  
+        max-width: 260px;
+    }
+
+    
+
+}
+
+/* Pour les écrans moyens */
+@media (min-width: 481px) and (max-width: 768px) {
+    .entete img {
+        width: 50%;
+        max-width: 220px;
+    }
+
+    .entete h1 {
+        font-size: 44px;
+    }
+
+
+    .formulaireconnexion input {
+        width: 90%;  
+        max-width: 340px;
+        height: 42px;
+    }
+
+    .formulaireconnexion a{
+        width: 90%;  
+        max-width: 340px;
+    }
+
+    #ConnexionErreur{
+        width: 90%;  
+        max-width: 340px;
+    }
+
+}
+
+/* Pour les écrans larges */
+@media (min-width: 769px) {
+    .entete img {
+        width: 230px;
+    }
+
+    .entete h1 {
+        font-size: 46px;
+    }
+
+    .formulaireconnexion input {
+        width: 90%;  
+        max-width: 360px;
+        height: 44px;
+    }
+    
+    .formulaireconnexion a{
+        width: 90%;  
+        max-width: 360px;
+    }
+
+    #ConnexionErreur{
+        width: 90%;  
+        max-width: 360px;
+    }
+
+}
+
+body {
+    background: black;
+}
