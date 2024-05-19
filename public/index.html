@@ -18,12 +18,14 @@
       </div>
 
 
-      <div id="ConnexionErreur" style="display: none;">
-        <label id="ConnexionMessageErreur"></label>
-      </div>
 
       <form>
         <div class="formulaireconnexion">
+         
+          <div id="ConnexionErreur" style="display: block;">
+            <label id="ConnexionMessageErreur">Identifiant ou mot de passe invalide</label>
+          </div>
+
           <input id="txtEmail" type="email" placeholder="Adresse e-mail UQAC">
           <input id="txtPassword" type="password" placeholder="Mot de passe">
 
@@ -42,9 +44,6 @@
       
       </footer>
     </div>
-
-
-  
 
 
     <script src="/build/bundle.js"></script>
