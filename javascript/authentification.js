@@ -1,5 +1,5 @@
 import { auth } from "./index";
-import { erreurAuthentification, applicationAffichage, etatConnexion, renitialisationErreurAuthentification, afficherFormulaireConnexion } from "./ui";
+import { erreurAuthentification, applicationAffichage, etatConnexion, afficherFormulaireConnexion, renitialisationErreurAuthentification } from "./ui";
 import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, sendEmailVerification, AuthErrorCodes } from "firebase/auth";
 
   /**
@@ -7,19 +7,19 @@ import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateC
    * Cette fonction est déclenchée par le bouton de connexion.
    * @returns {void}
   */
-  export const connexionEmailMotDePasse = async () => {
+  export const connexionEmailMotDePasse = async (event) => {
     try {
+        event.preventDefault();
 
-      const userIdentifiant = await signInWithEmailAndPassword(auth, document.querySelector("#txtEmail").value, document.querySelector("#txtPassword").value);
+      const userIdentifiant = await signInWithEmailAndPassword(auth, document.querySelector("#txtEmail").value, document.querySelector("#txtMotDePasse").value);
       const user = userIdentifiant.user;
 
       if (user.emailVerified) {
-        renitialisationErreurAuthentification();
         applicationAffichage();
         etatConnexion(user);
       } else { 
-        erreurAuthentification(AuthErrorCodes.UNVERIFIED_EMAIL);
         await signOut(auth);
+        erreurAuthentification(AuthErrorCodes.UNVERIFIED_EMAIL);
       }
     } catch (error) {
       erreurAuthentification(error);
@@ -31,16 +31,44 @@ import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateC
    * et lui envoie un e-mail de vérification.
    * @returns {void}
    */
-  export const creerCompte = async () => {
-    try {
-      renitialisationErreurAuthentification();
-      await createUserWithEmailAndPassword(auth, document.querySelector("#txtEmail").value, document.querySelector("#txtPassword").value);
-      await sendEmailVerification(auth.currentUser);
-      console.log("Email de vérification envoyé !");
-    } catch (error) {
-      erreurAuthentification(error);
-    }
-  };
+  export const creerCompte = async (event) => {
+
+    event.preventDefault();
+    const emailVerificationRegex = /^[a-zA-Z0-9._%+-]+@(etu\.)?uqac\.ca$/;
+    const motDePasseVerificationRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+
+    if(emailVerificationRegex.test(document.querySelector("#txtEmail").value)){
+
+      if(document.querySelector("#txtMotDePasse").value === document.querySelector("#txtConfirmerMotDePasse").value && !document.querySelector("#txtMotDePasse").value == '' && !document.querySelector("#txtConfirmerMotDePasse").value == ''){
+
+        if (motDePasseVerificationRegex.test(document.querySelector("#txtMotDePasse").value)) {
+
+          try {
+            renitialisationErreurAuthentification()
+            await createUserWithEmailAndPassword(auth, document.querySelector("#txtEmail").value, document.querySelector("#txtMotDePasse").value);
+            await sendEmailVerification(auth.currentUser);
+            console.log("Email de vérification envoyé !");
+          } catch (error) {
+            erreurAuthentification(error);
+          }}
+            
+        else{
+          erreurAuthentification('auth/mdpTropFaible');
+        }}
+
+      else if(document.querySelector("#txtMotDePasse").value == '' && document.querySelector("#txtConfirmerMotDePasse").value == ''){
+          erreurAuthentification('auth/missing-password');
+        }
+
+      else{
+        erreurAuthentification('auth/mdpDifferent');
+      }}
+
+    else{
+          erreurAuthentification(AuthErrorCodes.INVALID_EMAIL);
+        }
+};
+
 
   /**
    * Fonction permettant de vérifier en tout temps l'état de connexion de l'utilisateur.
@@ -50,7 +78,6 @@ import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateC
     onAuthStateChanged(auth, user => {
       if (user) {
         if (user.emailVerified) {
-          renitialisationErreurAuthentification();
           applicationAffichage();
           etatConnexion(user);
         } else {

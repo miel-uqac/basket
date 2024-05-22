@@ -22,7 +22,7 @@ body {
     opacity: 0.15;
 }
 
-.formulaireConnexion #ConnexionErreur {
+.formulaireInscription #ConnexionErreur {
     color: red;
     width: 90%;
     box-sizing: border-box;
@@ -32,7 +32,7 @@ body {
 }
 
 
-.formulaireConnexion {
+.formulaireInscription {
     margin-top: 30px;
     display: flex;
     flex-direction: column;
@@ -41,61 +41,35 @@ body {
 }
 
 
-.formulaireConnexion input{
+.formulaireInscription input{
     border-radius: 50px;
     width: 90%;
     box-sizing: border-box;
 }
 
-.formulaireConnexion input::placeholder {
+.formulaireInscription input::placeholder {
     color: black;
 }
 
-.formulaireConnexion a{
+.formulaireInscription #txtMotDePasse,.formulaireInscription #txtConfirmerMotDePasse,.formulaireInscription #btnCreerCompte{
+    margin-top: 25px;
+}
+
+
+
+.formulaireInscription button {
     width: 90%;
     height: 10px;
-    box-sizing: border-box;
     color: white;
-    text-decoration: none;
-    
-}
-
-.formulaireConnexion #btnConnexion{
-    margin-top: 5px;
-}
-
-.formulaireConnexion #txtMotDePasse {
-    margin-top: 40px;
-}
-
-.formulaireConnexion #CreationCompte{
     margin-top: 20px;
+    background-color: transparent; 
+    border: none; 
+    padding: 0;
+    margin: 0;
+    text-decoration: none; 
 }
 
-.formulaireConnexion #MotDePasseOublier{
-    margin-top: 20px;
-    font-size: 10px;
-}
 
-
-footer {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding-left: 1%;
-    padding-bottom: 20px;
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-}
-
-footer a {
-    color: white;
-    text-decoration: none;
-    margin: 4px 0;
-    text-align: left;
-    font-size: 10px;
-}
 
 /* Pour les écrans petits */
 @media (max-width: 480px) {
@@ -108,12 +82,12 @@ footer a {
         font-size: 35px;
     }
 
-    .formulaireConnexion input {
+    .formulaireInscription input {
         max-width: 260px;
         height: 40px;
     }
 
-    .formulaireConnexion a,.formulaireConnexion #ConnexionErreur{
+    .formulaireInscription a,.formulaireInscription #ConnexionErreur{
         max-width: 260px;
     }
 
@@ -130,12 +104,12 @@ footer a {
         font-size: 44px;
     }
 
-    .formulaireConnexion input {
+    .formulaireInscription input {
         max-width: 340px;
         height: 42px;
     }
 
-    .formulaireConnexion a,.formulaireConnexion #ConnexionErreur{
+    .formulaireInscription a,.formulaireInscription #ConnexionErreur{
         max-width: 340px;
     }
 
@@ -151,12 +125,12 @@ footer a {
         font-size: 46px;
     }
 
-    .formulaireConnexion input {
+    .formulaireInscription input {
         max-width: 360px;
         height: 44px;
     }
     
-    .formulaireConnexion a,.formulaireConnexion #ConnexionErreur{
+    .formulaireInscription a,.formulaireInscription #ConnexionErreur{
         max-width: 360px;
     }
 

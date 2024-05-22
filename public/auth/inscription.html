@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../styles/inscription.css">
+    <title>Truqac</title>
+  </head>
+
+  <body>
+
+    <div id="Connexion">
+
+      <div class="entete">
+        <h1>TRUQAC</h1>
+        <img src="../images/boule_de_papier.png" alt="Logo TRUQAC" />
+      </div>
+
+
+
+      <form>
+        <div class="formulaireInscription">
+         
+          <div id="ConnexionErreur" style="display: none;">
+            <p id="ConnexionMessageErreur">Identifiant ou mot de passe invalide</p>
+          </div>
+
+          <input id="txtEmail" type="email" placeholder="Entrez votre adresse e-mail UQAC">
+          <input id="txtMotDePasse" type="password" placeholder="Entrez le mot de passe">
+          <input id="txtConfirmerMotDePasse" type="password" placeholder="Confirmez le mot de passe">
+
+          <button id="btnCreerCompte">Créer compte</button>
+        
+        </div>
+
+
+      </form>
+
+    </div>
+
+
+    <script src="/build/bundle.js"></script>
+  </body>
+</html>

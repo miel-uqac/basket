@@ -16,7 +16,7 @@ const firebaseConfig = {
 };
 
 // Variable d'initialisation de l'application, l'authentification, et de la base de données
-const app = initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 const db = getDatabase(app);
 
@@ -24,19 +24,28 @@ const db = getDatabase(app);
 // Connexion aux Emulateurs Firebase si l'application est exécutée en local
 if (location.hostname === "127.0.0.1") {
   connectAuthEmulator(auth, "http://127.0.0.1:5002");
-  connectDatabaseEmulator(db, "127.0.0.1", 8000);
+  connectDatabaseEmulator(db, "127.0.0.1", 8001);
 }
 
 // Chargement du JavaScript après le chargement de la page HTML
 document.addEventListener('DOMContentLoaded', () => {
+  
+  const btnCreerCompte = document.querySelector("#btnCreerCompte") !== null;
 
-  surveillanceEtatAuthentification();
+  console.log(btnCreerCompte);
+  if(btnCreerCompte){
+    surveillanceEtatAuthentification();
 
-  // Ajout des divers fonctions à un bouton de l'interface
-  const btnConnexion = document.querySelector("#btnConnexion");
-  btnConnexion.addEventListener("click", connexionEmailMotDePasse);
+    const btnCreationCompte = document.querySelector("#btnCreerCompte");
+    btnCreationCompte.addEventListener("click", creerCompte);
+    
+  }
+  else{
+    surveillanceEtatAuthentification();
 
-  const btnCreationCompte = document.querySelector("#btnCreationCompte");
-  btnCreationCompte.addEventListener("click", creerCompte);
+    // Ajout des divers fonctions à un bouton de l'interface
+    const btnConnexion = document.querySelector("#btnConnexion");
+    btnConnexion.addEventListener("click", connexionEmailMotDePasse);
+  }
 
 });

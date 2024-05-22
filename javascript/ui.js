@@ -14,19 +14,28 @@ export const erreurAuthentification = (error) => {
     ConnexionMessageErreur.textContent = 'Mauvais identifiants';
   } 
   else if(error.code === AuthErrorCodes.EMAIL_EXISTS){
-    ConnexionMessageErreur.textContent = 'Cette email a déjà un compte lié';
+    ConnexionMessageErreur.textContent = 'Cette e-mail a déjà un compte lié';
   }
   else if(error.code === AuthErrorCodes.INVALID_EMAIL){
-    ConnexionMessageErreur.textContent = 'Cette email est invalide'; 
+    ConnexionMessageErreur.innerHTML = 'Adresse e-mail invalide'; 
+  }
+  else if(error === AuthErrorCodes.INVALID_EMAIL){
+    ConnexionMessageErreur.innerHTML = 'Adresse e-mail invalide. <br> Elle doit se terminer par @etu.uqac.ca ou @uqac.ca </br>'; 
   }
   else if(error === AuthErrorCodes.UNVERIFIED_EMAIL){
-    ConnexionMessageErreur.textContent = 'Cette email n\'a pas été vérifié'; 
+    ConnexionMessageErreur.innerHTML = 'Votre compte n\'a pas encore été validé. <br> Veuillez vérifier vos e-mails </br>'; 
   }
-  else if(error.code === 'auth/missing-password'){
+  else if(error.code === 'auth/missing-password' || error === 'auth/missing-password' ){
     ConnexionMessageErreur.textContent = 'Mot de passe manquant'; 
   }
   else if(error.code === AuthErrorCodes.TOO_MANY_ATTEMPTS_TRY_LATER){
     ConnexionMessageErreur.textContent = 'trop de tentative ressayer plus tard'; 
+  }
+  else if(error === 'auth/mdpDifferent'){
+    ConnexionMessageErreur.textContent = 'Les mots de passe ne correspondent pas'; 
+  }
+  else if(error === 'auth/mdpTropFaible'){
+    ConnexionMessageErreur.innerHTML = 'Mot de passe trop faible.<br> Il doit comporter au minimum 6 caractères, une majuscule, une minuscule, un caractère spécial et un chiffre. </br>'; 
   }
   else {
     ConnexionMessageErreur.textContent = `Error: ${error.message}`;
