@@ -25,6 +25,7 @@ import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateC
       erreurAuthentification(error);
     }
   };
+  
 
   /**
    * Fonction permettant à un utilisateur de créer un compte en utilisant une adresse e-mail et un mot de passe,
@@ -47,7 +48,7 @@ import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateC
             renitialisationErreurAuthentification()
             await createUserWithEmailAndPassword(auth, document.querySelector("#txtEmail").value, document.querySelector("#txtMotDePasse").value);
             await sendEmailVerification(auth.currentUser);
-            console.log("Email de vérification envoyé !");
+            window.location.replace('https://truqac-test.web.app/?envoyer=' + encodeURIComponent(true.toString()));
           } catch (error) {
             erreurAuthentification(error);
           }}

@@ -2,6 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth, connectAuthEmulator} from "firebase/auth";
 import { getDatabase, connectDatabaseEmulator } from "firebase/database";
 import {connexionEmailMotDePasse,creerCompte,surveillanceEtatAuthentification} from "./authentification";
+import { fermerPopup } from "./ui";
 
 // Configuration application Web FireBase
 const firebaseConfig = {
@@ -43,9 +44,33 @@ document.addEventListener('DOMContentLoaded', () => {
   else{
     surveillanceEtatAuthentification();
 
+    const fermerPop = document.querySelector("#fermerPopup");
+    fermerPop.addEventListener("click", fermerPopup)
+
     // Ajout des divers fonctions à un bouton de l'interface
     const btnConnexion = document.querySelector("#btnConnexion");
     btnConnexion.addEventListener("click", connexionEmailMotDePasse);
+
+
+    const urlActuelle = window.location.href;
+    const url = new URL(urlActuelle);
+
+    const parametres = new URLSearchParams(url.search); 
+    const popup = document.querySelector("#popup");
+
+
+
+    if(parametres.has('envoyer')) {
+      const parametre = parametres.get('envoyer');
+      
+      if(parametre === 'true'){
+          popup.style.display = "block";
+          
+      }
+
+    }
+
+
   }
 
 });

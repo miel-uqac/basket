@@ -81,3 +81,8 @@ export const etatConnexion = (user) => {
 export const afficherFormulaireConnexion = () => {
   console.log("Show login form");
 };
+
+export function fermerPopup() {
+  var popup = document.querySelector("#popup");
+  popup.style.display = "none";
+}
