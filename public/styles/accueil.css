@@ -22,7 +22,30 @@ body {
     opacity: 0.15;
 }
 
-.formulaireconnexion #ConnexionErreur {
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fond semi-transparent pour créer l'effet de modale */
+  }
+  
+  .popup-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+  }
+  
+  #fermerPopup {
+    margin-top: 10px;
+  }
+
+.formulaireConnexion #ConnexionErreur {
     color: red;
     width: 90%;
     box-sizing: border-box;
@@ -32,7 +55,7 @@ body {
 }
 
 
-.formulaireconnexion {
+.formulaireConnexion {
     margin-top: 30px;
     display: flex;
     flex-direction: column;
@@ -41,17 +64,17 @@ body {
 }
 
 
-.formulaireconnexion input{
+.formulaireConnexion input{
     border-radius: 50px;
     width: 90%;
     box-sizing: border-box;
 }
 
-.formulaireconnexion input::placeholder {
+.formulaireConnexion input::placeholder {
     color: black;
 }
 
-.formulaireconnexion a{
+.formulaireConnexion a{
     width: 90%;
     height: 10px;
     box-sizing: border-box;
@@ -60,19 +83,19 @@ body {
     
 }
 
-.formulaireconnexion #btnConnexion{
+.formulaireConnexion #btnConnexion{
     margin-top: 5px;
 }
 
-.formulaireconnexion #txtPassword {
+.formulaireConnexion #txtMotDePasse {
     margin-top: 40px;
 }
 
-.formulaireconnexion #btnCreationCompte{
+.formulaireConnexion #CreationCompte{
     margin-top: 20px;
 }
 
-.formulaireconnexion #btnMotdepasseoublier{
+.formulaireConnexion #MotDePasseOublier{
     margin-top: 20px;
     font-size: 10px;
 }
@@ -108,12 +131,12 @@ footer a {
         font-size: 35px;
     }
 
-    .formulaireconnexion input {
+    .formulaireConnexion input {
         max-width: 260px;
         height: 40px;
     }
 
-    .formulaireconnexion a,.formulaireconnexion #ConnexionErreur{
+    .formulaireConnexion a,.formulaireConnexion #ConnexionErreur{
         max-width: 260px;
     }
 
@@ -130,12 +153,12 @@ footer a {
         font-size: 44px;
     }
 
-    .formulaireconnexion input {
+    .formulaireConnexion input {
         max-width: 340px;
         height: 42px;
     }
 
-    .formulaireconnexion a,.formulaireconnexion #ConnexionErreur{
+    .formulaireConnexion a,.formulaireConnexion #ConnexionErreur{
         max-width: 340px;
     }
 
@@ -151,12 +174,12 @@ footer a {
         font-size: 46px;
     }
 
-    .formulaireconnexion input {
+    .formulaireConnexion input {
         max-width: 360px;
         height: 44px;
     }
     
-    .formulaireconnexion a,.formulaireconnexion #ConnexionErreur{
+    .formulaireConnexion a,.formulaireConnexion #ConnexionErreur{
         max-width: 360px;
     }
 

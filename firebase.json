@@ -34,7 +34,7 @@
       "port": 4001
     },
     "database": {
-      "port": 8000
+      "port": 8001
     },
     "hosting": {
       "port": 5000

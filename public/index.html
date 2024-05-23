@@ -19,19 +19,29 @@
 
 
 
+      <div id="popup" class="popup" style="display: none;">
+        <div class="popup-content">
+          <p>Un email vous a été envoyé <br />
+              afin de créer votre compte 
+          </p>
+          <p> ( Si vous ne le trouvez pas, vérifiez dans vos spams ) </p>
+          <button id="fermerPopup">Fermer</button>
+        </div>
+      </div>
+
       <form>
-        <div class="formulaireconnexion">
+        <div class="formulaireConnexion">
          
           <div id="ConnexionErreur" style="display: none;">
             <p id="ConnexionMessageErreur">Identifiant ou mot de passe invalide</p>
           </div>
 
           <input id="txtEmail" type="email" placeholder="Adresse e-mail UQAC">
-          <input id="txtPassword" type="password" placeholder="Mot de passe">
+          <input id="txtMotDePasse" type="password" placeholder="Mot de passe">
 
-          <a id="btnConnexion"href="mailto:m.bluth@example.com">Connexion</a>
-          <a id="btnCreationCompte" href="mailto:m.bluth@example.com" >Inscription</a>
-          <a id="btnMotdepasseoublier" href="mailto:m.bluth@example.com" >Mot de passe oublié ?</a>
+          <button id="btnConnexion">Connexion</button>
+          <a id="CreationCompte" href="auth/inscription.html" >Inscription</a>
+          <a id="MotDePasseOublier" href="mailto:m.bluth@example.com" >Mot de passe oublié ?</a>
         
         </div>
 

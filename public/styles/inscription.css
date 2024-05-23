@@ -1,0 +1,137 @@
+body {
+    background: black;
+}
+
+.entete {
+    margin-top: 20px;
+    position: relative;
+    text-align: center;
+}
+
+.entete h1 {
+    color: #576E23;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    
+}
+
+.entete img {
+    opacity: 0.15;
+}
+
+.formulaireInscription #ConnexionErreur {
+    color: red;
+    width: 90%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    font-size: 13px;
+    text-align: center;
+}
+
+
+.formulaireInscription {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+
+.formulaireInscription input{
+    border-radius: 50px;
+    width: 90%;
+    box-sizing: border-box;
+}
+
+.formulaireInscription input::placeholder {
+    color: black;
+}
+
+.formulaireInscription #txtMotDePasse,.formulaireInscription #txtConfirmerMotDePasse,.formulaireInscription #btnCreerCompte{
+    margin-top: 25px;
+}
+
+
+
+.formulaireInscription button {
+    width: 90%;
+    height: 10px;
+    color: white;
+    margin-top: 20px;
+    background-color: transparent; 
+    border: none; 
+    padding: 0;
+    margin: 0;
+    text-decoration: none; 
+}
+
+
+
+/* Pour les écrans petits */
+@media (max-width: 480px) {
+    .entete img {
+        width: 100%;
+        max-width: 175px;
+    }
+
+    .entete h1 {
+        font-size: 35px;
+    }
+
+    .formulaireInscription input {
+        max-width: 260px;
+        height: 40px;
+    }
+
+    .formulaireInscription a,.formulaireInscription #ConnexionErreur{
+        max-width: 260px;
+    }
+
+}
+
+/* Pour les écrans moyens */
+@media (min-width: 481px) and (max-width: 768px) {
+    .entete img {
+        width: 50%;
+        max-width: 220px;
+    }
+
+    .entete h1 {
+        font-size: 44px;
+    }
+
+    .formulaireInscription input {
+        max-width: 340px;
+        height: 42px;
+    }
+
+    .formulaireInscription a,.formulaireInscription #ConnexionErreur{
+        max-width: 340px;
+    }
+
+}
+
+/* Pour les écrans larges */
+@media (min-width: 769px) {
+    .entete img {
+        width: 230px;
+    }
+
+    .entete h1 {
+        font-size: 46px;
+    }
+
+    .formulaireInscription input {
+        max-width: 360px;
+        height: 44px;
+    }
+    
+    .formulaireInscription a,.formulaireInscription #ConnexionErreur{
+        max-width: 360px;
+    }
+
+}
