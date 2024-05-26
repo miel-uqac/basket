@@ -22,28 +22,36 @@ body {
     opacity: 0.15;
 }
 
-.popup {
+.modale {
     display: none;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Fond semi-transparent pour créer l'effet de modale */
+    background-color: rgba(0, 0, 0, 0.5); 
   }
   
-  .popup-content {
+.modale-contenu {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: white;
-    padding: 20px;
+    padding: 1em 1.5em;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    i {
+      padding-right: 0.3em;
+    }
   }
   
-  #fermerPopup {
+  #fermerModale {
     margin-top: 10px;
+    background-color:#576E23; 
+
   }
+
 
 .formulaireConnexion #ConnexionErreur {
     color: red;
@@ -75,33 +83,44 @@ body {
 }
 
 .formulaireConnexion a{
+    font-size: 14px;
     width: 90%;
     height: 10px;
     box-sizing: border-box;
     color: white;
     text-decoration: none;
+    text-align: left; 
+
     
 }
 
 .formulaireConnexion #btnConnexion{
+    width: 90%;
+    font-size: 14px;
     margin-top: 5px;
+    height: 10px; 
+    box-sizing: border-box;
+    color: white;
+    text-decoration: none;
+    background-color: transparent; 
+    border: none;
+    text-align: left; 
+    margin-right: 15px;
+    
+
 }
 
 .formulaireConnexion #txtMotDePasse {
     margin-top: 40px;
 }
 
-.formulaireConnexion #CreationCompte{
+.formulaireConnexion #CreationCompte,.formulaireConnexion #MotDePasseOublier{
     margin-top: 20px;
-}
-
-.formulaireConnexion #MotDePasseOublier{
-    margin-top: 20px;
-    font-size: 10px;
 }
 
 
 footer {
+    background-attachment: fixed;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -110,6 +129,7 @@ footer {
     width: 100%;
     position: fixed;
     bottom: 0;
+    
 }
 
 footer a {
@@ -118,6 +138,15 @@ footer a {
     margin: 4px 0;
     text-align: left;
     font-size: 10px;
+    
+}
+
+#txtConfirmation{
+    color: white;
+    font-size: 20px;
+    text-align: center;
+    display: flex;
+    width: 90%;
 }
 
 /* Pour les écrans petits */
@@ -136,7 +165,7 @@ footer a {
         height: 40px;
     }
 
-    .formulaireConnexion a,.formulaireConnexion #ConnexionErreur{
+    .formulaireConnexion a,.formulaireConnexion #ConnexionErreur,.formulaireConnexion #btnConnexion{
         max-width: 260px;
     }
 
@@ -158,7 +187,7 @@ footer a {
         height: 42px;
     }
 
-    .formulaireConnexion a,.formulaireConnexion #ConnexionErreur{
+    .formulaireConnexion a,.formulaireConnexion #ConnexionErreur,.formulaireConnexion #btnConnexion{
         max-width: 340px;
     }
 
@@ -179,7 +208,7 @@ footer a {
         height: 44px;
     }
     
-    .formulaireConnexion a,.formulaireConnexion #ConnexionErreur{
+    .formulaireConnexion a,.formulaireConnexion #ConnexionErreur,.formulaireConnexion #btnConnexion{
         max-width: 360px;
     }
 

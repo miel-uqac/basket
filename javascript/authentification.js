@@ -1,6 +1,6 @@
 import { auth } from "./index";
 import { erreurAuthentification, applicationAffichage, etatConnexion, afficherFormulaireConnexion, renitialisationErreurAuthentification } from "./ui";
-import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, sendEmailVerification, AuthErrorCodes } from "firebase/auth";
+import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, sendEmailVerification, AuthErrorCodes, applyActionCode } from "firebase/auth";
 
   /**
    * Fonction de connexion utilisant une adresse e-mail et un mot de passe.
@@ -48,7 +48,7 @@ import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateC
             renitialisationErreurAuthentification()
             await createUserWithEmailAndPassword(auth, document.querySelector("#txtEmail").value, document.querySelector("#txtMotDePasse").value);
             await sendEmailVerification(auth.currentUser);
-            window.location.replace('https://truqac-test.web.app/?envoyer=' + encodeURIComponent(true.toString()));
+            window.location.replace('https://truqac-test.web.app/auth/validation.html');
           } catch (error) {
             erreurAuthentification(error);
           }}
@@ -98,3 +98,14 @@ import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateC
   export const deconnexion = async () => {
     await signOut(auth);
   };
+
+
+  export function verifierEmailUtilisateur(oobCode) {
+    applyActionCode(auth,oobCode)
+        .then(function() {
+            
+        })
+        .catch(function(error) {
+          txtValidationEmail.textContent = "Erreur lors de la validation de l'e-mail : " + error;
+        });
+}

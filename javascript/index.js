@@ -1,8 +1,8 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, connectAuthEmulator} from "firebase/auth";
 import { getDatabase, connectDatabaseEmulator } from "firebase/database";
-import {connexionEmailMotDePasse,creerCompte,surveillanceEtatAuthentification} from "./authentification";
-import { fermerPopup } from "./ui";
+import {connexionEmailMotDePasse,creerCompte,surveillanceEtatAuthentification, verifierEmailUtilisateur} from "./authentification";
+import { accueilPage } from "./ui";
 
 // Configuration application Web FireBase
 const firebaseConfig = {
@@ -31,45 +31,51 @@ if (location.hostname === "127.0.0.1") {
 // Chargement du JavaScript après le chargement de la page HTML
 document.addEventListener('DOMContentLoaded', () => {
   
-  const btnCreerCompte = document.querySelector("#btnCreerCompte") !== null;
+  const connexion = document.querySelector("#connexion") !== null;
+  const Inscription = document.querySelector("#Inscription") !== null;
+  const validation = document.querySelector("#validation") !== null;
+  const validationConfirmer = document.querySelector("#validationConfirmer") !== null;
+  
 
-  console.log(btnCreerCompte);
-  if(btnCreerCompte){
+  if(Inscription){
     surveillanceEtatAuthentification();
 
     const btnCreationCompte = document.querySelector("#btnCreerCompte");
     btnCreationCompte.addEventListener("click", creerCompte);
+
+    
+    const retour_arriere = document.querySelector("#imgRetour");
+    retour_arriere.addEventListener("click",accueilPage);
     
   }
-  else{
+  else if(connexion){
     surveillanceEtatAuthentification();
-
-    const fermerPop = document.querySelector("#fermerPopup");
-    fermerPop.addEventListener("click", fermerPopup)
 
     // Ajout des divers fonctions à un bouton de l'interface
     const btnConnexion = document.querySelector("#btnConnexion");
     btnConnexion.addEventListener("click", connexionEmailMotDePasse);
 
+  }
+  else if(validation){
+    surveillanceEtatAuthentification();
 
-    const urlActuelle = window.location.href;
-    const url = new URL(urlActuelle);
+    const imgAccueil = document.querySelector("#imgAccueil");
+    imgAccueil.addEventListener("click",accueilPage)
+  }
+  else if(validationConfirmer){
+    surveillanceEtatAuthentification();
 
-    const parametres = new URLSearchParams(url.search); 
-    const popup = document.querySelector("#popup");
+    const imgAccueil = document.querySelector("#imgAccueil");
+    imgAccueil.addEventListener("click",accueilPage)
 
+    const urlParametres = new URLSearchParams(window.location.search);
+    const mode = urlParametres.get('mode');
+    const oobCode = urlParametres.get('oobCode');
 
-
-    if(parametres.has('envoyer')) {
-      const parametre = parametres.get('envoyer');
-      
-      if(parametre === 'true'){
-          popup.style.display = "block";
-          
-      }
+    if (mode === 'verifyEmail') {
+      verifierEmailUtilisateur(oobCode);
 
     }
-
 
   }
 

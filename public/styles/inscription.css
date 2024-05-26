@@ -2,6 +2,16 @@ body {
     background: black;
 }
 
+#retour_arriere {
+    display: flex;
+}
+
+#retour_arriere img {
+    position: absolute; 
+    right: 1%;
+}
+
+    
 .entete {
     margin-top: 20px;
     position: relative;
@@ -73,6 +83,12 @@ body {
 
 /* Pour les écrans petits */
 @media (max-width: 480px) {
+    #retour_arriere img {
+        width: 100%;
+        max-width: 30px;
+    
+    }
+
     .entete img {
         width: 100%;
         max-width: 175px;
@@ -95,6 +111,11 @@ body {
 
 /* Pour les écrans moyens */
 @media (min-width: 481px) and (max-width: 768px) {
+    #retour_arriere img {
+        width: 100%;
+        max-width: 40px;
+    }
+
     .entete img {
         width: 50%;
         max-width: 220px;
@@ -117,6 +138,11 @@ body {
 
 /* Pour les écrans larges */
 @media (min-width: 769px) {
+    #retour_arriere img {
+        width: 100%;
+        max-width: 45px;
+    }
+
     .entete img {
         width: 230px;
     }

@@ -82,7 +82,13 @@ export const afficherFormulaireConnexion = () => {
   console.log("Show login form");
 };
 
-export function fermerPopup() {
-  var popup = document.querySelector("#popup");
-  popup.style.display = "none";
+export function fermerModale() {
+  const modale = document.querySelector("#modale");
+  modale.style.display = "none";
 }
+
+
+export function accueilPage() {
+  window.location.replace('https://truqac-test.web.app');
+}
+
