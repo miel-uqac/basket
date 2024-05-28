@@ -8,6 +8,8 @@ export const erreurAuthentification = (error) => {
   const divConnexionErreur = document.querySelector('#ConnexionErreur');
   const ConnexionMessageErreur = document.querySelector('#ConnexionMessageErreur');
 
+
+  ConnexionMessageErreur.style.color = 'red';
   divConnexionErreur.style.display = 'block';
 
   if (error.code === AuthErrorCodes.INVALID_LOGIN_CREDENTIALS) {
@@ -20,10 +22,10 @@ export const erreurAuthentification = (error) => {
     ConnexionMessageErreur.innerHTML = 'Adresse e-mail invalide'; 
   }
   else if(error === AuthErrorCodes.INVALID_EMAIL){
-    ConnexionMessageErreur.innerHTML = 'Adresse e-mail invalide. <br> Elle doit se terminer par @etu.uqac.ca ou @uqac.ca </br>'; 
+    ConnexionMessageErreur.innerHTML = 'Adresse e-mail invalide.<br> Elle doit se terminer par @etu.uqac.ca ou @uqac.ca'; 
   }
   else if(error === AuthErrorCodes.UNVERIFIED_EMAIL){
-    ConnexionMessageErreur.innerHTML = 'Votre compte n\'a pas encore été validé. <br> Veuillez vérifier vos e-mails </br>'; 
+    ConnexionMessageErreur.innerHTML = 'Votre compte n\'a pas encore été validé.<br> Veuillez vérifier vos e-mails. Si vous n\'avez pas reçu d\'email : <a id="CompteNonVerifier" href="auth/envoyerEmail.html" >Cliquer-ici</a>';
   }
   else if(error.code === 'auth/missing-password' || error === 'auth/missing-password' ){
     ConnexionMessageErreur.textContent = 'Mot de passe manquant'; 
@@ -35,7 +37,15 @@ export const erreurAuthentification = (error) => {
     ConnexionMessageErreur.textContent = 'Les mots de passe ne correspondent pas'; 
   }
   else if(error === 'auth/mdpTropFaible'){
-    ConnexionMessageErreur.innerHTML = 'Mot de passe trop faible.<br> Il doit comporter au minimum 6 caractères, une majuscule, une minuscule, un caractère spécial et un chiffre. </br>'; 
+    ConnexionMessageErreur.innerHTML = 'Mot de passe trop faible.<br> Il doit comporter au minimum 6 caractères, une majuscule, une minuscule, un caractère spécial et un chiffre.'; 
+  }
+  else if(error === 'auth/emailEnvoyerEnCours'){
+    ConnexionMessageErreur.style.color = 'gray';
+    ConnexionMessageErreur.innerHTML = 'Un email est en train d\'être envoyé afin de confirmer votre adresse email. Veuillez attendre d\'être redirigé.'; 
+  }
+  else if(error === 'auth/nouveauEmailEnvoyer'){
+    ConnexionMessageErreur.style.color = 'gray';
+    ConnexionMessageErreur.innerHTML = 'Un email est en train d\'être envoyé afin de confirmer votre adresse email si votre compte existe. Veuillez attendre d\'être redirigé.'; 
   }
   else {
     ConnexionMessageErreur.textContent = `Error: ${error.message}`;

@@ -17,6 +17,7 @@ body {
     text-align: center;
 }
 
+
 .entete h1 {
     color: #576E23;
     position: absolute;
@@ -31,11 +32,17 @@ body {
     opacity: 0.15;
 }
 
+.txtConfirmation p{
+    margin-top: 2px;
+
+}
+
 #txtConfirmation {
     margin-top: 80px;
     text-align: center;
     color: white; 
 }
+
 
 #txtMinimaliste {
     color: white; 

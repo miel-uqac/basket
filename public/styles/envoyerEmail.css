@@ -1,0 +1,169 @@
+body {
+    background: black;
+}
+
+#retour_arriere {
+    display: flex;
+}
+
+#retour_arriere img {
+    position: absolute; 
+    right: 1%;
+}
+
+    
+.entete {
+    margin-top: 20px;
+    position: relative;
+    text-align: center;
+}
+
+.entete h1 {
+    color: #576E23;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    
+}
+
+.entete img {
+    opacity: 0.15;
+}
+
+.nouveauLienEmailVerification #ConnexionErreur {
+    color: red;
+    width: 90%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    font-size: 13px;
+    text-align: center;
+}
+
+
+.nouveauLienEmailVerification {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+
+.nouveauLienEmailVerification #information{
+    color:white
+}
+
+
+.nouveauLienEmailVerification input{
+    border-radius: 50px;
+    width: 90%;
+    box-sizing: border-box;
+}
+
+.nouveauLienEmailVerification input::placeholder {
+    color: black;
+}
+
+
+.nouveauLienEmailVerification #btnEnvoyer{
+    margin-top: 25px;
+}
+
+
+
+.nouveauLienEmailVerification button {
+    width: 90%;
+    height: 10px;
+    color: white;
+    margin-top: 20px;
+    background-color: transparent; 
+    border: none; 
+    padding: 0;
+    margin: 0;
+    text-decoration: none; 
+}
+
+
+
+/* Pour les écrans petits */
+@media (max-width: 480px) {
+    #retour_arriere img {
+        width: 100%;
+        max-width: 30px;
+    
+    }
+
+    .entete img {
+        width: 100%;
+        max-width: 175px;
+    }
+
+    .entete h1 {
+        font-size: 35px;
+    }
+
+    .formulaireInscription input {
+        max-width: 260px;
+        height: 40px;
+    }
+
+    .nouveauLienEmailVerification a,.nouveauLienEmailVerification #ConnexionErreur{
+        max-width: 260px;
+    }
+
+}
+
+/* Pour les écrans moyens */
+@media (min-width: 481px) and (max-width: 768px) {
+    #retour_arriere img {
+        width: 100%;
+        max-width: 40px;
+    }
+
+    .entete img {
+        width: 50%;
+        max-width: 220px;
+    }
+
+    .entete h1 {
+        font-size: 44px;
+    }
+
+    .nouveauLienEmailVerification input {
+        max-width: 340px;
+        height: 42px;
+    }
+
+    .nouveauLienEmailVerification a,.nouveauLienEmailVerification #ConnexionErreur{
+        max-width: 340px;
+    }
+
+}
+
+/* Pour les écrans larges */
+@media (min-width: 769px) {
+    #retour_arriere img {
+        width: 100%;
+        max-width: 45px;
+    }
+
+    .entete img {
+        width: 230px;
+    }
+
+    .entete h1 {
+        font-size: 46px;
+    }
+
+    .nouveauLienEmailVerification input {
+        max-width: 360px;
+        height: 44px;
+    }
+    
+    .nouveauLienEmailVerification a,.nouveauLienEmailVerification #ConnexionErreur{
+        max-width: 360px;
+    }
+
+}

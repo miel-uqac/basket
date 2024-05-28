@@ -4,13 +4,13 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../styles/inscription.css">
+    <link rel="stylesheet" href="../styles/envoyerEmail.css">
     <title>Truqac</title>
   </head>
 
   <body>
 
-    <div id="Inscription">
+    <div id="EmailVerification">
 
 
       <div id="retour_arriere">
@@ -26,17 +26,16 @@
 
 
       <form>
-        <div class="formulaireInscription">
+        <div class="nouveauLienEmailVerification">
          
           <div id="ConnexionErreur" style="display: none;">
             <p id="ConnexionMessageErreur"></p>
           </div>
 
+          <p id="information">Email non reçu ? Vous pouvez faire une nouvelle demande ci-dessous</p>
           <input id="txtEmail" type="email" placeholder="Entrez votre adresse e-mail UQAC">
-          <input id="txtMotDePasse" type="password" placeholder="Entrez le mot de passe">
-          <input id="txtConfirmerMotDePasse" type="password" placeholder="Confirmez le mot de passe">
 
-          <button id="btnCreerCompte">Créer compte</button>
+          <button id="btnEnvoyer">Envoyer</button>
         
         </div>
 

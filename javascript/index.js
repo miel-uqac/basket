@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, connectAuthEmulator} from "firebase/auth";
 import { getDatabase, connectDatabaseEmulator } from "firebase/database";
-import {connexionEmailMotDePasse,creerCompte,surveillanceEtatAuthentification, verifierEmailUtilisateur} from "./authentification";
+import {connexionEmailMotDePasse,creerCompte,surveillanceEtatAuthentification, verifierEmailUtilisateur, nouveauLienVerification} from "./authentification";
 import { accueilPage } from "./ui";
 
 // Configuration application Web FireBase
@@ -35,7 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const Inscription = document.querySelector("#Inscription") !== null;
   const validation = document.querySelector("#validation") !== null;
   const validationConfirmer = document.querySelector("#validationConfirmer") !== null;
-  
+  const nouveauLienEmailVerification = document.querySelector("#EmailVerification") !== null;
+
 
   if(Inscription){
     surveillanceEtatAuthentification();
@@ -61,6 +62,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const imgAccueil = document.querySelector("#imgAccueil");
     imgAccueil.addEventListener("click",accueilPage)
+
+    setTimeout(() => {
+      accueilPage();
+    }, "13000");
+
   }
   else if(validationConfirmer){
     surveillanceEtatAuthentification();
@@ -74,9 +80,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (mode === 'verifyEmail') {
       verifierEmailUtilisateur(oobCode);
-
     }
 
+    setTimeout(() => {
+      accueilPage();
+    }, "8000");
+  }
+  else if(nouveauLienEmailVerification){
+      const btnEnvoyer = document.querySelector("#btnEnvoyer");
+      btnEnvoyer.addEventListener('click',nouveauLienVerification);
   }
 
 });
