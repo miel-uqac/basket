@@ -12,11 +12,6 @@
 
     <div id="Inscription">
 
-
-      <div id="retour_arriere">
-        <img id="imgRetour" src="../images/retour_arriere.png" alt="Icone de retour en arrière" />
-      </div>
-
       <div class="entete">
 
         <h1>TRUQAC</h1>
@@ -32,12 +27,36 @@
             <p id="ConnexionMessageErreur"></p>
           </div>
 
+
+          <div id="DivLabeEmail">  
+            <label id="labelEmail" for="txtEmail">Votre adresse e-mail</label> 
+           </div>  
           <input id="txtEmail" type="email" placeholder="Entrez votre adresse e-mail UQAC">
+
+
+          <div id ="DivLabelMotDePasse">
+            <label id="labelMotDePasse" for="txtMotDePasse">Votre mot de passe</label> 
+          </div>
+
           <input id="txtMotDePasse" type="password" placeholder="Entrez le mot de passe">
+
+
+          <div id ="DivLabelConfirmerMotDePasse">
+            <label id="LabelConfirmerMotDePasse" for="txtConfirmerMotDePasse">Confirmez votre mot de passe</label> 
+          </div>
+
           <input id="txtConfirmerMotDePasse" type="password" placeholder="Confirmez le mot de passe">
 
-          <button id="btnCreerCompte">Créer compte</button>
-        
+          <div id="DivMotDePasse">
+            <input id="AfficherMotDePasse" type="checkbox"/>
+            <label id="labelAfficherMotDePasse" for="AfficherMotDePasse">Afficher</label>
+          </div>
+
+        <div id="content">
+            <button id="btnCreerCompte">Créer compte</button>
+            <p id ="compteExiste">Vous avez un compte ? <a id="connexion" href="../index.html" >Connectez-vous</a></p>
+          </div>
+
         </div>
 
 

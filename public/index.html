@@ -5,12 +5,22 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="styles/accueil.css">
+    <link rel="stylesheet" href="styles/accueilMDP.css">
+
     <title>Truqac</title>
   </head>
 
   <body>
 
-    <div id="connexion">
+    <div id="emailModal" class="modal"  style="display: none;">
+      <div class="modal-content">
+        <p id="txtPremier"></p>
+        <p id="txtDeuxieme"></p>
+        <button id="close">Fermer</button>
+      </div>
+    </div>
+
+    <div id="connexion" style="display: block;">
 
       <div class="entete">
         <h1>TRUQAC</h1>
@@ -24,28 +34,90 @@
             <p id="ConnexionMessageErreur">Identifiant ou mot de passe invalide</p>
           </div>
 
+          <div id="DivLabeEmail">    
+            <label id="labelEmail" for="txtEmail">Votre adresse e-mail</label> 
+          </div>
           <input id="txtEmail" type="email" placeholder="Adresse e-mail UQAC">
-          <input id="txtMotDePasse" type="password" placeholder="Mot de passe">
 
-          <div id="content">
+          <div id ="DivLabelMotDePasse">
+            <label id="labelMotDePasse" for="txtMotDePasse">Votre mot de passe</label> 
+          </div>
+
+          <input id="txtMotDePasse" type="password" placeholder="Mot de passe">
+        
+          
+          <div id="DivMotDePasse">
+            <input id="AfficherMotDePasse" type="checkbox"/>
+            <label id="labelAfficherMotDePasse" for="AfficherMotDePasse">Afficher</label>
+          </div>
+          
+        <div id="content">
             <button id="btnConnexion">Connexion</button>
             <a id="CreationCompte" href="auth/inscription.html" >Inscription</a>
-            <a id="MotDePasseOublier" href="mailto:m.bluth@example.com" >Mot de passe oublié ?</a>
-          </div>
+            <a id="MotDePasseOublier" href="auth/motPasseOublier.html" >Mot de passe oublié ?</a>
+          
+            <div id ="BasPage">
+              <a id="condition"href="mailto:m.bluth@example.com">Conditions Générales d'Utilisation</a>
+              <a id="politique" href="mailto:m.bluth@example.com" >Politique de Confidentialité </a>
+            </div>
+
+        </div>
         
         </div>
 
 
       </form>
 
-      <footer>
-        <a id="condition"href="mailto:m.bluth@example.com">Conditions Générales d'Utilisation</a>
-        <a id="politique" href="mailto:m.bluth@example.com" >Politique de Confidentialité </a>
-      
-      </footer>
       
     </div>
 
+
+
+
+    <div id="ModifierMotDePasse" style="display: none;">
+
+      <div class="entete">
+
+        <h1>TRUQAC</h1>
+        <img src="../images/boule_de_papier.png" alt="Logo TRUQAC" />
+      </div>
+
+      <form>
+        <div class="formulaireMotDePasseOublier">
+         
+          <div id="ConnexionErreurNouveauMotDePasse" style="display: none;">
+            <p id="ConnexionMessageErreurNouveauMotDePasse"></p>
+          </div>
+
+
+          <div id ="DivLabelNouveauMotDePasse">
+            <label id="labelNouveauMotDePasse" for="txtNouveauMotDePasse">Votre nouveau mot de passe</label> 
+          </div>
+
+          <input id="txtNouveauMotDePasse" type="password" placeholder="Entrez le nouveau mot de passe">
+
+
+          <div id ="DivLabelConfirmerNouveauMotDePasse">
+            <label id="LabelConfirmerNouveauMotDePasse" for="txtConfirmerNouveauMotDePasse">Confirmez votre nouveau mot de passe</label> 
+          </div>
+
+          <input id="txtConfirmerNouveauMotDePasse" type="password" placeholder="Confirmez le nouveau mot de passe">
+
+          <div id="DivNouveauMotDePasse">
+            <input id="AfficherNouveauMotDePasse" type="checkbox"/>
+            <label id="labelAfficherNouveauMotDePasse" for="AfficherNouveauMotDePasse">Afficher</label>
+          </div>
+
+        <div id="content">
+            <button id="btnChangerMotDePasse">Réinitialiser le mot de passe</button>
+          </div>
+
+        </div>
+
+
+      </form>
+
+    </div>
 
     <script src="/build/bundle.js"></script>
   </body>

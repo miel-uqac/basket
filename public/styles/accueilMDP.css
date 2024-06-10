@@ -1,18 +1,12 @@
-body {
-    background: black;
-    font-family: Arial, Helvetica, sans-serif;
-}
+.formulaireMotDePasseOublier #btnChangerMotDePasse:hover {
+  opacity: 0.5; 
+  
+  }
 
-   
 .entete {
     position: relative;
     text-align: center;
 }
-
-.formulaireInscription #btnCreerCompte:hover {
-  opacity: 0.5; 
-  
-  }
 
 .entete h1 {
     color: #576E23;
@@ -28,37 +22,37 @@ body {
     opacity: 0.15;
 }
 
-.formulaireInscription #ConnexionErreur {
+.formulaireMotDePasseOublier #ConnexionErreurNouveauMotDePasse {
     color: red;
     width: 90%;
     box-sizing: border-box;
-    margin-bottom: 10px;
     font-size: 13px;
 }
 
-.formulaireInscription #DivLabeEmail, .formulaireInscription #DivLabelMotDePasse,.formulaireInscription #DivLabelConfirmerMotDePasse{
+.formulaireMotDePasseOublier #DivLabelNouveauMotDePasse,.formulaireMotDePasseOublier #DivLabelConfirmerNouveauMotDePasse{
   display: flex;
   margin-bottom: 5px;
 }
 
-.formulaireInscription #labelEmail,.formulaireInscription #labelMotDePasse,.formulaireInscription #LabelConfirmerMotDePasse{
+.formulaireMotDePasseOublier #labelNouveauMotDePasse,.formulaireMotDePasseOublier #LabelConfirmerNouveauMotDePasse{
   color: white;
   font-size: 13px;
 }
 
 
-.formulaireInscription #labelMotDePasse{
-  margin-top: 15px;
-}
-
-.formulaireInscription #LabelConfirmerMotDePasse,.formulaireInscription #LabelConfirmerMotDePasse{
+form{
   margin-top: 15px;
 
 }
 
+.formulaireMotDePasseOublier #LabelConfirmerNouveauMotDePasse,.formulaireMotDePasseOublier #LabelConfirmerNouveauMotDePasse{
+  margin-top: 15px;
+
+}
 
 
-.formulaireInscription {
+
+.formulaireMotDePasseOublier {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -67,17 +61,17 @@ body {
 
 
 
-.formulaireInscription input{
+.formulaireMotDePasseOublier input{
     border-radius: 12px;
     width: 90%;
     box-sizing: border-box;
 }
 
-.formulaireInscription input::placeholder {
+.formulaireMotDePasseOublier input::placeholder {
     color: black;
 }
 
-.formulaireInscription #DivMotDePasse {
+.formulaireMotDePasseOublier #DivNouveauMotDePasse {
     margin-top: 10px;
     margin-bottom: 5px;
     display: flex;
@@ -87,7 +81,7 @@ body {
 
 
 @supports (-webkit-appearance: none) or (-moz-appearance: none) {
-    #DivMotDePasse input[type=checkbox] {
+    #DivNouveauMotDePasse input[type=checkbox] {
       --active: #275EFE;
       --active-inner: #fff;
       --focus: 2px rgba(39, 94, 254, .3);
@@ -112,7 +106,7 @@ body {
       background: var(--b, var(--background));
       transition: background 0.3s, border-color 0.3s, box-shadow 0.2s;
     }
-    #DivMotDePasse input[type=checkbox]:after {
+    #DivNouveauMotDePasse input[type=checkbox]:after {
       content: "";
       display: block;
       left: 0;
@@ -120,51 +114,51 @@ body {
       position: absolute;
       transition: transform var(--d-t, 0.3s) var(--d-t-e, ease), opacity var(--d-o, 0.2s);
     }
-    #DivMotDePasse input[type=checkbox]:checked {
+    #DivNouveauMotDePasse input[type=checkbox]:checked {
       --b: var(--active);
       --bc: var(--active);
       --d-o: .3s;
       --d-t: .6s;
       --d-t-e: cubic-bezier(.2, .85, .32, 1.2);
     }
-    #DivMotDePasse input[type=checkbox]:disabled {
+    #DivNouveauMotDePasse input[type=checkbox]:disabled {
       --b: var(--disabled);
       cursor: not-allowed;
       opacity: 0.9;
     }
-    #DivMotDePasse input[type=checkbox]:disabled:checked {
+    #DivNouveauMotDePasse input[type=checkbox]:disabled:checked {
       --b: var(--disabled-inner);
       --bc: var(--border);
     }
-    #DivMotDePasse input[type=checkbox]:disabled + label {
+    #DivNouveauMotDePasse input[type=checkbox]:disabled + label {
       cursor: not-allowed;
     }
-    #DivMotDePasse input[type=checkbox]:hover:not(:checked):not(:disabled) {
+    #DivNouveauMotDePasse input[type=checkbox]:hover:not(:checked):not(:disabled) {
       --bc: var(--border-hover);
     }
-    #DivMotDePasse input[type=checkbox]:focus {
+    #DivNouveauMotDePasse input[type=checkbox]:focus {
       box-shadow: 0 0 0 var(--focus);
     }
-    #DivMotDePasse input[type=checkbox]:not(.switch) {
+    #DivNouveauMotDePasse input[type=checkbox]:not(.switch) {
       width: 21px;
     }
-    #DivMotDePasse input[type=checkbox]:not(.switch):after {
+    #DivNouveauMotDePasse input[type=checkbox]:not(.switch):after {
       opacity: var(--o, 0);
     }
-    #DivMotDePasse input[type=checkbox]:not(.switch):checked {
+    #DivNouveauMotDePasse input[type=checkbox]:not(.switch):checked {
       --o: 1;
     }
-    #DivMotDePasse input[type=checkbox] + label {
+    #DivNouveauMotDePasse input[type=checkbox] + label {
       display: inline-block;
       vertical-align: middle;
       cursor: pointer;
       margin-left: 4px;
     }
 
-    #DivMotDePasse input[type=checkbox]:not(.switch) {
+    #DivNouveauMotDePasse input[type=checkbox]:not(.switch) {
       border-radius: 7px;
     }
-    #DivMotDePasse input[type=checkbox]:not(.switch):after {
+    #DivNouveauMotDePasse input[type=checkbox]:not(.switch):after {
       width: 5px;
       height: 9px;
       border: 2px solid var(--active-inner);
@@ -174,41 +168,41 @@ body {
       top: 4px;
       transform: rotate(var(--r, 20deg));
     }
-    #DivMotDePasse input[type=checkbox]:not(.switch):checked {
+    #DivNouveauMotDePasse input[type=checkbox]:not(.switch):checked {
       --r: 43deg;
     }
   }
 
-  #DivMotDePasse * {
+  #DivNouveauMotDePasse * {
     box-sizing: inherit;
   }
-  #DivMotDePasse *:before,
-  #DivMotDePasse *:after {
+  #DivNouveauMotDePasse *:before,
+  #DivNouveauMotDePasse *:after {
     box-sizing: inherit;
   }
 
 
 
-.formulaireInscription #labelAfficherMotDePasse{
+.formulaireMotDePasseOublier #labelAfficherNouveauMotDePasse{
     color: white;
     text-align:right;
     font-size: 16px;
 }
 
-.formulaireInscription #AfficherMotDePasse{
+.formulaireMotDePasseOublier #AfficherNouveauMotDePasse{
     display: flex;
     width: 15px;
     height: 15px;
     transform: scale(0.7);
 }
 
-.formulaireInscription #labelAfficherConfirmerMotDePasse{
+.formulaireMotDePasseOublier #labelAfficherConfirmerMotDePasse{
     color: white;
     text-align:right;
     font-size: 16px;
 }
 
-.formulaireInscription #AfficherConfirmerMotDePasse{
+.formulaireMotDePasseOublier #AfficherConfirmerMotDePasse{
     display: flex;
     width: 15px;
     height: 15px;
@@ -216,21 +210,23 @@ body {
 }
 
 
-.formulaireInscription #content {
+.formulaireMotDePasseOublier #content {
   height: 100%;
   display: flex; 
   flex-direction: column;  
   
 }
 
-.formulaireInscription #btnCreerCompte{
+.formulaireMotDePasseOublier #btnChangerMotDePasse{
     margin-top: 25px;
+    width: 188px;
 }
 
 
 
 
-.formulaireInscription button {
+
+.formulaireMotDePasseOublier button {
     width: 95px;
     font-size: 14px;
     margin-top: 30px;
@@ -242,17 +238,7 @@ body {
     text-decoration: none;
 }
 
-.formulaireInscription #compteExiste{
-  font-size: 12px;
-  color: white;
-}
 
-.formulaireInscription #connexion{
-  font-size: 14px;
-  color: rgb(38, 114, 236);
-  text-decoration: none;
-
-}
 
 #svg-spinner {
     -webkit-transition-property: -webkit-transform;
@@ -320,36 +306,28 @@ body {
     font-size: 35px;
 }
 
-.formulaireInscription #content {
+
+.formulaireMotDePasseOublier #content {
     width: 84%;
 }
 
-.formulaireInscription #ConnexionErreur {
+.formulaireMotDePasseOublier #ConnexionErreurNouveauMotDePasse {
     width: 84%;
 }
 
 
 
-.formulaireInscription #div {
+.formulaireMotDePasseOublier #div {
   width: 84%;
 
 }
 
-.modal-content {
-    width: 50%; 
-  }
-
-  .formulaireInscription #DivMotDePasse,  .formulaireInscription #DivLabeEmail,.formulaireInscription #DivLabelMotDePasse,.formulaireInscription #DivLabelConfirmerMotDePasse {
+.formulaireMotDePasseOublier #DivNouveauMotDePasse,.formulaireMotDePasseOublier #DivLabelNouveauMotDePasse,.formulaireMotDePasseOublier #DivLabelConfirmerNouveauMotDePasse {
     width: 82%;
 }
 
-#retour_arriere img {
-  width: 100%;
-  max-width: 30px;
 
-}
-
-.formulaireInscription input {
+.formulaireMotDePasseOublier input {
   max-width: 260px;
   height: 40px;
 }
@@ -357,15 +335,10 @@ body {
 }
 
 @media (min-width: 320px) and (max-width: 480px){
-    .formulaireInscription #DivMotDePasse {
+    .formulaireMotDePasseOublier #DivNouveauMotDePasse {
         width: 250px;
     }
 
-    #retour_arriere img {
-      width: 100%;
-      max-width: 30px;
-  
-  }
 
   .entete img {
       width: 100%;
@@ -376,16 +349,16 @@ body {
       font-size: 35px;
   }
 
-  .formulaireInscription input {
+  .formulaireMotDePasseOublier input {
       max-width: 260px;
       height: 40px;
   }
 
-  .formulaireInscription a,.formulaireInscription #ConnexionErreur{
+  .formulaireMotDePasseOublier a,.formulaireMotDePasseOublier #ConnexionErreurNouveauMotDePasse{
       max-width: 260px;
   }
 
-  .formulaireInscription #content,.formulaireInscription #DivLabeEmail,.formulaireInscription #DivLabelMotDePasse,.formulaireInscription #DivLabelConfirmerMotDePasse  {
+  .formulaireMotDePasseOublier #content,.formulaireMotDePasseOublier #DivLabelNouveauMotDePasse,.formulaireMotDePasseOublier #DivLabelConfirmerNouveauMotDePasse  {
     width: 250px; 
     
 }
@@ -393,10 +366,6 @@ body {
 }
 /* Pour les écrans moyens */
 @media (min-width: 481px) and (max-width: 768px) {
-    #retour_arriere img {
-        width: 100%;
-        max-width: 40px;
-    }
 
     .entete img {
         width: 50%;
@@ -407,31 +376,27 @@ body {
         font-size: 44px;
     }
 
-    .formulaireInscription input {
+    .formulaireMotDePasseOublier input {
         max-width: 340px;
         height: 42px;
     }
 
-    .formulaireInscription a,.formulaireInscription #ConnexionErreur{
+    .formulaireMotDePasseOublier a,.formulaireMotDePasseOublier #ConnexionErreurNouveauMotDePasse{
         max-width: 340px;
     }
 
-    .formulaireInscription #DivMotDePasse {
+    .formulaireMotDePasseOublier #DivNouveauMotDePasse {
         width: 330px;
     
     }
 
-    .formulaireInscription #content,.formulaireInscription #DivLabeEmail, .formulaireInscription #DivLabelMotDePasse, .formulaireInscription #DivLabelConfirmerMotDePasse{
+    .formulaireMotDePasseOublier #content, .formulaireMotDePasseOublier #DivLabelNouveauMotDePasse, .formulaireMotDePasseOublier #DivLabelConfirmerNouveauMotDePasse{
       width: 330px;
   }
 }
 
 /* Pour les écrans larges */
 @media (min-width: 769px) {
-    #retour_arriere img {
-        width: 100%;
-        max-width: 45px;
-    }
 
     .entete img {
         width: 230px;
@@ -441,20 +406,20 @@ body {
         font-size: 46px;
     }
 
-    .formulaireInscription input {
+    .formulaireMotDePasseOublier input {
         max-width: 360px;
         height: 44px;
     }
     
-    .formulaireInscription a,.formulaireInscription #ConnexionErreur{
+    .formulaireMotDePasseOublier a,.formulaireMotDePasseOublier #ConnexionErreurNouveauMotDePasse{
         max-width: 360px;
     }
 
-    .formulaireInscription #DivMotDePasse {
+    .formulaireMotDePasseOublier #DivNouveauMotDePasse {
         width: 350px;
     }
 
-    .formulaireInscription #content,.formulaireInscription #DivLabeEmail, .formulaireInscription #DivLabelMotDePasse,.formulaireInscription #DivLabelConfirmerMotDePasse {
+    .formulaireMotDePasseOublier #content, .formulaireMotDePasseOublier #DivLabelNouveauMotDePasse,.formulaireMotDePasseOublier #DivLabelConfirmerNouveauMotDePasse {
       width: 350px;
   }
 

@@ -1,6 +1,50 @@
 body {
     background: black;
+    font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Modale */
+.modal {
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    background-color: rgba(0, 0, 0, 0.4); 
+  }
+  
+  /* Modal Content/Box */
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; 
+    padding: 50px;
+    border: 1px solid #888;
+    width: 30%; 
+    text-align: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); 
+    border-radius: 10px;
+  }
+  
+  /* The Close Button */
+  #close {
+    margin-top: 15px;
+    color: black;
+    background-color: rgb(38, 114, 236);
+    border: none;
+    padding: 5px 5px;
+    text-decoration: none;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  
+  #close:hover,
+  #close:focus {
+    opacity: 0.5; 
+    cursor: pointer;
+  }
+  
 
 .entete {
     position: relative;
@@ -28,6 +72,11 @@ body {
     display: flex;
 }
 
+.formulaireConnexion #DivLabeEmail, .formulaireConnexion #DivLabelMotDePasse{
+  display: flex;
+  margin-bottom: 5px;
+}
+
 
 .formulaireConnexion {
     display: flex;
@@ -45,7 +94,7 @@ body {
 
 
 .formulaireConnexion input{
-    border-radius: 50px;
+    border-radius: 12px;
     width: 90%;
     box-sizing: border-box;
 }
@@ -54,24 +103,161 @@ body {
     color: black;
 }
 
+.formulaireConnexion #DivMotDePasse {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: flex-end;
+
+}
+
+.formulaireConnexion #labelAfficherMotDePasse{
+    color: white;
+    text-align:right;
+    font-size: 16px;
+}
+
+.formulaireConnexion #labelMotDePasse{
+      color: white;
+      margin-top: 20px;
+      font-size: 13px;
+
+}
+
+
+
+.formulaireConnexion #AfficherMotDePasse{
+    display: flex;
+    width: 15px;
+    height: 15px;
+    transform: scale(0.7);
+}
+
+@supports (-webkit-appearance: none) or (-moz-appearance: none) {
+    #DivMotDePasse input[type=checkbox] {
+      --active: #275EFE;
+      --active-inner: #fff;
+      --focus: 2px rgba(39, 94, 254, .3);
+      --border: #BBC1E1;
+      --border-hover: #275EFE;
+      --background: #fff;
+      --disabled: #F6F8FF;
+      --disabled-inner: #E1E6F9;
+      -webkit-appearance: none; 
+      -moz-appearance: none;    
+      appearance: none;     
+      height: 21px;
+      outline: none;
+      display: inline-block;
+      vertical-align: top;
+      position: relative;
+      margin: 0;
+      cursor: pointer;
+      border: 1px solid var(--bc, var(--border));
+      background: var(--b, var(--background));
+      transition: background 0.3s, border-color 0.3s, box-shadow 0.2s;
+    }
+    #DivMotDePasse input[type=checkbox]:after {
+      content: "";
+      display: block;
+      left: 0;
+      top: 0;
+      position: absolute;
+      transition: transform var(--d-t, 0.3s) var(--d-t-e, ease), opacity var(--d-o, 0.2s);
+    }
+    #DivMotDePasse input[type=checkbox]:checked {
+      --b: var(--active);
+      --bc: var(--active);
+      --d-o: .3s;
+      --d-t: .6s;
+      --d-t-e: cubic-bezier(.2, .85, .32, 1.2);
+    }
+    #DivMotDePasse input[type=checkbox]:disabled {
+      --b: var(--disabled);
+      cursor: not-allowed;
+      opacity: 0.9;
+    }
+    #DivMotDePasse input[type=checkbox]:disabled:checked {
+      --b: var(--disabled-inner);
+      --bc: var(--border);
+    }
+    #DivMotDePasse input[type=checkbox]:disabled + label {
+      cursor: not-allowed;
+    }
+    #DivMotDePasse input[type=checkbox]:hover:not(:checked):not(:disabled) {
+      --bc: var(--border-hover);
+    }
+    #DivMotDePasse input[type=checkbox]:focus {
+      box-shadow: 0 0 0 var(--focus);
+    }
+    #DivMotDePasse input[type=checkbox]:not(.switch) {
+      width: 21px;
+    }
+    #DivMotDePasse input[type=checkbox]:not(.switch):after {
+      opacity: var(--o, 0);
+    }
+    #DivMotDePasse input[type=checkbox]:not(.switch):checked {
+      --o: 1;
+    }
+    #DivMotDePasse input[type=checkbox] + label {
+      display: inline-block;
+      vertical-align: middle;
+      cursor: pointer;
+      margin-left: 4px;
+    }
+
+    #DivMotDePasse input[type=checkbox]:not(.switch) {
+      border-radius: 7px;
+    }
+    #DivMotDePasse input[type=checkbox]:not(.switch):after {
+      width: 5px;
+      height: 9px;
+      border: 2px solid var(--active-inner);
+      border-top: 0;
+      border-left: 0;
+      left: 7px;
+      top: 4px;
+      transform: rotate(var(--r, 20deg));
+    }
+    #DivMotDePasse input[type=checkbox]:not(.switch):checked {
+      --r: 43deg;
+    }
+  }
+
+  #DivMotDePasse * {
+    box-sizing: inherit;
+  }
+  #DivMotDePasse *:before,
+  #DivMotDePasse *:after {
+    box-sizing: inherit;
+  }
+
 .formulaireConnexion a{
     font-size: 14px;
-    width: 90%;
     height: 10px;
     box-sizing: border-box;
     color: white;
     text-decoration: none;
-    text-align: left; 
-
-    
 }
+
+.formulaireConnexion #CreationCompte{
+    width: 60px;
+}
+
+.formulaireConnexion #labelEmail,.formulaireConnexion #labelMotDePasse{
+  color: white;
+  font-size: 13px;
+
+}
+
+
+
 
 .formulaireConnexion #btnConnexion{
     width: 90px;
     font-size: 14px;
     margin-top: 30px;
     box-sizing: border-box;
-    color: black;
     background-color: rgb(38, 114, 236);
     border: none;
     color: white;
@@ -85,9 +271,60 @@ opacity: 0.5;
 
 }
 
-.formulaireConnexion #txtMotDePasse {
-    margin-top: 40px;
-}
+#svg-spinner {
+    -webkit-transition-property: -webkit-transform;
+    -webkit-transition-duration: 1.2s;
+    -webkit-animation-name: rotate;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+  
+    -moz-transition-property: -moz-transform;
+    
+    -moz-animation-name: rotate;
+    -moz-animation-duration: 1.2s;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-timing-function: linear;
+  
+    transition-property: transform;
+    transition-duration: 1.2s;
+    animation-name: rotate;
+    animation-duration: 1.2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    height: 13px; 
+  }
+  
+  @-webkit-keyframes rotate {
+    from {
+      -webkit-transform: rotate(0deg);
+    }
+  
+    to {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+  
+  @-moz-keyframes rotate {
+    from {
+      -moz-transform: rotate(0deg);
+    }
+  
+    to {
+      -moz-transform: rotate(360deg);
+    }
+  }
+  
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+  
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+
 
 .formulaireConnexion #CreationCompte{
     margin-top: 40px;
@@ -95,28 +332,30 @@ opacity: 0.5;
 
 .formulaireConnexion #MotDePasseOublier{
     margin-top: 20px;
+    width: 140px;
 
 }
 
-footer {
-    background-attachment: fixed;
+
+#BasPage {
+    background-attachment: local;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    padding-left: 1%;
-    padding-bottom: 20px;
+    align-items: center;
     width: 100%;
     position: fixed;
     bottom: 0;
+    right: 0%;
+    margin-bottom: 15px;
+    text-align: center;
+    position: absolute;
 }
 
-footer a {
+#BasPage a {
     color: white;
     text-decoration: none;
     margin: 4px 0;
-    text-align: left;
     font-size: 10px;
-    
 }
 
 #txtConfirmation{
@@ -129,22 +368,23 @@ footer a {
 
 
 @media (max-height: 588px) {
-    footer {
+  #BasPage {
         background-attachment: local;
         flex-direction: column;
-        margin-top: 84px; 
+        margin-top: 72px; 
         width: 100%;
         text-align: center;
-        position: relative; /* Change to relative */
+        position: relative; 
     }
     
-    footer a {
+    #BasPage a {
         color: white;
         text-decoration: none;
         margin: 4px 0;
         font-size: 10px;
     }
 }
+
 
 /* Pour les écrans petits */
 @media (max-width: 320px) {
@@ -163,7 +403,7 @@ footer a {
     }
 
 
-    .formulaireConnexion a,.formulaireConnexion #ConnexionErreur,.formulaireConnexion #btnConnexion{
+    .formulaireConnexion a,.formulaireConnexion #ConnexionErreur,.formulaireConnexion #btnConnexion,.formulaireConnexion #DivLabeEmail,.formulaireConnexion #DivLabelMotDePasse{
         max-width: 260px;
     }
 
@@ -171,9 +411,17 @@ footer a {
         width: 84%;
     }
 
-    .formulaireConnexion #ConnexionErreur {
+    .formulaireConnexion #ConnexionErreur,.formulaireConnexion #DivLabeEmail,.formulaireConnexion #DivLabelMotDePasse {
         width: 84%;
 
+    }
+
+    .modal-content {
+        width: 50%; 
+      }
+
+      .formulaireConnexion #DivMotDePasse {
+        width: 82%;
     }
 }
 
@@ -194,7 +442,7 @@ footer a {
     }
 
 
-    .formulaireConnexion a,.formulaireConnexion #ConnexionErreur,.formulaireConnexion #btnConnexion{
+    .formulaireConnexion a,.formulaireConnexion #ConnexionErreur,.formulaireConnexion #btnConnexion,.formulaireConnexion #DivLabeEmail,.formulaireConnexion #DivLabelMotDePasse{
         max-width: 260px;
     }
 
@@ -203,11 +451,19 @@ footer a {
         
     }
 
-    .formulaireConnexion #ConnexionErreur {
+    .formulaireConnexion #ConnexionErreur,.formulaireConnexion #DivLabeEmail,.formulaireConnexion #DivLabelMotDePasse {
         width: 250px; 
 
     }
 
+    .modal-content {
+        width: 50%; 
+
+      }
+
+      .formulaireConnexion #DivMotDePasse {
+        width: 250px;
+    }
 
 
 }
@@ -228,7 +484,7 @@ footer a {
         height: 42px;
     }
 
-    .formulaireConnexion a,.formulaireConnexion #ConnexionErreur,.formulaireConnexion #btnConnexion{
+    .formulaireConnexion a,.formulaireConnexion #ConnexionErreur,.formulaireConnexion #btnConnexion,.formulaireConnexion #DivLabeEmail,.formulaireConnexion #DivLabelMotDePasse{
         max-width: 340px;
     }
 
@@ -236,9 +492,14 @@ footer a {
         width: 330px;
     }
 
-    .formulaireConnexion #ConnexionErreur {
+    .formulaireConnexion #ConnexionErreur,.formulaireConnexion #DivLabeEmail,.formulaireConnexion #DivLabelMotDePasse {
         width: 330px;
 
+    }
+
+    .formulaireConnexion #DivMotDePasse {
+        width: 330px;
+    
     }
 
 }
@@ -258,7 +519,7 @@ footer a {
         height: 44px;
     }
     
-    .formulaireConnexion a,.formulaireConnexion #ConnexionErreur,.formulaireConnexion #btnConnexion{
+    .formulaireConnexion a,.formulaireConnexion #ConnexionErreur,.formulaireConnexion #btnConnexion,.formulaireConnexion #DivLabeEmail,.formulaireConnexion #DivLabelMotDePasse{
         max-width: 360px;
     }
 
@@ -266,9 +527,13 @@ footer a {
         width: 350px;
     }
 
-    .formulaireConnexion #ConnexionErreur {
+    .formulaireConnexion #ConnexionErreur,.formulaireConnexion #DivLabeEmail,.formulaireConnexion #DivLabelMotDePasse{
         width: 350px;
 
+    }
+
+    .formulaireConnexion #DivMotDePasse {
+        width: 350px;
     }
 
 }

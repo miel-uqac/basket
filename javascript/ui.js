@@ -5,8 +5,25 @@ import { AuthErrorCodes } from "firebase/auth";
  * @param {Object} error - L'objet d'erreur renvoyé par Firebase.
  */
 export const erreurAuthentification = (error) => {
-  const divConnexionErreur = document.querySelector('#ConnexionErreur');
-  const ConnexionMessageErreur = document.querySelector('#ConnexionMessageErreur');
+
+  var divConnexionErreur;
+  var ConnexionMessageErreur;
+  
+  const connexionElement = document.querySelector("#connexion");
+  const modifierMotDePasseElement = document.querySelector("#ModifierMotDePasse");
+  const Inscription = document.querySelector("#Inscription") !== null;
+
+  if (connexionElement.offsetParent !== null) {
+    divConnexionErreur = document.querySelector("#ConnexionErreur");
+    ConnexionMessageErreur = document.querySelector("#ConnexionMessageErreur");
+  } else if (modifierMotDePasseElement.offsetParent !== null) {
+    divConnexionErreur = document.querySelector("#ConnexionErreurNouveauMotDePasse");
+    ConnexionMessageErreur = document.querySelector("#ConnexionMessageErreurNouveauMotDePasse");
+  } else if(Inscription){
+    divConnexionErreur = document.querySelector("#ConnexionErreur");
+    ConnexionMessageErreur = document.querySelector("#ConnexionMessageErreur");
+  }
+
 
 
   ConnexionMessageErreur.style.color = 'red';
@@ -41,11 +58,11 @@ export const erreurAuthentification = (error) => {
   }
   else if(error === 'auth/emailEnvoyerEnCours'){
     ConnexionMessageErreur.style.color = 'gray';
-    ConnexionMessageErreur.innerHTML = 'Un email est en train d\'être envoyé afin de confirmer votre adresse email. Veuillez attendre d\'être redirigé.'; 
+    ConnexionMessageErreur.innerHTML = `Un email est en train d'être envoyé afin de confirmer votre adresse email. Veuillez attendre d'être redirigé.`; 
   }
   else if(error === 'auth/nouveauEmailEnvoyer'){
     ConnexionMessageErreur.style.color = 'gray';
-    ConnexionMessageErreur.innerHTML = 'Un email est en train d\'être envoyé afin de confirmer votre adresse email si votre compte existe. Veuillez attendre d\'être redirigé.'; 
+    ConnexionMessageErreur.innerHTML = `Un email est en train d'être envoyé afin de confirmer votre adresse email si votre compte existe. Veuillez attendre d'être redirigé.`; 
   }
   else {
     ConnexionMessageErreur.textContent = `Error: ${error.message}`;
@@ -93,7 +110,7 @@ export const afficherFormulaireConnexion = () => {
 };
 
 export function fermerModale() {
-  const modale = document.querySelector("#modale");
+  const modale = document.querySelector("#emailModal");
   modale.style.display = "none";
 }
 
@@ -102,3 +119,13 @@ export function accueilPage() {
   window.location.replace('https://truqac-test.web.app');
 }
 
+export function afficherMotDePasse(checkbox,passwordInput) {
+  checkbox.addEventListener('change', function() {
+    if (this.checked) {
+      passwordInput.type = 'text';
+    } else {
+      passwordInput.type = 'password';
+    }
+  });
+
+}
