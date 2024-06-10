@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../styles/motPasseOublier.css">
+    <title>Truqac</title>
+  </head>
+
+  <body>
+
+    <div id="motDePasseOublier">
+
+      <div class="entete">
+
+        <h1>TRUQAC</h1>
+        <img src="../images/boule_de_papier.png" alt="Logo TRUQAC" />
+      </div>
+
+
+
+      <form>
+        <div class="formulaireMotDePasseOublier">
+         
+          <div id="ConnexionErreur" style="display: none;">
+            <p id="ConnexionMessageErreur"></p>
+          </div>
+
+
+          <div id="divMessageInfo">
+            <p id="MessageInfo">Saisissez votre adresse e-mail, et vous recevrez un lien pour modifier votre mot de passe si le compte existe. </p>
+          </div>
+
+          <div id="DivLabeEmail">  
+            <label id="labelEmail" for="txtEmail">Votre adresse e-mail</label> 
+           </div>  
+          <input id="txtEmail" type="email" placeholder="Entrez votre adresse e-mail UQAC">
+          
+
+        <div id="content">
+            <button id="btnEnvoyerLien">Envoyer un lien</button>
+            <p id ="compteExiste">Vous avez un compte ? <a id="btnConnexion" href="../index.html" >Connectez-vous</a></p>
+            <p id ="CreerCompte">Ou <a id="btnInscription" href="inscription.html" >Créer un compte</a></p>
+          </div>
+
+        </div>
+
+
+      </form>
+
+    </div>
+
+
+    <script src="/build/bundle.js"></script>
+  </body>
+</html>

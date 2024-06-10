@@ -1,8 +1,8 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, connectAuthEmulator} from "firebase/auth";
 import { getDatabase, connectDatabaseEmulator } from "firebase/database";
-import {connexionEmailMotDePasse,creerCompte,surveillanceEtatAuthentification} from "./authentification";
-import { fermerPopup } from "./ui";
+import {connexionEmailMotDePasse,creerCompte,surveillanceEtatAuthentification, verifierEmailUtilisateur, nouveauLienVerification,motDePasseOublier, modifierMotDePasse} from "./authentification";
+import { accueilPage,fermerModale, afficherMotDePasse} from "./ui";
 
 // Configuration application Web FireBase
 const firebaseConfig = {
@@ -31,46 +31,129 @@ if (location.hostname === "127.0.0.1") {
 // Chargement du JavaScript après le chargement de la page HTML
 document.addEventListener('DOMContentLoaded', () => {
   
-  const btnCreerCompte = document.querySelector("#btnCreerCompte") !== null;
+  const connexion = document.querySelector("#connexion") !== null;
+  const Inscription = document.querySelector("#Inscription") !== null;
+  const validation = document.querySelector("#validation") !== null;
+  const validationConfirmer = document.querySelector("#validationConfirmer") !== null;
+  const nouveauLienEmailVerification = document.querySelector("#EmailVerification") !== null;
+  const MotDePasseOublier = document.querySelector("#motDePasseOublier") !== null;
 
-  console.log(btnCreerCompte);
-  if(btnCreerCompte){
+
+  if(Inscription){
     surveillanceEtatAuthentification();
 
     const btnCreationCompte = document.querySelector("#btnCreerCompte");
     btnCreationCompte.addEventListener("click", creerCompte);
+
+    
+    var checkbox = document.querySelector('#AfficherMotDePasse');
+    var passwordInput = document.querySelector('#txtMotDePasse');
+    afficherMotDePasse(checkbox,passwordInput);
+
+    passwordInput = document.querySelector('#txtConfirmerMotDePasse');    
+    afficherMotDePasse(checkbox,passwordInput);
+
     
   }
-  else{
+  else if(connexion){
     surveillanceEtatAuthentification();
 
-    const fermerPop = document.querySelector("#fermerPopup");
-    fermerPop.addEventListener("click", fermerPopup)
+    const urlParametres = new URLSearchParams(window.location.search);
+    const envoyerEmail = urlParametres.get('envoyer');
+    const mode = urlParametres.get('mode');
+    const envoyerEmailPassword = urlParametres.get('motDePasseEnvoyer');
+    const oobCode = urlParametres.get('oobCode');
+    const fermerModal = document.querySelector("#close");
+    const modificationMDP = urlParametres.get('modificationMDP');
 
+    fermerModal.addEventListener('click', fermerModale);
+
+    const checkbox = document.querySelector('#AfficherMotDePasse');
+    const passwordInput = document.querySelector('#txtMotDePasse');
+    afficherMotDePasse(checkbox,passwordInput);
+
+    if(envoyerEmail === 'true'){
+      const emailModal = document.querySelector("#emailModal");
+      const txtPremier = document.querySelector('#txtPremier');
+      txtPremier.textContent = 'Email de vérification envoyé avec succès !';
+      const txtDeuxieme = document.querySelector('#txtDeuxieme');
+      txtDeuxieme.textContent = 'Si vous ne le trouvez pas, vérifiez dans vos courriers indésirables.';
+      emailModal.style.display = 'block';
+    }
+    else if(envoyerEmailPassword === 'true'){
+      const emailModal = document.querySelector("#emailModal");
+      const txtPremier = document.querySelector('#txtPremier');
+      txtPremier.textContent = 'Email de réinitialisation du mot de passe envoyé avec succès !';
+      const txtDeuxieme = document.querySelector('#txtDeuxieme');
+      txtDeuxieme.textContent = 'Si vous ne le trouvez pas, vérifiez dans vos courriers indésirables.';
+      emailModal.style.display = 'block';
+    }
+    else if(mode === 'verifyEmail'){
+        verifierEmailUtilisateur(oobCode);
+    }
+    else if(mode === 'resetPassword'){
+        const formulaireConnexion = document.querySelector("#connexion");
+        const ModifierMotDePasse = document.querySelector("#ModifierMotDePasse");
+        const btnChangerMotDePasse = document.querySelector("#btnChangerMotDePasse");
+
+        formulaireConnexion.style.display = 'none';
+        ModifierMotDePasse.style.display = 'block';
+
+        let checkbox = document.querySelector('#AfficherNouveauMotDePasse');
+        let passwordInput = document.querySelector('#txtNouveauMotDePasse');
+        afficherMotDePasse(checkbox,passwordInput);
+    
+        checkbox = document.querySelector('#AfficherNouveauMotDePasse');
+        passwordInput = document.querySelector('#txtConfirmerNouveauMotDePasse');
+        afficherMotDePasse(checkbox,passwordInput);
+        btnChangerMotDePasse.addEventListener('click', (event) => modifierMotDePasse(event, oobCode));
+
+    }else if(modificationMDP === 'true'){
+      const emailModal = document.querySelector("#emailModal");
+      const txtPremier = document.querySelector('#txtPremier');
+      txtPremier.textContent = 'Votre mot de passe a bien été changé !';
+      const txtDeuxieme = document.querySelector('#txtDeuxieme');
+      txtDeuxieme.textContent = '';
+      emailModal.style.display = 'block';
+    }
     // Ajout des divers fonctions à un bouton de l'interface
     const btnConnexion = document.querySelector("#btnConnexion");
     btnConnexion.addEventListener("click", connexionEmailMotDePasse);
 
+  }
+  else if(validation){
+    surveillanceEtatAuthentification();
 
-    const urlActuelle = window.location.href;
-    const url = new URL(urlActuelle);
+  }
+  else if(MotDePasseOublier){
+    console.log(MotDePasseOublier);
+    
+    const btnEnvoyerLien = document.querySelector("#btnEnvoyerLien");
+    btnEnvoyerLien.addEventListener('click',motDePasseOublier);
 
-    const parametres = new URLSearchParams(url.search); 
-    const popup = document.querySelector("#popup");
+  }
+  else if(validationConfirmer){
+    surveillanceEtatAuthentification();
 
+    const imgAccueil = document.querySelector("#imgAccueil");
+    imgAccueil.addEventListener("click",accueilPage)
 
+    const urlParametres = new URLSearchParams(window.location.search);
+    const mode = urlParametres.get('mode');
+    const oobCode = urlParametres.get('oobCode');
 
-    if(parametres.has('envoyer')) {
-      const parametre = parametres.get('envoyer');
-      
-      if(parametre === 'true'){
-          popup.style.display = "block";
-          
-      }
-
+    if (mode === 'verifyEmail') {
+      verifierEmailUtilisateur(oobCode);
     }
 
+    /* setTimeout(() => {
+      accueilPage();
+    }, "8000"); */
 
+  }
+  else if(nouveauLienEmailVerification){
+      const btnEnvoyer = document.querySelector("#btnEnvoyer");
+      btnEnvoyer.addEventListener('click',nouveauLienVerification);
   }
 
 });

@@ -5,9 +5,28 @@ import { AuthErrorCodes } from "firebase/auth";
  * @param {Object} error - L'objet d'erreur renvoyé par Firebase.
  */
 export const erreurAuthentification = (error) => {
-  const divConnexionErreur = document.querySelector('#ConnexionErreur');
-  const ConnexionMessageErreur = document.querySelector('#ConnexionMessageErreur');
 
+  var divConnexionErreur;
+  var ConnexionMessageErreur;
+  
+  const connexionElement = document.querySelector("#connexion");
+  const modifierMotDePasseElement = document.querySelector("#ModifierMotDePasse");
+  const Inscription = document.querySelector("#Inscription") !== null;
+
+  if (connexionElement.offsetParent !== null) {
+    divConnexionErreur = document.querySelector("#ConnexionErreur");
+    ConnexionMessageErreur = document.querySelector("#ConnexionMessageErreur");
+  } else if (modifierMotDePasseElement.offsetParent !== null) {
+    divConnexionErreur = document.querySelector("#ConnexionErreurNouveauMotDePasse");
+    ConnexionMessageErreur = document.querySelector("#ConnexionMessageErreurNouveauMotDePasse");
+  } else if(Inscription){
+    divConnexionErreur = document.querySelector("#ConnexionErreur");
+    ConnexionMessageErreur = document.querySelector("#ConnexionMessageErreur");
+  }
+
+
+
+  ConnexionMessageErreur.style.color = 'red';
   divConnexionErreur.style.display = 'block';
 
   if (error.code === AuthErrorCodes.INVALID_LOGIN_CREDENTIALS) {
@@ -20,10 +39,10 @@ export const erreurAuthentification = (error) => {
     ConnexionMessageErreur.innerHTML = 'Adresse e-mail invalide'; 
   }
   else if(error === AuthErrorCodes.INVALID_EMAIL){
-    ConnexionMessageErreur.innerHTML = 'Adresse e-mail invalide. <br> Elle doit se terminer par @etu.uqac.ca ou @uqac.ca </br>'; 
+    ConnexionMessageErreur.innerHTML = 'Adresse e-mail invalide. Elle doit se terminer par @etu.uqac.ca ou @uqac.ca'; 
   }
   else if(error === AuthErrorCodes.UNVERIFIED_EMAIL){
-    ConnexionMessageErreur.innerHTML = 'Votre compte n\'a pas encore été validé. <br> Veuillez vérifier vos e-mails </br>'; 
+    ConnexionMessageErreur.innerHTML = 'Votre compte n\'a pas encore été validé. Veuillez vérifier vos e-mails. Si vous n\'avez pas reçu d\'email : <a id="CompteNonVerifier" href="auth/envoyerEmail.html" >Cliquer-ici</a>';
   }
   else if(error.code === 'auth/missing-password' || error === 'auth/missing-password' ){
     ConnexionMessageErreur.textContent = 'Mot de passe manquant'; 
@@ -35,7 +54,15 @@ export const erreurAuthentification = (error) => {
     ConnexionMessageErreur.textContent = 'Les mots de passe ne correspondent pas'; 
   }
   else if(error === 'auth/mdpTropFaible'){
-    ConnexionMessageErreur.innerHTML = 'Mot de passe trop faible.<br> Il doit comporter au minimum 6 caractères, une majuscule, une minuscule, un caractère spécial et un chiffre. </br>'; 
+    ConnexionMessageErreur.innerHTML = 'Mot de passe trop faible. Il doit comporter au minimum 6 caractères, une majuscule, une minuscule, un caractère spécial et un chiffre.'; 
+  }
+  else if(error === 'auth/emailEnvoyerEnCours'){
+    ConnexionMessageErreur.style.color = 'gray';
+    ConnexionMessageErreur.innerHTML = `Un email est en train d'être envoyé afin de confirmer votre adresse email. Veuillez attendre d'être redirigé.`; 
+  }
+  else if(error === 'auth/nouveauEmailEnvoyer'){
+    ConnexionMessageErreur.style.color = 'gray';
+    ConnexionMessageErreur.innerHTML = `Un email est en train d'être envoyé afin de confirmer votre adresse email si votre compte existe. Veuillez attendre d'être redirigé.`; 
   }
   else {
     ConnexionMessageErreur.textContent = `Error: ${error.message}`;
@@ -82,7 +109,23 @@ export const afficherFormulaireConnexion = () => {
   console.log("Show login form");
 };
 
-export function fermerPopup() {
-  var popup = document.querySelector("#popup");
-  popup.style.display = "none";
+export function fermerModale() {
+  const modale = document.querySelector("#emailModal");
+  modale.style.display = "none";
+}
+
+
+export function accueilPage() {
+  window.location.replace('https://truqac-test.web.app');
+}
+
+export function afficherMotDePasse(checkbox,passwordInput) {
+  checkbox.addEventListener('change', function() {
+    if (this.checked) {
+      passwordInput.type = 'text';
+    } else {
+      passwordInput.type = 'password';
+    }
+  });
+
 }

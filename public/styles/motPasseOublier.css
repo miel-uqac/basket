@@ -1,0 +1,314 @@
+body {
+    background: black;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+   
+.entete {
+    position: relative;
+    text-align: center;
+}
+
+.entete h1 {
+    color: #576E23;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    
+}
+
+.entete img {
+    opacity: 0.15;
+}
+
+.formulaireMotDePasseOublier #ConnexionErreur {
+    color: red;
+    width: 90%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    font-size: 13px;
+}
+
+
+
+.formulaireMotDePasseOublier #divMessageInfo{
+    width: 90%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    font-size: 13px;
+    color: white;
+}
+
+.formulaireMotDePasseOublier #DivLabeEmail{
+  margin-top: 15px;
+  display: flex;
+  margin-bottom: 5px;
+}
+
+.formulaireMotDePasseOublier #labelEmail{
+  color: white;
+  font-size: 13px;
+}
+
+.formulaireMotDePasseOublier {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+
+.formulaireMotDePasseOublier input{
+    border-radius: 12px;
+    width: 90%;
+    box-sizing: border-box;
+}
+
+.formulaireMotDePasseOublier input::placeholder {
+    color: black;
+}
+
+
+.formulaireMotDePasseOublier #content {
+  height: 100%;
+  display: flex; 
+  flex-direction: column;  
+  
+}
+
+.formulaireMotDePasseOublier #btnEnvoyerLien{
+    margin-top: 60px;
+}
+
+.formulaireMotDePasseOublier #btnEnvoyerLien:hover{
+  opacity: 0.5; 
+}
+
+
+
+.formulaireMotDePasseOublier button {
+    width: 107px;
+    font-size: 14px;
+    margin-top: 30px;
+    box-sizing: border-box;
+    background-color: rgb(38, 114, 236);
+    border: none;
+    color: white;
+    padding: 5px 5px;
+    text-decoration: none;
+}
+
+.formulaireMotDePasseOublier #compteExiste{
+  
+  font-size: 12px;
+  color: white;
+}
+
+.formulaireMotDePasseOublier #CreerCompte{
+    font-size: 12px;
+    color: white;
+  }
+
+.formulaireMotDePasseOublier #btnConnexion,#btnInscription{
+  font-size: 14px;
+  color: rgb(38, 114, 236);
+  text-decoration: none;
+
+}
+
+#svg-spinner {
+    -webkit-transition-property: -webkit-transform;
+    -webkit-transition-duration: 1.2s;
+    -webkit-animation-name: rotate;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+  
+    -moz-transition-property: -moz-transform;
+    
+    -moz-animation-name: rotate;
+    -moz-animation-duration: 1.2s;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-timing-function: linear;
+  
+    transition-property: transform;
+    transition-duration: 1.2s;
+    animation-name: rotate;
+    animation-duration: 1.2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    height: 13px;  
+  }
+  
+  @-webkit-keyframes rotate {
+    from {
+      -webkit-transform: rotate(0deg);
+    }
+  
+    to {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+  
+  @-moz-keyframes rotate {
+    from {
+      -moz-transform: rotate(0deg);
+    }
+  
+    to {
+      -moz-transform: rotate(360deg);
+    }
+  }
+  
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+  
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+
+
+
+@media (max-width: 320px) {
+  .entete img {
+    width: 100%;
+    max-width: 175px;
+}
+
+.entete h1 {
+    font-size: 35px;
+}
+
+.formulaireMotDePasseOublier #content,.formulaireMotDePasseOublier #DivLabeEmail {
+    width: 84%;
+}
+
+.formulaireMotDePasseOublier #ConnexionErreur {
+    width: 84%;
+}
+
+.formulaireMotDePasseOublier #divMessageInfo{
+    width: 84%;
+    font-size: 14px;
+
+}
+
+.modal-content {
+    width: 50%; 
+  }
+
+
+
+#retour_arriere img {
+  width: 100%;
+  max-width: 30px;
+
+}
+
+.formulaireMotDePasseOublier input {
+  max-width: 260px;
+  height: 40px;
+}
+
+}
+
+@media (min-width: 320px) and (max-width: 480px){
+
+
+    #retour_arriere img {
+      width: 100%;
+      max-width: 30px;
+  
+  }
+
+  .entete img {
+      width: 100%;
+      max-width: 175px;
+  }
+
+  .entete h1 {
+      font-size: 35px;
+  }
+
+  .formulaireMotDePasseOublier input {
+      max-width: 260px;
+      height: 40px;
+  }
+
+  .formulaireMotDePasseOublier a,.formulaireMotDePasseOublier #ConnexionErreur, .formulaireMotDePasseOublier #divMessageInfo{
+      max-width: 260px;
+  }
+
+  .formulaireMotDePasseOublier #content,.formulaireMotDePasseOublier #DivLabeEmail{
+    width: 250px; 
+    
+}
+
+}
+/* Pour les écrans moyens */
+@media (min-width: 481px) and (max-width: 768px) {
+    #retour_arriere img {
+        width: 100%;
+        max-width: 40px;
+    }
+
+    .entete img {
+        width: 50%;
+        max-width: 220px;
+    }
+
+    .entete h1 {
+        font-size: 44px;
+    }
+
+    .formulaireMotDePasseOublier input {
+        max-width: 340px;
+        height: 42px;
+    }
+
+    .formulaireMotDePasseOublier a,.formulaireMotDePasseOublier #ConnexionErreur,.formulaireMotDePasseOublier #divMessageInfo{
+        max-width: 340px;
+    }
+
+
+    .formulaireMotDePasseOublier #content,.formulaireMotDePasseOublier #DivLabeEmail {
+      width: 330px;
+  }
+}
+
+/* Pour les écrans larges */
+@media (min-width: 769px) {
+    #retour_arriere img {
+        width: 100%;
+        max-width: 45px;
+    }
+
+    .entete img {
+        width: 230px;
+    }
+
+    .entete h1 {
+        font-size: 46px;
+    }
+
+    .formulaireMotDePasseOublier input {
+        max-width: 360px;
+        height: 44px;
+    }
+    
+    .formulaireMotDePasseOublier a,.formulaireMotDePasseOublier #ConnexionErreur,.formulaireMotDePasseOublier #divMessageInfo{
+        max-width: 360px;
+    }
+
+
+
+    .formulaireMotDePasseOublier #content,.formulaireMotDePasseOublier #DivLabeEmail {
+      width: 350px;
+  }
+
+}
