@@ -176,11 +176,35 @@ import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateC
     const emailModal = document.querySelector("#emailModal");
     const txtPremier = document.querySelector('#txtPremier');
     const txtDeuxieme = document.querySelector('#txtDeuxieme');
+    
+
+    txtPremier.innerHTML =  `<svg id="svg-spinner" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+    <circle cx="24" cy="4" r="4" fill="rgb(38, 114, 236)" />
+    <circle cx="12.19" cy="7.86" r="3.7" fill="rgb(82, 143, 255)" />
+    <circle cx="5.02" cy="17.68" r="3.4" fill="rgb(118, 167, 255)" />
+    <circle cx="5.02" cy="30.32" r="3.1" fill="rgb(153, 191, 255)" />
+    <circle cx="12.19" cy="40.14" r="2.8" fill="rgb(189, 214, 255)" />
+    <circle cx="24" cy="44" r="2.5" fill="rgb(224, 237, 255)" />
+    <circle cx="35.81" cy="40.14" r="2.2" fill="rgb(206, 229, 255)" />
+    <circle cx="42.98" cy="30.32" r="1.9" fill="rgb(167, 207, 255)" />
+    <circle cx="42.98" cy="17.68" r="1.6" fill="rgb(130, 184, 255)" />
+    <circle cx="35.81" cy="7.86" r="1.3" fill="rgb(94, 160, 255)" />
+  </svg>`;
+
+
+    const svgsSpinner = document.querySelector('#svg-spinner');
+    svgsSpinner.style.height = '40px';
+
+    emailModal.style.display = 'block';
+
+
+
+
+    
     applyActionCode(auth,oobCode)
         .then(function() {
           txtPremier.textContent = 'Votre compte a été vérifié avec succès.';
           txtDeuxieme.textContent = '';
-          emailModal.style.display = 'block';
 
 
 
@@ -188,7 +212,6 @@ import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateC
         .catch(function(error) {
           txtPremier.textContent = "Erreur lors de la validation de l'e-mail : " + error;
           txtDeuxieme.textContent = '';
-          emailModal.style.display = 'block';
 
 
         });
