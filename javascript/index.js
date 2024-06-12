@@ -1,8 +1,8 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, connectAuthEmulator} from "firebase/auth";
 import { getDatabase, connectDatabaseEmulator } from "firebase/database";
-import {connexionEmailMotDePasse,creerCompte,surveillanceEtatAuthentification, verifierEmailUtilisateur, nouveauLienVerification,motDePasseOublier, modifierMotDePasse, initialiserEcouteurAuth} from "./authentification";
-import { accueilPage,fermerModale, afficherMotDePasse} from "./ui";
+import {connexionEmailMotDePasse,creerCompte,surveillanceEtatAuthentification, verifierEmailUtilisateur, nouveauLienVerification,motDePasseOublier, modifierMotDePasse, deconnexionRedirection,ChargementPage} from "./authentification";
+import { accueilPage,fermerModale, afficherMotDePasse, etatConnexion} from "./ui";
 
 // Configuration application Web FireBase
 const firebaseConfig = {
@@ -37,6 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const validationConfirmer = document.querySelector("#validationConfirmer") !== null;
   const nouveauLienEmailVerification = document.querySelector("#EmailVerification") !== null;
   const MotDePasseOublier = document.querySelector("#motDePasseOublier") !== null;
+  const emailNonVerifier = document.querySelector("#emailNonVerifier") !== null;
 
 
   if(Inscription){
@@ -132,28 +133,15 @@ document.addEventListener('DOMContentLoaded', () => {
     btnEnvoyerLien.addEventListener('click',motDePasseOublier);
 
   }
-  else if(validationConfirmer){
+  else if(emailNonVerifier){
     surveillanceEtatAuthentification();
 
-    const imgAccueil = document.querySelector("#imgAccueil");
-    imgAccueil.addEventListener("click",accueilPage)
+    const btnEnvoyerLien = document.querySelector("#btnEnvoyerLien");
+    btnEnvoyerLien.addEventListener("click",nouveauLienVerification)
 
-    const urlParametres = new URLSearchParams(window.location.search);
-    const mode = urlParametres.get('mode');
-    const oobCode = urlParametres.get('oobCode');
-
-    if (mode === 'verifyEmail') {
-      verifierEmailUtilisateur(oobCode);
-    }
-
-    /* setTimeout(() => {
-      accueilPage();
-    }, "8000"); */
-
-  }
-  else if(nouveauLienEmailVerification){
-      const btnEnvoyer = document.querySelector("#btnEnvoyer");
-      btnEnvoyer.addEventListener('click',nouveauLienVerification);
+    const btnDeconnexion = document.querySelector("#deconnexion");
+    btnDeconnexion.addEventListener("click",deconnexionRedirection);
+    ChargementPage();
   }
 
 });

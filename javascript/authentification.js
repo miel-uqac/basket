@@ -1,6 +1,6 @@
 import { auth } from "./index";
 import { erreurAuthentification, applicationAffichage, etatConnexion, afficherFormulaireConnexion, renitialisationErreurAuthentification } from "./ui";
-import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, sendEmailVerification, AuthErrorCodes, applyActionCode,sendPasswordResetEmail,confirmPasswordReset } from "firebase/auth";
+import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, sendEmailVerification, AuthErrorCodes, applyActionCode,sendPasswordResetEmail,confirmPasswordReset, browserSessionPersistence,setPersistence } from "firebase/auth";
   
 /**
    * Fonction de connexion utilisant une adresse e-mail et un mot de passe.
@@ -31,6 +31,8 @@ import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateC
 
       btnConnexion.disabled = true; 
 
+      await setPersistence(auth, browserSessionPersistence);
+
       const userIdentifiant = await signInWithEmailAndPassword(auth, document.querySelector("#txtEmail").value, document.querySelector("#txtMotDePasse").value);
       const user = userIdentifiant.user;
 
@@ -40,13 +42,12 @@ import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateC
       applicationAffichage();
       if (user) {
         if (user.emailVerified) {
+          surveillanceEtatAuthentification(userIdentifiant);
           window.location.replace('https://truqac-test.web.app/app/accueil.html');
         } else {
           window.location.replace('https://truqac-test.web.app/auth/emailNonVerifier.html');
         }
       }
-
-      etatConnexion(user);
     
     } catch (error) {
       erreurAuthentification(error);
@@ -148,11 +149,10 @@ import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateC
     onAuthStateChanged(auth, user => {
       if (user) {
         if (user.emailVerified) {
-          applicationAffichage();
           etatConnexion(user);
         } else {
-          signOut(auth);
-          afficherFormulaireConnexion();
+          etatConnexion(user);
+
         }
       } else {
         afficherFormulaireConnexion();
@@ -167,6 +167,8 @@ import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateC
   export const deconnexion = async () => {
     await signOut(auth);
   };
+
+
 
 
   export function verifierEmailUtilisateur(oobCode) {
@@ -260,7 +262,19 @@ export const motDePasseOublier = async (event) => {
 export const nouveauLienVerification = async (event) =>{
   
   event.preventDefault();
-  const btnCompteNonVerifier = document.querySelector("#CompteNonVerifier");
+  const btnCompteNonVerifier = document.querySelector("#btnEnvoyerLien");
+  btnCompteNonVerifier.innerHTML = `<svg id="svg-spinner" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+  <circle cx="24" cy="4" r="4" fill="#fff" />
+  <circle cx="12.19" cy="7.86" r="3.7" fill="#fffbf2" />
+  <circle cx="5.02" cy="17.68" r="3.4" fill="#fef7e4" />
+  <circle cx="5.02" cy="30.32" r="3.1" fill="#fef3d7" />
+  <circle cx="12.19" cy="40.14" r="2.8" fill="#feefc9" />
+  <circle cx="24" cy="44" r="2.5" fill="#feebbc" />
+  <circle cx="35.81" cy="40.14" r="2.2" fill="#fde7af" />
+  <circle cx="42.98" cy="30.32" r="1.9" fill="#fde3a1" />
+  <circle cx="42.98" cy="17.68" r="1.6" fill="#fddf94" />
+  <circle cx="35.81" cy="7.86" r="1.3" fill="#fcdb86" />
+</svg>` ;
 
   if (btnCompteNonVerifier.disabled) {
     return;
@@ -268,28 +282,21 @@ export const nouveauLienVerification = async (event) =>{
 
   btnCompteNonVerifier.disabled = true; 
 
-  const emailVerificationRegex = /^[a-zA-Z0-9._%+-]+@(etu\.)?uqac\.ca$/;
-
-  if(emailVerificationRegex.test(document.querySelector("#txtEmail").value)){
     try {
 
         await sendEmailVerification(auth.currentUser); 
-        renitialisationErreurAuthentification();
+        btnCompteNonVerifier.textContent = 'Envoyer un lien de vérification';
         btnCompteNonVerifier.disabled = false; 
-        window.location.replace('https://truqac-test.web.app/');
+        deconnexion();
+        window.location.replace('https://truqac-test.web.app/?envoyer=true');
       
     } catch (error) {
       erreurAuthentification(error);
+      btnCompteNonVerifier.textContent = 'Envoyer un lien de vérification';
       btnCompteNonVerifier.disabled = false; 
 
     }
 
-  }
-  else{
-    erreurAuthentification(AuthErrorCodes.INVALID_EMAIL);
-    btnCompteNonVerifier.disabled = false; 
-
-  }
 }
 
 
@@ -371,4 +378,62 @@ export const nouveauLienVerification = async (event) =>{
         }
       });
     }
+
+    export const deconnexionRedirection = async (event) =>{
+      event.preventDefault();
+      const btnDeconnexion = document.querySelector("#deconnexion");
+      btnDeconnexion.innerHTML = `<svg id="svg-spinner" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+      <circle cx="24" cy="4" r="4" fill="#fff" />
+      <circle cx="12.19" cy="7.86" r="3.7" fill="#fffbf2" />
+      <circle cx="5.02" cy="17.68" r="3.4" fill="#fef7e4" />
+      <circle cx="5.02" cy="30.32" r="3.1" fill="#fef3d7" />
+      <circle cx="12.19" cy="40.14" r="2.8" fill="#feefc9" />
+      <circle cx="24" cy="44" r="2.5" fill="#feebbc" />
+      <circle cx="35.81" cy="40.14" r="2.2" fill="#fde7af" />
+      <circle cx="42.98" cy="30.32" r="1.9" fill="#fde3a1" />
+      <circle cx="42.98" cy="17.68" r="1.6" fill="#fddf94" />
+      <circle cx="35.81" cy="7.86" r="1.3" fill="#fcdb86" />
+    </svg>` ;
+
+      deconnexion();
+
+      btnDeconnexion.textContent = 'Déconnexion' ;
+      window.location.replace('https://truqac-test.web.app/');
+
+    }
+
+    export function ChargementPage() {
+      const chargement = document.querySelector("#chargement");
+      const emailNonVerifier = document.querySelector("#emailNonVerifier");
+    
+      chargement.innerHTML =  `<svg id="svg-spinner" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+        <circle cx="24" cy="4" r="4" fill="#fff" />
+        <circle cx="12.19" cy="7.86" r="3.7" fill="#fffbf2" />
+        <circle cx="5.02" cy="17.68" r="3.4" fill="#fef7e4" />
+        <circle cx="5.02" cy="30.32" r="3.1" fill="#fef3d7" />
+        <circle cx="12.19" cy="40.14" r="2.8" fill="#feefc9" />
+        <circle cx="24" cy="44" r="2.5" fill="#feebbc" />
+        <circle cx="35.81" cy="40.14" r="2.2" fill="#fde7af" />
+        <circle cx="42.98" cy="30.32" r="1.9" fill="#fde3a1" />
+        <circle cx="42.98" cy="17.68" r="1.6" fill="#fddf94" />
+        <circle cx="35.81" cy="7.86" r="1.3" fill="#fcdb86" />
+      </svg>`;
+
+      const svgSpinner = document.querySelector("#svg-spinner");
+      svgSpinner.style.height = '70px';
+
+      chargement.style.display = 'block';
+
+      auth.onAuthStateChanged(user => {
+        if (user) {
+          svgSpinner.style.height = '13px';
+          chargement.innerHTML = ''; 
+          chargement.style.display = 'none';
+          emailNonVerifier.style.display = 'block';
+        } else {
+
+      }
+      });
+    }
+    
 

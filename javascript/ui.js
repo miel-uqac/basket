@@ -5,21 +5,27 @@ import { AuthErrorCodes } from "firebase/auth";
  * @param {Object} error - L'objet d'erreur renvoyé par Firebase.
  */
 export const erreurAuthentification = (error) => {
-
-  var divConnexionErreur;
-  var ConnexionMessageErreur;
+  var divConnexionErreur = '';
+  var ConnexionMessageErreur = '';
   
   const connexionElement = document.querySelector("#connexion");
+  const connexionCheck = document.querySelector("#connexion") !== null;
+  const modifierMotDePasseElementCheck = document.querySelector("#ModifierMotDePasse") !== null;
+
   const modifierMotDePasseElement = document.querySelector("#ModifierMotDePasse");
   const Inscription = document.querySelector("#Inscription") !== null;
+  const emailNonVerifier = document.querySelector("#emailNonVerifier") !== null;
 
-  if (connexionElement.offsetParent !== null) {
+  if (connexionCheck && connexionElement.offsetParent !== null) {
     divConnexionErreur = document.querySelector("#ConnexionErreur");
     ConnexionMessageErreur = document.querySelector("#ConnexionMessageErreur");
-  } else if (modifierMotDePasseElement.offsetParent !== null) {
+  } else if (modifierMotDePasseElementCheck && modifierMotDePasseElement.offsetParent !== null) {
     divConnexionErreur = document.querySelector("#ConnexionErreurNouveauMotDePasse");
     ConnexionMessageErreur = document.querySelector("#ConnexionMessageErreurNouveauMotDePasse");
   } else if(Inscription){
+    divConnexionErreur = document.querySelector("#ConnexionErreur");
+    ConnexionMessageErreur = document.querySelector("#ConnexionMessageErreur");
+  } else if(emailNonVerifier){
     divConnexionErreur = document.querySelector("#ConnexionErreur");
     ConnexionMessageErreur = document.querySelector("#ConnexionMessageErreur");
   }
@@ -126,3 +132,7 @@ export function afficherMotDePasse(checkbox,passwordInput) {
   });
 
 }
+
+
+
+
