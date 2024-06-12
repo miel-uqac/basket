@@ -41,9 +41,6 @@ export const erreurAuthentification = (error) => {
   else if(error === AuthErrorCodes.INVALID_EMAIL){
     ConnexionMessageErreur.innerHTML = 'Adresse e-mail invalide. Elle doit se terminer par @etu.uqac.ca ou @uqac.ca'; 
   }
-  else if(error === AuthErrorCodes.UNVERIFIED_EMAIL){
-    ConnexionMessageErreur.innerHTML = 'Votre compte n\'a pas encore été validé. Veuillez vérifier vos e-mails. Si vous n\'avez pas reçu d\'email : <a id="CompteNonVerifier" href="auth/envoyerEmail.html" >Cliquer-ici</a>';
-  }
   else if(error.code === 'auth/missing-password' || error === 'auth/missing-password' ){
     ConnexionMessageErreur.textContent = 'Mot de passe manquant'; 
   }
@@ -89,7 +86,7 @@ export const renitialisationErreurAuthentification = () => {
  * @return {void}
  */
 export const applicationAffichage = () => {
-  console.log("Application affiché");
+
 };
 
 /**

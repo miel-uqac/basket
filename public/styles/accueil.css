@@ -271,6 +271,15 @@ opacity: 0.5;
 
 }
 
+#CompteNonVerifier {
+  padding: 10px 20px;
+  background-color: transparent;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  padding: 0px;
+}
+
 #svg-spinner {
     -webkit-transition-property: -webkit-transform;
     -webkit-transition-duration: 1.2s;

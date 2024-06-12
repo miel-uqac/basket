@@ -34,23 +34,20 @@ import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateC
       const userIdentifiant = await signInWithEmailAndPassword(auth, document.querySelector("#txtEmail").value, document.querySelector("#txtMotDePasse").value);
       const user = userIdentifiant.user;
 
-      if (user.emailVerified) {
-        renitialisationErreurAuthentification();
-        btnConnexion.innerHTML = 'Connexion';
-        btnConnexion.disabled = false;
-        applicationAffichage();
-        etatConnexion(user);
-      } else { 
-        sessionStorage.setItem('currentUser', JSON.stringify({
-          uid: user.uid,
-          email: user.email
-        }));
-        await signOut(auth);
-        erreurAuthentification(AuthErrorCodes.UNVERIFIED_EMAIL);
-        btnConnexion.innerHTML = 'Connexion';
-        btnConnexion.disabled = false;
-
+      renitialisationErreurAuthentification();
+      btnConnexion.innerHTML = 'Connexion';
+      btnConnexion.disabled = false;
+      applicationAffichage();
+      if (user) {
+        if (user.emailVerified) {
+          window.location.replace('https://truqac-test.web.app/app/accueil.html');
+        } else {
+          window.location.replace('https://truqac-test.web.app/auth/emailNonVerifier.html');
+        }
       }
+
+      etatConnexion(user);
+    
     } catch (error) {
       erreurAuthentification(error);
       btnConnexion.innerHTML = 'Connexion';
@@ -263,37 +260,34 @@ export const motDePasseOublier = async (event) => {
 export const nouveauLienVerification = async (event) =>{
   
   event.preventDefault();
-  const btnEnvoyer = document.querySelector("#btnEnvoyer");
+  const btnCompteNonVerifier = document.querySelector("#CompteNonVerifier");
 
-  if (btnEnvoyer.disabled) {
+  if (btnCompteNonVerifier.disabled) {
     return;
   }
 
-  btnEnvoyer.disabled = true; 
+  btnCompteNonVerifier.disabled = true; 
 
   const emailVerificationRegex = /^[a-zA-Z0-9._%+-]+@(etu\.)?uqac\.ca$/;
 
   if(emailVerificationRegex.test(document.querySelector("#txtEmail").value)){
     try {
 
-      const user = JSON.parse(sessionStorage.getItem('currentUser'));
-        erreurAuthentification('auth/nouveauEmailEnvoyer');
-        await sendEmailVerification(user); 
-        sessionStorage.removeItem('currentUser');
+        await sendEmailVerification(auth.currentUser); 
         renitialisationErreurAuthentification();
-        btnEnvoyer.disabled = false; 
-        window.location.replace('https://truqac-test.web.app/auth/validation.html');
+        btnCompteNonVerifier.disabled = false; 
+        window.location.replace('https://truqac-test.web.app/');
       
     } catch (error) {
       erreurAuthentification(error);
-      btnEnvoyer.disabled = false; 
+      btnCompteNonVerifier.disabled = false; 
 
     }
 
   }
   else{
     erreurAuthentification(AuthErrorCodes.INVALID_EMAIL);
-    btnEnvoyer.disabled = false; 
+    btnCompteNonVerifier.disabled = false; 
 
   }
 }
@@ -364,3 +358,17 @@ export const nouveauLienVerification = async (event) =>{
 
       }
     };
+
+
+    export const initialiserEcouteurAuth = async () =>{
+      auth.onAuthStateChanged(() => {
+        if (auth.currentUser) {
+          if (auth.currentUser.emailVerified) {
+            window.location.replace('https://truqac-test.web.app/app/accueil.html');
+          } else {
+            window.location.replace('https://truqac-test.web.app/auth/emailNonVerifier.html');
+          }
+        }
+      });
+    }
+

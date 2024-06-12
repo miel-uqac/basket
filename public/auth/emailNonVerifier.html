@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../styles/emailNonVerifier.css">
+    <title>Truqac</title>
+  </head>
+
+  <body>
+
+    <div id="emailNonVerifier">
+
+      <div class="entete">
+
+        <h1>TRUQAC</h1>
+        <img src="../images/boule_de_papier.png" alt="Logo TRUQAC" />
+      </div>
+
+      <form>
+        <div class="formulaireEmailNonVerifier">
+         
+          <div id="ConnexionErreur" style="display: none;">
+            <p id="ConnexionMessageErreur"></p>
+          </div>
+
+
+          <div id="divMessageInfo">
+            <p id="MessageInfo">Votre compte n'a pas encore été vérifié, de ce fait vous ne pouvez pas encore accéder à l'ensemble du site TRUQAC. <br>
+                Veuillez regarder vos e-mails afin d'accéder à l'e-mail qui permet de vérifier votre compte. 
+                Si vous ne le trouvez pas, vérifiez dans vos courriers indésirables.
+            </p>
+          </div>
+          
+
+        <div id="content">
+            <p id ="info">Vous ne voyez pas d'e-mail de vérification ? </p>
+            <button id="btnEnvoyerLien">Envoyer un lien de vérification</button>
+            <button id="deconnection">Déconnection</button>
+          </div>
+
+        </div>
+
+
+      </form>
+
+    </div>
+
+    <script src="/build/bundle.js"></script>
+  </body>
+</html>
