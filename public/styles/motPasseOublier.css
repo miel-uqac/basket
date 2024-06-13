@@ -99,6 +99,19 @@ body {
     padding: 5px 5px;
     text-decoration: none;
 }
+.formulaireMotDePasseOublier #compteExiste {
+  margin-block-start: 1em;
+  margin-block-end: 0;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+}
+
+.formulaireMotDePasseOublier #CreerCompte {
+  margin-block-start: 10px;
+  margin-block-end: 0;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+}
 
 .formulaireMotDePasseOublier #compteExiste{
   
