@@ -1,89 +1,140 @@
 import { AuthErrorCodes } from "firebase/auth";
 
 /**
- * Fonction permettant de gérer les erreurs d'authentification de Firebase en les affichant visuellement à l'utilisateur.
- * @param {Object} error - L'objet d'erreur renvoyé par Firebase.
+ * Fonction qui gère l'affichage visuel des erreurs d'authentification de Firebase.
+ * @param {Object | string} error - L'objet d'erreur renvoyé par Firebase ou une chaîne de caractères identifiant l'erreur.
  */
 export const erreurAuthentification = (error) => {
-  var divConnexionErreur = '';
-  var ConnexionMessageErreur = '';
-  
+
+  // Initialisation des variables pour les éléments d'affichage des erreurs.
+  let divErreur = '';
+  let messageErreur = '';
+
+  // Vérification de la présence des éléments HTML nécessaires pour déterminer sur quelle page nous sommes.
   const connexionElement = document.querySelector("#connexion");
   const connexionCheck = document.querySelector("#connexion") !== null;
-  const modifierMotDePasseElementCheck = document.querySelector("#ModifierMotDePasse") !== null;
 
-  const modifierMotDePasseElement = document.querySelector("#ModifierMotDePasse");
-  const Inscription = document.querySelector("#Inscription") !== null;
+  const modifierMotDePasseElementCheck = document.querySelector("#modifierMotDePasse") !== null;
+  const modifierMotDePasseElement = document.querySelector("#modifierMotDePasse");
+
+  const inscription = document.querySelector("#inscription") !== null;
+
   const emailNonVerifier = document.querySelector("#emailNonVerifier") !== null;
 
+  // Détermination des éléments affichant les différentes erreurs en fonction du contexte d'affichage.
+  // Nécessaire car les formulaires de connexion et de modification de mot de passe sont sur la même page ; un seul est affiché à la fois.
   if (connexionCheck && connexionElement.offsetParent !== null) {
-    divConnexionErreur = document.querySelector("#ConnexionErreur");
-    ConnexionMessageErreur = document.querySelector("#ConnexionMessageErreur");
+
+    // Si le formulaire de connexion est affiché.
+    divErreur = document.querySelector("#erreurInterface");
+    messageErreur = document.querySelector("#messageErreur");
+
   } else if (modifierMotDePasseElementCheck && modifierMotDePasseElement.offsetParent !== null) {
-    divConnexionErreur = document.querySelector("#ConnexionErreurNouveauMotDePasse");
-    ConnexionMessageErreur = document.querySelector("#ConnexionMessageErreurNouveauMotDePasse");
-  } else if(Inscription){
-    divConnexionErreur = document.querySelector("#ConnexionErreur");
-    ConnexionMessageErreur = document.querySelector("#ConnexionMessageErreur");
+
+    // Si le formulaire de modification de mot de passe est affiché.
+    divErreur = document.querySelector("#erreurInterfaceNouveauMotDePasse");
+    messageErreur = document.querySelector("#messageErreurNouveauMotDePasse");
+
+  } else if(inscription){
+
+    // Si nous somme sur la page du formulaire d'inscription.
+    divErreur = document.querySelector("#erreurInterface");
+    messageErreur = document.querySelector("#messageErreur");
+
   } else if(emailNonVerifier){
-    divConnexionErreur = document.querySelector("#ConnexionErreur");
-    ConnexionMessageErreur = document.querySelector("#ConnexionMessageErreur");
+
+    // Si nous sommes sur la page du formulaire d'email non vérifié.
+    divErreur = document.querySelector("#erreurInterface");
+    messageErreur = document.querySelector("#messageErreur");
   }
 
+  // Prépare l'affichage des messages d'erreur.
+  divErreur.style.display = 'block';
 
-
-  ConnexionMessageErreur.style.color = 'red';
-  divConnexionErreur.style.display = 'block';
-
+  // Gestion des différents types d'erreurs Firebase (traduit/error.code) ou personnalisées(error).
   if (error.code === AuthErrorCodes.INVALID_LOGIN_CREDENTIALS) {
-    ConnexionMessageErreur.textContent = 'Mauvais identifiants';
+    messageErreur.textContent = 'Identifiants de connexion incorrects (e-mail/Mot de passe)';
   } 
-  else if(error.code === AuthErrorCodes.EMAIL_EXISTS){
-    ConnexionMessageErreur.textContent = 'Cette e-mail a déjà un compte lié';
+  else if (error.code === AuthErrorCodes.EMAIL_EXISTS) {
+    messageErreur.textContent = 'Cet e-mail est déjà associé à un compte';
   }
-  else if(error.code === AuthErrorCodes.INVALID_EMAIL){
-    ConnexionMessageErreur.innerHTML = 'Adresse e-mail invalide'; 
+  else if (error.code === AuthErrorCodes.INVALID_EMAIL) {
+    messageErreur.innerHTML = 'Adresse e-mail invalide';
   }
-  else if(error === AuthErrorCodes.INVALID_EMAIL){
-    ConnexionMessageErreur.innerHTML = 'Adresse e-mail invalide. Elle doit se terminer par @etu.uqac.ca ou @uqac.ca'; 
+  else if (error === 'auth/invalid-email') {
+    messageErreur.innerHTML = 'Adresse e-mail invalide. Elle doit se terminer par @etu.uqac.ca ou @uqac.ca';
   }
-  else if(error.code === 'auth/missing-password' || error === 'auth/missing-password' ){
-    ConnexionMessageErreur.textContent = 'Mot de passe manquant'; 
+  else if (error.code === 'auth/missing-password' || error === 'auth/missing-password') {
+    messageErreur.textContent = 'Mot de passe manquant';
   }
-  else if(error.code === AuthErrorCodes.TOO_MANY_ATTEMPTS_TRY_LATER){
-    ConnexionMessageErreur.textContent = 'trop de tentative ressayer plus tard'; 
+  else if (error.code === AuthErrorCodes.TOO_MANY_ATTEMPTS_TRY_LATER) {
+    messageErreur.textContent = 'Trop de tentatives. Veuillez réessayer plus tard';
   }
-  else if(error === 'auth/mdpDifferent'){
-    ConnexionMessageErreur.textContent = 'Les mots de passe ne correspondent pas'; 
+  else if (error === 'auth/mdpDifferent') {
+    messageErreur.textContent = 'Les mots de passe ne correspondent pas';
   }
-  else if(error === 'auth/mdpTropFaible'){
-    ConnexionMessageErreur.innerHTML = 'Mot de passe trop faible. Il doit comporter au minimum 6 caractères, une majuscule, une minuscule, un caractère spécial et un chiffre.'; 
-  }
-  else if(error === 'auth/emailEnvoyerEnCours'){
-    ConnexionMessageErreur.style.color = 'gray';
-    ConnexionMessageErreur.innerHTML = `Un email est en train d'être envoyé afin de confirmer votre adresse email. Veuillez attendre d'être redirigé.`; 
-  }
-  else if(error === 'auth/nouveauEmailEnvoyer'){
-    ConnexionMessageErreur.style.color = 'gray';
-    ConnexionMessageErreur.innerHTML = `Un email est en train d'être envoyé afin de confirmer votre adresse email si votre compte existe. Veuillez attendre d'être redirigé.`; 
+  else if (error === 'auth/mdpTropFaible') {
+    messageErreur.innerHTML = 'Mot de passe trop faible. Il doit comporter au minimum 6 caractères, une majuscule, une minuscule, un caractère spécial et un chiffre.';
   }
   else {
-    ConnexionMessageErreur.textContent = `Error: ${error.message}`;
+    messageErreur.textContent = `Erreur: ${error.message}`;
   }
+
 };
+
+/**
+ * Affiche un message spécifique à l'utilisateur sur l'interface en fonction de l'identifiant du message fourni.
+ * @param {string} msgID - Identifiant du message à afficher.
+ * @returns {void}
+ */
+export const messageInterfaceUtilisateur = (msgID) => {
+
+  // Initialisation des variables pour les éléments d'affichage des messages pour l'utilisateur.
+  let divInterfaceMessage = '';
+  let message = '';
+
+  // Sélection des éléments HTML où afficher les messages sur la page d'inscription.
+  divInterfaceMessage = document.querySelector("#interfaceMessage");
+  message = document.querySelector("#message");
+
+  // Prépare le style et l'affichage pour les utilisateurs.
+  divInterfaceMessage.style.display = 'block';
+
+  // Affichage du message approprié en fonction de l'identifiant du message fourni
+  if (msgID === 'auth/emailEnvoyerEnCours') {
+    message.innerHTML = `Un e-mail est en cours d'envoi pour confirmer votre adresse e-mail. Veuillez patienter.`;
+  }
+
+};
+
 
 /**
  * Fonction effaçant les erreurs affichées à l'utilisateur.
  * @return {void}
  */
 export const renitialisationErreurAuthentification = () => {
-  const divConnexionErreur = document.querySelector('#ConnexionErreur');
+  const divErreur = document.querySelector('#erreurInterface');
 
-  if(divConnexionErreur.style.display === 'block'){
-    const ConnexionMessageErreur = document.querySelector('#ConnexionMessageErreur');
+  if(divErreur.style.display === 'block'){
+    const messageErreur = document.querySelector('#messageErreur');
 
-    ConnexionMessageErreur.textContent = '';
-    divConnexionErreur.style.display = 'none';
+    messageErreur.textContent = '';
+    divErreur.style.display = 'none';
+  }
+};
+
+/**
+ * Fonction effaçant les messages affichées à l'utilisateur.
+ * @return {void}
+ */
+export const renitialisationMessageUtilisateur = () => {
+  const divInterfaceMessage = document.querySelector('#interfaceMessage');
+
+  if(divInterfaceMessage.style.display === 'block'){
+    const message = document.querySelector('#message');
+
+    message.textContent = '';
+    divInterfaceMessage.style.display = 'none';
   }
 };
 
@@ -112,6 +163,12 @@ export const afficherFormulaireConnexion = () => {
   console.log("Show login form");
 };
 
+
+/**
+ * Fonction pour fermer la modale d'email.
+ * Elle sélectionne l'élément avec l'ID 'emailModal' dans le DOM
+ * et change son style pour le masquer en mettant 'display' à 'none'.
+ */
 export function fermerModale() {
   const modale = document.querySelector("#emailModal");
   modale.style.display = "none";
@@ -122,15 +179,125 @@ export function accueilPage() {
   window.location.replace('https://truqac-test.web.app');
 }
 
-export function afficherMotDePasse(checkbox,passwordInput) {
-  checkbox.addEventListener('change', function() {
+
+/**
+ * Active ou désactive l'affichage du mot de passe dans le champ spécifié en fonction de l'état de la case à cocher.
+ * @param {HTMLElement} caseCocher - La case à cocher qui contrôle l'affichage du mot de passe.
+ * @param {HTMLInputElement} champMotDePasse - Le champ de mot de passe où le texte doit être affiché ou masqué.
+ * @returns {void}
+ */
+export function afficherMotDePasse(caseCocher,champMotDePasse) {
+  caseCocher.addEventListener('change', function() {
     if (this.checked) {
-      passwordInput.type = 'text';
+      champMotDePasse.type = 'text';
     } else {
-      passwordInput.type = 'password';
+      champMotDePasse.type = 'password';
     }
   });
 
+}
+
+/**
+ * Fonction qui remplace le contenu HTML d'un élément par une animation de chargement blanc en forme de cercle.
+ * @param {HTMLElement} ElementHTML - L'élément HTML sur lequel l'animation sera ajoutée.
+ * @returns {void}
+ */
+export function AjoutAnimationChargementBlanc(ElementHTML) {
+
+  // Remplace le contenu de l'élément par une animation SVG de chargement blanc.
+  ElementHTML.innerHTML = `<svg id="svg-spinner" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+    <circle cx="24" cy="4" r="4" fill="#fff" />
+    <circle cx="12.19" cy="7.86" r="3.7" fill="#fffbf2" />
+    <circle cx="5.02" cy="17.68" r="3.4" fill="#fef7e4" />
+    <circle cx="5.02" cy="30.32" r="3.1" fill="#fef3d7" />
+    <circle cx="12.19" cy="40.14" r="2.8" fill="#feefc9" />
+    <circle cx="24" cy="44" r="2.5" fill="#feebbc" />
+    <circle cx="35.81" cy="40.14" r="2.2" fill="#fde7af" />
+    <circle cx="42.98" cy="30.32" r="1.9" fill="#fde3a1" />
+    <circle cx="42.98" cy="17.68" r="1.6" fill="#fddf94" />
+    <circle cx="35.81" cy="7.86" r="1.3" fill="#fcdb86" />
+  </svg>`;
+}
+
+
+/**
+ * Fonction qui remplace le contenu HTML d'un élément par une animation de chargement bleu en forme de cercle.
+ * @param {HTMLElement} ElementHTML - L'élément HTML sur lequel l'animation sera ajoutée.
+ * @returns {void}
+ */
+export function AjoutAnimationChargementBleu(ElementHTML) {
+
+  // Remplace le contenu de l'élément par une animation SVG de chargement bleu.
+  ElementHTML.innerHTML = `<svg id="svg-spinner" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+    <circle cx="24" cy="4" r="4" fill="rgb(38, 114, 236)" />
+    <circle cx="12.19" cy="7.86" r="3.7" fill="rgb(82, 143, 255)" />
+    <circle cx="5.02" cy="17.68" r="3.4" fill="rgb(118, 167, 255)" />
+    <circle cx="5.02" cy="30.32" r="3.1" fill="rgb(153, 191, 255)" />
+    <circle cx="12.19" cy="40.14" r="2.8" fill="rgb(189, 214, 255)" />
+    <circle cx="24" cy="44" r="2.5" fill="rgb(224, 237, 255)" />
+    <circle cx="35.81" cy="40.14" r="2.2" fill="rgb(206, 229, 255)" />
+    <circle cx="42.98" cy="30.32" r="1.9" fill="rgb(167, 207, 255)" />
+    <circle cx="42.98" cy="17.68" r="1.6" fill="rgb(130, 184, 255)" />
+    <circle cx="35.81" cy="7.86" r="1.3" fill="rgb(94, 160, 255)" />
+  </svg>`;
+}
+
+
+/**
+ * Réinitialise un bouton en remplaçant son contenu par le texte spécifié et en réactivant le bouton.
+ * @param {HTMLElement} ElementBoutonHTML - Le bouton HTML à réinitialiser.
+ * @param {string} texteParDefault - Le texte par défaut à afficher dans le bouton réinitialisé.
+ * @returns {void}
+ */
+export function renitialisationBouton(ElementBoutonHTML, texteParDefault) {
+  // Remplace le contenu du bouton par le texte spécifié.
+  ElementBoutonHTML.innerHTML = texteParDefault;
+  // Réactive le bouton.
+  ElementBoutonHTML.disabled = false;
+}
+
+/**
+ * Fonction pour afficher la modale avec les messages appropriés.
+ * @param {string} premierTexte - Le texte à afficher dans l'élément avec l'ID 'txtPremier'.
+ * @param {string} deuxiemeTexte - Le texte à afficher dans l'élément avec l'ID 'txtDeuxieme'.
+ * @param {string} modalId - L'ID de l'élément modal à afficher.
+ */
+export function afficherModalEmail(premierTexte, deuxiemeTexte, modalId) {
+
+    // Sélectionne l'élément avec l'ID de la modal.
+    const modal = document.querySelector(`#${modalId}`);
+    
+    // Sélectionne les éléments de texte à mettre à jour
+    const txtPremier = modal.querySelector('#txtPremier');
+    const txtDeuxieme = modal.querySelector('#txtDeuxieme');
+    
+    // Met à jour les textes
+    txtPremier.textContent = premierTexte;
+    txtDeuxieme.textContent = deuxiemeTexte;
+    
+    // Rend la modal visible en changeant son style
+    modal.style.display = 'block';
+}
+
+/**
+ * Fonction pour modifier le texte de la modale avec les messages appropriés.
+ * @param {string} premierTexte - Le texte à afficher dans l'élément avec l'ID 'txtPremier'.
+ * @param {string} deuxiemeTexte - Le texte à afficher dans l'élément avec l'ID 'txtDeuxieme'.
+ * @param {string} modalId - L'ID de l'élément modal à afficher.
+ */
+export function modifierModalEmail(premierTexte, deuxiemeTexte, modalId) {
+
+  // Sélectionne l'élément avec l'ID de la modal.
+  const modal = document.querySelector(`#${modalId}`);
+  
+  // Sélectionne les éléments de texte à mettre à jour
+  const txtPremier = modal.querySelector('#txtPremier');
+  const txtDeuxieme = modal.querySelector('#txtDeuxieme');
+  
+  // Met à jour les textes
+  txtPremier.textContent = premierTexte;
+  txtDeuxieme.textContent = deuxiemeTexte;
+  
 }
 
 

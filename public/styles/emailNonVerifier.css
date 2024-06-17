@@ -23,7 +23,7 @@ body {
     opacity: 0.15;
 }
 
-.formulaireEmailNonVerifier #ConnexionErreur {
+.formulaireEmailNonVerifier #erreurInterface {
     color: red;
     width: 90%;
     box-sizing: border-box;
@@ -224,7 +224,7 @@ body {
     width: 84%;
 }
 
-.formulaireEmailNonVerifier #ConnexionErreur {
+.formulaireEmailNonVerifier #erreurInterface {
     width: 84%;
 }
 
@@ -276,7 +276,7 @@ body {
       height: 40px;
   }
 
-  .formulaireEmailNonVerifier a,.formulaireEmailNonVerifier #ConnexionErreur, .formulaireEmailNonVerifier #divMessageInfo{
+  .formulaireEmailNonVerifier a,.formulaireEmailNonVerifier #erreurInterface, .formulaireEmailNonVerifier #divMessageInfo{
       max-width: 260px;
   }
 
@@ -307,7 +307,7 @@ body {
         height: 42px;
     }
 
-    .formulaireEmailNonVerifier a,.formulaireEmailNonVerifier #ConnexionErreur,.formulaireEmailNonVerifier #divMessageInfo{
+    .formulaireEmailNonVerifier a,.formulaireEmailNonVerifier #erreurInterface,.formulaireEmailNonVerifier #divMessageInfo{
         max-width: 340px;
     }
 
@@ -337,7 +337,7 @@ body {
         height: 44px;
     }
     
-    .formulaireEmailNonVerifier a,.formulaireEmailNonVerifier #ConnexionErreur,.formulaireEmailNonVerifier #divMessageInfo{
+    .formulaireEmailNonVerifier a,.formulaireEmailNonVerifier #erreurInterface,.formulaireEmailNonVerifier #divMessageInfo{
         max-width: 360px;
     }
 

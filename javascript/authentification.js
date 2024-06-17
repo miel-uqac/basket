@@ -1,8 +1,10 @@
 import { auth } from "./index";
-import { erreurAuthentification, applicationAffichage, etatConnexion, afficherFormulaireConnexion, renitialisationErreurAuthentification } from "./ui";
+import { erreurAuthentification, applicationAffichage, etatConnexion, afficherFormulaireConnexion, renitialisationErreurAuthentification, AjoutAnimationChargementBlanc,renitialisationBouton,messageInterfaceUtilisateur,AjoutAnimationChargementBleu,afficherModalEmail,modifierModalEmail } from "./ui";
 import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, sendEmailVerification, AuthErrorCodes, applyActionCode,sendPasswordResetEmail,confirmPasswordReset, browserSessionPersistence,setPersistence } from "firebase/auth";
-  
-/**
+    
+
+
+  /**
    * Fonction de connexion utilisant une adresse e-mail et un mot de passe.
    * Cette fonction est déclenchée par le bouton de connexion.
    * @returns {void}
@@ -60,85 +62,101 @@ import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateC
   /**
    * Fonction permettant à un utilisateur de créer un compte en utilisant une adresse e-mail et un mot de passe,
    * et lui envoie un e-mail de vérification.
+   * @param {Event} event - L'événement de soumission du formulaire.
    * @returns {void}
-   */
+  */
   export const creerCompte = async (event) => {
 
     event.preventDefault();
+
+    // Affichage d'une animation de chargement en cercle sur le bouton pendant le chargement.
     const btnCreationCompte = document.querySelector("#btnCreerCompte");
-    btnCreationCompte.innerHTML = `<svg id="svg-spinner" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
-    <circle cx="24" cy="4" r="4" fill="#fff" />
-    <circle cx="12.19" cy="7.86" r="3.7" fill="#fffbf2" />
-    <circle cx="5.02" cy="17.68" r="3.4" fill="#fef7e4" />
-    <circle cx="5.02" cy="30.32" r="3.1" fill="#fef3d7" />
-    <circle cx="12.19" cy="40.14" r="2.8" fill="#feefc9" />
-    <circle cx="24" cy="44" r="2.5" fill="#feebbc" />
-    <circle cx="35.81" cy="40.14" r="2.2" fill="#fde7af" />
-    <circle cx="42.98" cy="30.32" r="1.9" fill="#fde3a1" />
-    <circle cx="42.98" cy="17.68" r="1.6" fill="#fddf94" />
-    <circle cx="35.81" cy="7.86" r="1.3" fill="#fcdb86" />
-  </svg>` ;
+    AjoutAnimationChargementBlanc(btnCreationCompte);
   
+    // Si le bouton est déjà désactivé, on arrête ici pour éviter les traitements multiples.
     if (btnCreationCompte.disabled) {
       return;
     }
 
+    // Désactive le bouton pour éviter les soumissions multiples.
     btnCreationCompte.disabled = true; 
 
+    // Expressions régulières pour la validation de l'e-mail et du mot de passe.
     const emailVerificationRegex = /^[a-zA-Z0-9._%+-]+@(etu\.)?uqac\.ca$/;
     const motDePasseVerificationRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
 
-    if(emailVerificationRegex.test(document.querySelector("#txtEmail").value)){
+    // Récupération et nettoyage de la valeur saisie dans les différents champs.
+    const champEmail = document.querySelector("#txtEmail").value.trim();
+    const champMotDePasse = document.querySelector("#txtMotDePasse").value.trim();
+    const champConfirmerMotDePasse = document.querySelector("#txtConfirmerMotDePasse").value.trim();
 
-      if(document.querySelector("#txtMotDePasse").value === document.querySelector("#txtConfirmerMotDePasse").value && !document.querySelector("#txtMotDePasse").value == '' && !document.querySelector("#txtConfirmerMotDePasse").value == ''){
 
-        if (motDePasseVerificationRegex.test(document.querySelector("#txtMotDePasse").value)) {
+    // Vérification de l'e-mail.
+    if(emailVerificationRegex.test(champEmail)){
+
+      // Vérification si les mots de passe correspondent et ne sont pas vides.
+      if(champMotDePasse === champConfirmerMotDePasse && !champMotDePasse == '' && !champConfirmerMotDePasse == ''){
+
+        // Validation du mot de passe.
+        if (motDePasseVerificationRegex.test(champMotDePasse)) {
 
           try {
 
-            erreurAuthentification('auth/emailEnvoyerEnCours');
-            await createUserWithEmailAndPassword(auth, document.querySelector("#txtEmail").value, document.querySelector("#txtMotDePasse").value);
-            await sendEmailVerification(auth.currentUser);
-            deconnexion();
-
-            btnCreationCompte.innerHTML = 'Créer compte';
-            btnCreationCompte.disabled = false;
             renitialisationErreurAuthentification();
+
+            // Affiche un message de chargement.
+            messageInterfaceUtilisateur('auth/emailEnvoyerEnCours');
+
+            // Création de l'utilisateur avec l'adresse e-mail et le mot de passe et envoie un e-mail de vérification à l'utilisateur.
+            await createUserWithEmailAndPassword(auth, champEmail, champMotDePasse);
+            await sendEmailVerification(auth.currentUser);
+                     
+            // Déconnexion de l'utilisateur actuel car createUserWithEmailAndPassword() le connecte automatiquement.
+            deconnexion();
+            
+            // Redirection vers la page avec le paramètre d'envoi réussi.
             window.location.replace('https://truqac-test.web.app/index.html?envoyer=true');
+
           } catch (error) {
-            btnCreationCompte.innerHTML = 'Créer compte';
-            btnCreationCompte.disabled = false;
+
+            // En cas d'erreur lors de la création de compte, affiche l'erreur et réinitialise le bouton "Créer compte" à son état par défaut.
             erreurAuthentification(error);
+            renitialisationBouton(btnCreationCompte,'Créer compte')
+
           }}
             
+        // Mot de passe ne respectant pas les critères minimum.
         else{
+          
+          // En cas d'erreur lors de la création de compte, affiche l'erreur et réinitialise le bouton "Créer compte" à son état par défaut.
           erreurAuthentification('auth/mdpTropFaible');
-          btnCreationCompte.innerHTML = 'Créer compte';
-          btnCreationCompte.disabled = false; 
+          renitialisationBouton(btnCreationCompte,'Créer compte')
 
         }}
 
-      else if(document.querySelector("#txtMotDePasse").value == '' && document.querySelector("#txtConfirmerMotDePasse").value == ''){
+      // Les champs mot de pase et confirmer le mot de passe sont vide.
+      else if(champMotDePasse == '' && champConfirmerMotDePasse == ''){
+
+          // En cas d'erreur lors de la création de compte, affiche l'erreur et réinitialise le bouton "Créer compte" à son état par défaut.
           erreurAuthentification('auth/missing-password');
-          btnCreationCompte.innerHTML = 'Créer compte';
-          btnCreationCompte.disabled = false; 
+          renitialisationBouton(btnCreationCompte,'Créer compte')
 
         }
 
+      // Les champs mot de passe et confirmer mot de passe sont différent. 
       else{
+
+        // En cas d'erreur lors de la création de compte, affiche l'erreur et réinitialise le bouton "Créer compte" à son état par défaut.
         erreurAuthentification('auth/mdpDifferent');
-        btnCreationCompte.innerHTML = 'Créer compte';
-        btnCreationCompte.disabled = false; 
-
-      }}
-
+        renitialisationBouton(btnCreationCompte,'Créer compte')}
+    }
+    // Le champ de l'e-mail ne correspond pas à celui attendu.
     else{
-          erreurAuthentification(AuthErrorCodes.INVALID_EMAIL);
-          btnCreationCompte.innerHTML = 'Créer compte';
-          btnCreationCompte.disabled = false; 
 
-        }
-};
+          // En cas d'erreur lors de la création de compte, affiche l'erreur et réinitialise le bouton "Créer compte" à son état par défaut.
+          erreurAuthentification('auth/invalid-email');
+          renitialisationBouton(btnCreationCompte,'Créer compte')}
+  };
 
 
   /**
@@ -170,51 +188,47 @@ import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateC
 
 
 
-
+  /**
+   * Fonction pour vérifier l'email de l'utilisateur.
+   * @param {string} oobCode - Code généré par Firebase pour vérifier l'email de l'utilisateur.
+  */
   export function verifierEmailUtilisateur(oobCode) {
-    const emailModal = document.querySelector("#emailModal");
-    const txtPremier = document.querySelector('#txtPremier');
-    const txtDeuxieme = document.querySelector('#txtDeuxieme');
-    
 
-    txtPremier.innerHTML =  `<svg id="svg-spinner" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
-    <circle cx="24" cy="4" r="4" fill="rgb(38, 114, 236)" />
-    <circle cx="12.19" cy="7.86" r="3.7" fill="rgb(82, 143, 255)" />
-    <circle cx="5.02" cy="17.68" r="3.4" fill="rgb(118, 167, 255)" />
-    <circle cx="5.02" cy="30.32" r="3.1" fill="rgb(153, 191, 255)" />
-    <circle cx="12.19" cy="40.14" r="2.8" fill="rgb(189, 214, 255)" />
-    <circle cx="24" cy="44" r="2.5" fill="rgb(224, 237, 255)" />
-    <circle cx="35.81" cy="40.14" r="2.2" fill="rgb(206, 229, 255)" />
-    <circle cx="42.98" cy="30.32" r="1.9" fill="rgb(167, 207, 255)" />
-    <circle cx="42.98" cy="17.68" r="1.6" fill="rgb(130, 184, 255)" />
-    <circle cx="35.81" cy="7.86" r="1.3" fill="rgb(94, 160, 255)" />
-  </svg>`;
+    // Sélectionne l'ID de la modal pour l'afficher pendant le traitement de la fonction ainsi que l'animation de chargement pour l'utilisateur.
+    const modalID = document.querySelector("#modalID");
+    const txtPremier  = modalID.querySelector('#txtPremier');
 
+    AjoutAnimationChargementBleu(txtPremier);
 
+    // Modification du style de l'animation de chargement pour l'utilisateur.
     const svgsSpinner = document.querySelector('#svg-spinner');
     svgsSpinner.style.height = '40px';
 
-    emailModal.style.display = 'block';
+    modalID.style.display = 'block';
 
-
-
-
+    const modalIDString = 'modalID';
     
+    // Appelle la fonction applyActionCode pour vérifier l'email avec le code spécifié.
     applyActionCode(auth,oobCode)
         .then(function() {
-          txtPremier.textContent = 'Votre compte a été vérifié avec succès.';
-          txtDeuxieme.textContent = '';
 
+          // Si la vérification réussit, met à jour les textes de la modal.
+          const txtPremier  = 'Votre compte a été vérifié avec succès.';
+          const txtDeuxieme = '';
+
+          modifierModalEmail(txtPremier,txtDeuxieme,modalIDString);
 
 
         })
         .catch(function(error) {
-          txtPremier.textContent = "Erreur lors de la validation de l'e-mail : " + error;
-          txtDeuxieme.textContent = '';
-
+          
+          // En cas d'erreur lors de la validation de l'email, met à jour les textes de la modal avec l'erreur.
+          const txtPremier = "Erreur lors de la validation de l'e-mail : " + error;
+          const txtDeuxieme = ''; 
+          modifierModalEmail(txtPremier,txtDeuxieme,modalIDString);
 
         });
-}
+  }
 
 export const motDePasseOublier = async (event) => {
   event.preventDefault();
@@ -432,8 +446,30 @@ export const nouveauLienVerification = async (event) =>{
           emailNonVerifier.style.display = 'block';
         } else {
 
+          window.location.replace('https://truqac-test.web.app/');
       }
       });
     }
-    
+
+
+/**
+ * Gère le chargement de la page en fonction de l'état de l'authentification utilisateur.
+ * Redirige l'utilisateur en fonction de son état d'authentification.
+ */
+export function gestionChargementPageAuthentification() {
+  onAuthStateChanged(auth, user => {
+    if (user) {
+      if (user.emailVerified) {
+
+        // Redirige l'utilisateur vers la page d'accueil s'il est connecté et son email est vérifié.
+        window.location.replace('https://truqac-test.web.app/app/accueil.html');
+      } else {
+  
+        // Redirige l'utilisateur vers la page d'email non vérifié s'il est connecté mais son email n'est pas vérifié.
+        window.location.replace('https://truqac-test.web.app/auth/emailNonVerifier.html');  
+      }
+    }
+  });
+}
+
 

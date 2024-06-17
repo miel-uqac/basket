@@ -23,7 +23,7 @@ body {
     opacity: 0.15;
 }
 
-.formulaireMotDePasseOublier #ConnexionErreur {
+.formulaireMotDePasseOublier #erreurInterface {
     color: red;
     width: 90%;
     box-sizing: border-box;
@@ -201,7 +201,7 @@ body {
     width: 84%;
 }
 
-.formulaireMotDePasseOublier #ConnexionErreur {
+.formulaireMotDePasseOublier #erreurInterface {
     width: 84%;
 }
 
@@ -253,7 +253,7 @@ body {
       height: 40px;
   }
 
-  .formulaireMotDePasseOublier a,.formulaireMotDePasseOublier #ConnexionErreur, .formulaireMotDePasseOublier #divMessageInfo{
+  .formulaireMotDePasseOublier a,.formulaireMotDePasseOublier #erreurInterface, .formulaireMotDePasseOublier #divMessageInfo{
       max-width: 260px;
   }
 
@@ -284,7 +284,7 @@ body {
         height: 42px;
     }
 
-    .formulaireMotDePasseOublier a,.formulaireMotDePasseOublier #ConnexionErreur,.formulaireMotDePasseOublier #divMessageInfo{
+    .formulaireMotDePasseOublier a,.formulaireMotDePasseOublier #erreurInterface,.formulaireMotDePasseOublier #divMessageInfo{
         max-width: 340px;
     }
 
@@ -314,7 +314,7 @@ body {
         height: 44px;
     }
     
-    .formulaireMotDePasseOublier a,.formulaireMotDePasseOublier #ConnexionErreur,.formulaireMotDePasseOublier #divMessageInfo{
+    .formulaireMotDePasseOublier a,.formulaireMotDePasseOublier #erreurInterface,.formulaireMotDePasseOublier #divMessageInfo{
         max-width: 360px;
     }
 

@@ -66,7 +66,7 @@ body {
 }
 
 
-.formulaireConnexion #ConnexionErreur {
+.formulaireConnexion #erreurInterface {
     color: red;
     font-size: 13px;
     display: flex;
@@ -123,6 +123,7 @@ body {
       font-size: 13px;
 
 }
+
 
 
 
@@ -448,7 +449,7 @@ opacity: 0.5;
     }
 
 
-    .formulaireConnexion a,.formulaireConnexion #ConnexionErreur,.formulaireConnexion #btnConnexion,.formulaireConnexion #DivLabeEmail,.formulaireConnexion #DivLabelMotDePasse{
+    .formulaireConnexion a,.formulaireConnexion #erreurInterface,.formulaireConnexion #btnConnexion,.formulaireConnexion #DivLabeEmail,.formulaireConnexion #DivLabelMotDePasse{
         max-width: 260px;
     }
 
@@ -456,7 +457,7 @@ opacity: 0.5;
         width: 84%;
     }
 
-    .formulaireConnexion #ConnexionErreur,.formulaireConnexion #DivLabeEmail,.formulaireConnexion #DivLabelMotDePasse {
+    .formulaireConnexion #erreurInterface,.formulaireConnexion #DivLabeEmail,.formulaireConnexion #DivLabelMotDePasse {
         width: 84%;
 
     }
@@ -487,7 +488,7 @@ opacity: 0.5;
     }
 
 
-    .formulaireConnexion a,.formulaireConnexion #ConnexionErreur,.formulaireConnexion #btnConnexion,.formulaireConnexion #DivLabeEmail,.formulaireConnexion #DivLabelMotDePasse{
+    .formulaireConnexion a,.formulaireConnexion #erreurInterface,.formulaireConnexion #btnConnexion,.formulaireConnexion #DivLabeEmail,.formulaireConnexion #DivLabelMotDePasse{
         max-width: 260px;
     }
 
@@ -496,7 +497,7 @@ opacity: 0.5;
         
     }
 
-    .formulaireConnexion #ConnexionErreur,.formulaireConnexion #DivLabeEmail,.formulaireConnexion #DivLabelMotDePasse {
+    .formulaireConnexion #erreurInterface,.formulaireConnexion #DivLabeEmail,.formulaireConnexion #DivLabelMotDePasse {
         width: 250px; 
 
     }
@@ -529,7 +530,7 @@ opacity: 0.5;
         height: 42px;
     }
 
-    .formulaireConnexion a,.formulaireConnexion #ConnexionErreur,.formulaireConnexion #btnConnexion,.formulaireConnexion #DivLabeEmail,.formulaireConnexion #DivLabelMotDePasse{
+    .formulaireConnexion a,.formulaireConnexion #erreurInterface,.formulaireConnexion #btnConnexion,.formulaireConnexion #DivLabeEmail,.formulaireConnexion #DivLabelMotDePasse{
         max-width: 340px;
     }
 
@@ -537,7 +538,7 @@ opacity: 0.5;
         width: 330px;
     }
 
-    .formulaireConnexion #ConnexionErreur,.formulaireConnexion #DivLabeEmail,.formulaireConnexion #DivLabelMotDePasse {
+    .formulaireConnexion #erreurInterface,.formulaireConnexion #DivLabeEmail,.formulaireConnexion #DivLabelMotDePasse {
         width: 330px;
 
     }
@@ -564,7 +565,7 @@ opacity: 0.5;
         height: 44px;
     }
     
-    .formulaireConnexion a,.formulaireConnexion #ConnexionErreur,.formulaireConnexion #btnConnexion,.formulaireConnexion #DivLabeEmail,.formulaireConnexion #DivLabelMotDePasse{
+    .formulaireConnexion a,.formulaireConnexion #erreurInterface,.formulaireConnexion #btnConnexion,.formulaireConnexion #DivLabeEmail,.formulaireConnexion #DivLabelMotDePasse{
         max-width: 360px;
     }
 
@@ -572,7 +573,7 @@ opacity: 0.5;
         width: 350px;
     }
 
-    .formulaireConnexion #ConnexionErreur,.formulaireConnexion #DivLabeEmail,.formulaireConnexion #DivLabelMotDePasse{
+    .formulaireConnexion #erreurInterface,.formulaireConnexion #DivLabeEmail,.formulaireConnexion #DivLabelMotDePasse{
         width: 350px;
 
     }

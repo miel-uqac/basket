@@ -28,12 +28,20 @@ body {
     opacity: 0.15;
 }
 
-.formulaireInscription #ConnexionErreur {
+.formulaireInscription #erreurInterface {
     color: red;
     width: 90%;
     box-sizing: border-box;
     margin-bottom: 10px;
     font-size: 13px;
+}
+
+.formulaireInscription #interfaceMessage{
+  color: gray;
+  width: 90%;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+  font-size: 13px;
 }
 
 .formulaireInscription #DivLabeEmail, .formulaireInscription #DivLabelMotDePasse,.formulaireInscription #DivLabelConfirmerMotDePasse{
@@ -195,7 +203,7 @@ body {
     font-size: 16px;
 }
 
-.formulaireInscription #AfficherMotDePasse{
+.formulaireInscription #afficherMotDePasse{
     display: flex;
     width: 15px;
     height: 15px;
@@ -324,7 +332,7 @@ body {
     width: 84%;
 }
 
-.formulaireInscription #ConnexionErreur {
+.formulaireInscription #erreurInterface,.formulaireInscription #interfaceMessage {
     width: 84%;
 }
 
@@ -381,7 +389,7 @@ body {
       height: 40px;
   }
 
-  .formulaireInscription a,.formulaireInscription #ConnexionErreur{
+  .formulaireInscription a,.formulaireInscription #erreurInterface,.formulaireInscription #interfaceMessage{
       max-width: 260px;
   }
 
@@ -412,7 +420,7 @@ body {
         height: 42px;
     }
 
-    .formulaireInscription a,.formulaireInscription #ConnexionErreur{
+    .formulaireInscription a,.formulaireInscription #erreurInterface,.formulaireInscription #interfaceMessage{
         max-width: 340px;
     }
 
@@ -446,7 +454,7 @@ body {
         height: 44px;
     }
     
-    .formulaireInscription a,.formulaireInscription #ConnexionErreur{
+    .formulaireInscription a,.formulaireInscription #erreurInterface,.formulaireInscription #interfaceMessage{
         max-width: 360px;
     }
 

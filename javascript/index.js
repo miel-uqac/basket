@@ -1,10 +1,10 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, connectAuthEmulator} from "firebase/auth";
 import { getDatabase, connectDatabaseEmulator } from "firebase/database";
-import {connexionEmailMotDePasse,creerCompte,surveillanceEtatAuthentification, verifierEmailUtilisateur, nouveauLienVerification,motDePasseOublier, modifierMotDePasse, deconnexionRedirection,ChargementPage} from "./authentification";
-import { accueilPage,fermerModale, afficherMotDePasse, etatConnexion} from "./ui";
+import {connexionEmailMotDePasse,creerCompte,surveillanceEtatAuthentification, verifierEmailUtilisateur, nouveauLienVerification,motDePasseOublier, modifierMotDePasse, deconnexionRedirection,ChargementPage, gestionChargementPageAuthentification, functionChargementPageDeconnecter} from "./authentification";
+import {fermerModale, afficherMotDePasse,afficherModalEmail} from "./ui";
 
-// Configuration application Web FireBase
+// Configuration application Web FireBase.
 const firebaseConfig = {
   apiKey: "AIzaSyBOV4kut3iU7qaJ2PTR84wR9C0rjsXU2wY",
   authDomain: "truqac-test.firebaseapp.com",
@@ -16,89 +16,106 @@ const firebaseConfig = {
   measurementId: "G-X3Z94L3PF6"
 };
 
-// Variable d'initialisation de l'application, l'authentification, et de la base de données
+// Variable d'initialisation de l'application, l'authentification, et de la base de données.
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 const db = getDatabase(app);
 
 
-// Connexion aux Emulateurs Firebase si l'application est exécutée en local
+// Connexion aux Emulateurs Firebase si l'application est exécutée en local.
 if (location.hostname === "127.0.0.1") {
   connectAuthEmulator(auth, "http://127.0.0.1:5002");
   connectDatabaseEmulator(db, "127.0.0.1", 8001);
 }
 
-// Chargement du JavaScript après le chargement de la page HTML
+// Chargement du JavaScript après le chargement de la page HTML.
 document.addEventListener('DOMContentLoaded', () => {
-  
-  const connexion = document.querySelector("#connexion") !== null;
-  const Inscription = document.querySelector("#Inscription") !== null;
-  const validation = document.querySelector("#validation") !== null;
-  const validationConfirmer = document.querySelector("#validationConfirmer") !== null;
-  const nouveauLienEmailVerification = document.querySelector("#EmailVerification") !== null;
-  const MotDePasseOublier = document.querySelector("#motDePasseOublier") !== null;
-  const emailNonVerifier = document.querySelector("#emailNonVerifier") !== null;
 
+// Ensemble de variables permettant de reconnaître sur quelle page on se trouve et d'exécuter les processus adéquats.
+  const pageConnexion = document.querySelector("#connexion") !== null;
+  const pageInscription = document.querySelector("#inscription") !== null;
+  const pageMotDePasseOublier = document.querySelector("#motDePasseOublier") !== null;
+  const pageEmailNonVerifier = document.querySelector("#emailNonVerifier") !== null;
 
-  if(Inscription){
+  // Gestion des différentes pages et exécution des fonctionnalités associées.
+  if(pageInscription){
+
     surveillanceEtatAuthentification();
 
+    // Association de la fonction de création de compte au bouton correspondant.
     const btnCreationCompte = document.querySelector("#btnCreerCompte");
     btnCreationCompte.addEventListener("click", creerCompte);
 
-    
-    var checkbox = document.querySelector('#AfficherMotDePasse');
-    var passwordInput = document.querySelector('#txtMotDePasse');
-    afficherMotDePasse(checkbox,passwordInput);
+    // Affichage du mot de passe à l'aide d'une case à cocher et de sa fonction associée.
+    const caseCocher = document.querySelector('#afficherMotDePasse');
+    var champMotDePasse = document.querySelector('#txtMotDePasse');
+    afficherMotDePasse(caseCocher,champMotDePasse);
 
-    passwordInput = document.querySelector('#txtConfirmerMotDePasse');    
-    afficherMotDePasse(checkbox,passwordInput);
+    // Affichage du mot de passe de confirmation à l'aide d'une case à cocher.
+    champMotDePasse = document.querySelector('#txtConfirmerMotDePasse');    
+    afficherMotDePasse(caseCocher,champMotDePasse);}
+  
+  else if(pageConnexion){
 
-    
-  }
-  else if(connexion){
+    gestionChargementPageAuthentification();
+
     surveillanceEtatAuthentification();
 
+    // Récupération des paramètres d'URL pour gérer les différents processus sur la page de connexion.
     const urlParametres = new URLSearchParams(window.location.search);
     const envoyerEmail = urlParametres.get('envoyer');
     const mode = urlParametres.get('mode');
     const envoyerEmailPassword = urlParametres.get('motDePasseEnvoyer');
     const oobCode = urlParametres.get('oobCode');
-    const fermerModal = document.querySelector("#close");
     const modificationMDP = urlParametres.get('modificationMDP');
 
+    // Sélectionne le bouton de fermeture de la modale d'information afin de lui associer sa fonction de fermeture.
+    const fermerModal = document.querySelector("#close");
     fermerModal.addEventListener('click', fermerModale);
 
-    const checkbox = document.querySelector('#AfficherMotDePasse');
-    const passwordInput = document.querySelector('#txtMotDePasse');
-    afficherMotDePasse(checkbox,passwordInput);
+    // Affichage du mot de passe à l'aide d'une case à cocher et de sa fonction associée.
+    const caseCocher = document.querySelector('#afficherMotDePasse');
+    const champMotDePasse = document.querySelector('#txtMotDePasse');
+    afficherMotDePasse(caseCocher,champMotDePasse);
 
+    // Si la condition est respectée, nous sommes à la fin du processus d'envoi de l'email de vérification.
     if(envoyerEmail === 'true'){
-      const emailModal = document.querySelector("#emailModal");
-      const txtPremier = document.querySelector('#txtPremier');
-      txtPremier.textContent = 'Email de vérification envoyé avec succès !';
-      const txtDeuxieme = document.querySelector('#txtDeuxieme');
-      txtDeuxieme.textContent = 'Si vous ne le trouvez pas, vérifiez dans vos courriers indésirables.';
-      emailModal.style.display = 'block';
+
+      // Sélection de l'ID de la modal et le texte à intégrer dedans.
+      const modalID = 'modalID';
+      const txtPremier = 'Email de vérification envoyé avec succès !';
+      const txtDeuxieme = 'Si vous ne le trouvez pas, vérifiez dans vos courriers indésirables.';
+
+      afficherModalEmail(txtPremier,txtDeuxieme,modalID);
+
     }
+
+    // Si la condition est respectée, nous sommes à la fin du processus d'envoi de l'email pour modifier le mot de passe.
     else if(envoyerEmailPassword === 'true'){
-      const emailModal = document.querySelector("#emailModal");
-      const txtPremier = document.querySelector('#txtPremier');
-      txtPremier.textContent = 'Email de réinitialisation du mot de passe envoyé avec succès !';
-      const txtDeuxieme = document.querySelector('#txtDeuxieme');
-      txtDeuxieme.textContent = 'Si vous ne le trouvez pas, vérifiez dans vos courriers indésirables.';
-      emailModal.style.display = 'block';
+      
+      // Sélection de l'ID de la modal et le texte à intégrer dedans.
+      const modalID = document.querySelector("#modalID");
+      const txtPremier = 'Email de réinitialisation du mot de passe envoyé avec succès !';
+      const txtDeuxieme = 'Si vous ne le trouvez pas, vérifiez dans vos courriers indésirables.';
+
+      afficherModalEmail(txtPremier,txtDeuxieme,modalID);
+
     }
+
+    // Si la condition est respectée, nous sommes dans le processus de vérification de l'email de l'utilisateur.
     else if(mode === 'verifyEmail'){
         verifierEmailUtilisateur(oobCode);
     }
+
+    // Si la condition est respectée, nous sommes dans le processus de réinitialisation du mot de passe de l'utilisateur.
     else if(mode === 'resetPassword'){
+      
         const formulaireConnexion = document.querySelector("#connexion");
-        const ModifierMotDePasse = document.querySelector("#ModifierMotDePasse");
+        const modifierMotDePass = document.querySelector("#modifierMotDePasse");
         const btnChangerMotDePasse = document.querySelector("#btnChangerMotDePasse");
 
         formulaireConnexion.style.display = 'none';
-        ModifierMotDePasse.style.display = 'block';
+        modifierMotDePass.style.display = 'block';
 
         let checkbox = document.querySelector('#AfficherNouveauMotDePasse');
         let passwordInput = document.querySelector('#txtNouveauMotDePasse');
@@ -110,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
         btnChangerMotDePasse.addEventListener('click', (event) => modifierMotDePasse(event, oobCode));
 
     }else if(modificationMDP === 'true'){
-      const emailModal = document.querySelector("#emailModal");
+      const emailModal = document.querySelector("#modalID");
       const txtPremier = document.querySelector('#txtPremier');
       txtPremier.textContent = 'Votre mot de passe a bien été changé !';
       const txtDeuxieme = document.querySelector('#txtDeuxieme');
@@ -122,18 +139,14 @@ document.addEventListener('DOMContentLoaded', () => {
     btnConnexion.addEventListener("click", connexionEmailMotDePasse);
 
   }
-  else if(validation){
-    surveillanceEtatAuthentification();
-
-  }
-  else if(MotDePasseOublier){
-    console.log(MotDePasseOublier);
+  else if(pageMotDePasseOublier){
+    gestionChargementPageAuthentification();
     
     const btnEnvoyerLien = document.querySelector("#btnEnvoyerLien");
     btnEnvoyerLien.addEventListener('click',motDePasseOublier);
 
   }
-  else if(emailNonVerifier){
+  else if(pageEmailNonVerifier){
     surveillanceEtatAuthentification();
 
     const btnEnvoyerLien = document.querySelector("#btnEnvoyerLien");
