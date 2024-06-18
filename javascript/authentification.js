@@ -7,54 +7,58 @@ import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateC
   /**
    * Fonction de connexion utilisant une adresse e-mail et un mot de passe.
    * Cette fonction est déclenchée par le bouton de connexion.
+   * @param {Event} event - L'objet d'événement déclenché par le clic sur le bouton de connexion.
    * @returns {void}
-  */
+   */
   export const connexionEmailMotDePasse = async (event) => {
+
+    const btnConnexion = document.querySelector("#btnConnexion");
     try {
-        event.preventDefault();
 
-      const btnConnexion = document.querySelector("#btnConnexion");
-      btnConnexion.innerHTML = `<svg id="svg-spinner" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
-      <circle cx="24" cy="4" r="4" fill="#fff" />
-      <circle cx="12.19" cy="7.86" r="3.7" fill="#fffbf2" />
-      <circle cx="5.02" cy="17.68" r="3.4" fill="#fef7e4" />
-      <circle cx="5.02" cy="30.32" r="3.1" fill="#fef3d7" />
-      <circle cx="12.19" cy="40.14" r="2.8" fill="#feefc9" />
-      <circle cx="24" cy="44" r="2.5" fill="#feebbc" />
-      <circle cx="35.81" cy="40.14" r="2.2" fill="#fde7af" />
-      <circle cx="42.98" cy="30.32" r="1.9" fill="#fde3a1" />
-      <circle cx="42.98" cy="17.68" r="1.6" fill="#fddf94" />
-      <circle cx="35.81" cy="7.86" r="1.3" fill="#fcdb86" />
-    </svg>` ;
+          event.preventDefault();
 
-      if (btnConnexion.disabled) {
-        return;
-      }
+          // Affichage d'une animation de chargement en cercle sur le bouton pendant le chargement.
+          AjoutAnimationChargementBlanc(btnConnexion);
 
-      btnConnexion.disabled = true; 
+          // Si le bouton est déjà désactivé, on arrête ici pour éviter les traitements multiples.
+          if (btnConnexion.disabled) {
+            return;
+          }
 
-      await setPersistence(auth, browserSessionPersistence);
+          // Désactive le bouton pour éviter les soumissions multiples.
+          btnConnexion.disabled = true; 
 
-      const userIdentifiant = await signInWithEmailAndPassword(auth, document.querySelector("#txtEmail").value, document.querySelector("#txtMotDePasse").value);
-      const user = userIdentifiant.user;
 
-      renitialisationErreurAuthentification();
-      btnConnexion.innerHTML = 'Connexion';
-      btnConnexion.disabled = false;
-      applicationAffichage();
-      if (user) {
-        if (user.emailVerified) {
-          surveillanceEtatAuthentification(userIdentifiant);
-          window.location.replace('https://truqac-test.web.app/app/accueil.html');
-        } else {
-          window.location.replace('https://truqac-test.web.app/auth/emailNonVerifier.html');
-        }
-      }
+          // Récupération et nettoyage de la valeur saisie dans les différents champs.
+          const champEmail = document.querySelector("#txtEmail").value.trim();
+          const champMotDePasse = document.querySelector("#txtMotDePasse").value.trim();
+
+          // Définit la persistance de session de l'utilisateur. L'utilisateur restera connecté uniquement pour cette session(page web).
+          await setPersistence(auth, browserSessionPersistence);
+
+          // Connexion avec l'e-mail et le mot de passe et récupération de ces informations.
+          const userIdentifiant = await signInWithEmailAndPassword(auth, champEmail, champMotDePasse);
+          const user = userIdentifiant.user;
+
+          // Réinitialisation de l'interface avant de rediriger l'utilisateur.
+          renitialisationErreurAuthentification();
+          renitialisationBouton(btnConnexion,'Connexion')
+
+          // Redirection en fonction du statut de vérification de l'e-mail.
+          if (user) {
+            if (user.emailVerified) {
+              window.location.replace('https://truqac-test.web.app/app/accueil.html');
+            }
+            else {
+              window.location.replace('https://truqac-test.web.app/auth/emailNonVerifier.html');
+            }
+          }
     
     } catch (error) {
+
+      // En cas d'erreur lors de la création de la connexion, affiche l'erreur et réinitialise le bouton "Connexion" à son état par défaut.
       erreurAuthentification(error);
-      btnConnexion.innerHTML = 'Connexion';
-      btnConnexion.disabled = false;
+      renitialisationBouton(btnConnexion,'Connexion');
     }
   };
   
@@ -231,42 +235,58 @@ import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateC
         });
   }
 
+  
+/**
+ * Fonction asynchrone pour gérer l'envoi d'un e-mail de réinitialisation de mot de passe.
+ * @param {Event} event - L'événement de soumission du formulaire (pour empêcher le comportement par défaut).
+*/
 export const motDePasseOublier = async (event) => {
   event.preventDefault();
   
+  // Affichage d'une animation de chargement en cercle sur le bouton pendant le chargement.
   const btnEnvoyerLien = document.querySelector("#btnEnvoyerLien");
-  btnEnvoyerLien.innerHTML = `<svg id="svg-spinner" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
-  <circle cx="24" cy="4" r="4" fill="#fff" />
-  <circle cx="12.19" cy="7.86" r="3.7" fill="#fffbf2" />
-  <circle cx="5.02" cy="17.68" r="3.4" fill="#fef7e4" />
-  <circle cx="5.02" cy="30.32" r="3.1" fill="#fef3d7" />
-  <circle cx="12.19" cy="40.14" r="2.8" fill="#feefc9" />
-  <circle cx="24" cy="44" r="2.5" fill="#feebbc" />
-  <circle cx="35.81" cy="40.14" r="2.2" fill="#fde7af" />
-  <circle cx="42.98" cy="30.32" r="1.9" fill="#fde3a1" />
-  <circle cx="42.98" cy="17.68" r="1.6" fill="#fddf94" />
-  <circle cx="35.81" cy="7.86" r="1.3" fill="#fcdb86" />
-</svg>` ;
+  AjoutAnimationChargementBlanc(btnEnvoyerLien);
+  
 
+  // Si le bouton est déjà désactivé, on arrête ici pour éviter les traitements multiples.
   if (btnEnvoyerLien.disabled) {
     return;
   }
 
+  // Désactive le bouton pour éviter les soumissions multiples.
   btnEnvoyerLien.disabled = true; 
 
+
+  // Expressions régulières pour la validation de l'e-mail.
   const emailVerificationRegex = /^[a-zA-Z0-9._%+-]+@(etu\.)?uqac\.ca$/;
 
-  if (emailVerificationRegex.test(document.querySelector("#txtEmail").value)) {
+  // Récupération et nettoyage de la valeur saisie dans les différents champs.
+  const champEmail = document.querySelector("#txtEmail").value.trim();
+
+  if (emailVerificationRegex.test(champEmail)) {
     try {
-      await sendPasswordResetEmail(auth, document.querySelector("#txtEmail").value);
-      btnEnvoyerLien.disabled = false; 
+
+      // Appel de la fonction firebase d'envoi de l'e-mail de réinitialisation du mot de passe.
+      await sendPasswordResetEmail(auth, champEmail);
+      
+      // Réinitialisation du bouton après l'envoi réussi.
+      renitialisationBouton(btnEnvoyerLien,'Envoyer un lien');
+
+      // Redirection vers la page indiquant que le lien a été envoyé.
       window.location.replace('https://truqac-test.web.app/index.html?motDePasseEnvoyer=true');
     } catch (error) {
-      btnEnvoyerLien.disabled = false; 
+
+      // En cas d'erreur lors de l'envoi de l'e-mail, redirige vers la page indiquant que le lien n'a pas pu être envoyé. (Mesure de sécurité)
+      // Réinitialisation du bouton.
+      renitialisationBouton(btnEnvoyerLien,'Envoyer un lien');
       window.location.replace('https://truqac-test.web.app/index.html?motDePasseEnvoyer=true');
     }
-  } else {
-    btnEnvoyerLien.disabled = false; 
+  } 
+  else {
+
+    // En cas d'erreur lors de l'envoi de l'e-mail, redirige vers la page indiquant que le lien n'a pas pu être envoyé. (Mesure de sécurité)
+    // Réinitialisation du bouton.
+    renitialisationBouton(btnEnvoyerLien,'Envoyer un lien');
     window.location.replace('https://truqac-test.web.app/index.html?motDePasseEnvoyer=true');
   }
 };
@@ -274,41 +294,45 @@ export const motDePasseOublier = async (event) => {
 
 
 
+/**
+ * Fonction asynchrone pour envoyer un nouveau lien de vérification de l'e-mail de l'utilisateur actuellement connecté.
+ * @param {Event} event - L'événement de soumission du formulaire (pour empêcher le comportement par défaut).
+ */
 export const nouveauLienVerification = async (event) =>{
   
   event.preventDefault();
-  const btnCompteNonVerifier = document.querySelector("#btnEnvoyerLien");
-  btnCompteNonVerifier.innerHTML = `<svg id="svg-spinner" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
-  <circle cx="24" cy="4" r="4" fill="#fff" />
-  <circle cx="12.19" cy="7.86" r="3.7" fill="#fffbf2" />
-  <circle cx="5.02" cy="17.68" r="3.4" fill="#fef7e4" />
-  <circle cx="5.02" cy="30.32" r="3.1" fill="#fef3d7" />
-  <circle cx="12.19" cy="40.14" r="2.8" fill="#feefc9" />
-  <circle cx="24" cy="44" r="2.5" fill="#feebbc" />
-  <circle cx="35.81" cy="40.14" r="2.2" fill="#fde7af" />
-  <circle cx="42.98" cy="30.32" r="1.9" fill="#fde3a1" />
-  <circle cx="42.98" cy="17.68" r="1.6" fill="#fddf94" />
-  <circle cx="35.81" cy="7.86" r="1.3" fill="#fcdb86" />
-</svg>` ;
 
+  // Affichage d'une animation de chargement en cercle sur le bouton pendant le chargement.
+  const btnCompteNonVerifier = document.querySelector("#btnEnvoyerLien");
+  AjoutAnimationChargementBlanc(btnCompteNonVerifier);
+
+  // Si le bouton est déjà désactivé, on arrête ici pour éviter les traitements multiples.
   if (btnCompteNonVerifier.disabled) {
     return;
   }
 
+  // Désactive le bouton pour éviter les soumissions multiples.
   btnCompteNonVerifier.disabled = true; 
 
     try {
 
+        // Envoyer un e-mail de vérification à l'utilisateur actuellement connecté.
         await sendEmailVerification(auth.currentUser); 
-        btnCompteNonVerifier.textContent = 'Envoyer un lien de vérification';
-        btnCompteNonVerifier.disabled = false; 
+
+        // Réinitialise le bouton après l'envoi réussi du lien de vérification.
+        renitialisationBouton(btnCompteNonVerifier,'Envoyer un lien de vérification');
+
+        // Déconnecter l'utilisateur après l'envoi du lien de vérification afin de se reconnecter.
         deconnexion();
+
+        // Redirection vers la page indiquant que le lien a été envoyé.
         window.location.replace('https://truqac-test.web.app/?envoyer=true');
       
     } catch (error) {
+
+      // En cas d'erreur lors de l'envoie de l'email, affiche l'erreur et réinitialise le bouton "Créer compte" à son état par défaut.
       erreurAuthentification(error);
-      btnCompteNonVerifier.textContent = 'Envoyer un lien de vérification';
-      btnCompteNonVerifier.disabled = false; 
+      renitialisationBouton(btnCompteNonVerifier,'Envoyer un lien de vérification');
 
     }
 
@@ -408,59 +432,63 @@ export const nouveauLienVerification = async (event) =>{
       });
     }
 
+    /**
+     * Fonction asynchrone pour gérer la déconnexion de l'utilisateur et rediriger vers la page d'accueil.
+     * @param {Event} event - L'événement de soumission du formulaire (pour empêcher le comportement par défaut).
+     */
     export const deconnexionRedirection = async (event) =>{
       event.preventDefault();
-      const btnDeconnexion = document.querySelector("#deconnexion");
-      btnDeconnexion.innerHTML = `<svg id="svg-spinner" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
-      <circle cx="24" cy="4" r="4" fill="#fff" />
-      <circle cx="12.19" cy="7.86" r="3.7" fill="#fffbf2" />
-      <circle cx="5.02" cy="17.68" r="3.4" fill="#fef7e4" />
-      <circle cx="5.02" cy="30.32" r="3.1" fill="#fef3d7" />
-      <circle cx="12.19" cy="40.14" r="2.8" fill="#feefc9" />
-      <circle cx="24" cy="44" r="2.5" fill="#feebbc" />
-      <circle cx="35.81" cy="40.14" r="2.2" fill="#fde7af" />
-      <circle cx="42.98" cy="30.32" r="1.9" fill="#fde3a1" />
-      <circle cx="42.98" cy="17.68" r="1.6" fill="#fddf94" />
-      <circle cx="35.81" cy="7.86" r="1.3" fill="#fcdb86" />
-    </svg>` ;
 
+      // Affichage d'une animation de chargement en cercle sur le bouton pendant le chargement.
+      const btnDeconnexion = document.querySelector("#deconnexion");
+      AjoutAnimationChargementBlanc(btnDeconnexion);
+
+      // Appele à fonction de déconnexion de l'utilisateur.
       deconnexion();
 
-      btnDeconnexion.textContent = 'Déconnexion' ;
+      // Rétablir le texte du bouton avant la redirection.
+      renitialisationBouton(btnDeconnexion,'Déconnexion');
+
+      // Redirige l'utilisateur vers la page d'accueil après la déconnexion.
       window.location.replace('https://truqac-test.web.app/');
 
     }
 
+
+    /**
+     * Fonction pour gérer le chargement initial de la page, vérifier l'état de l'authentification de l'utilisateur
+     * et afficher les éléments appropriés en conséquence.
+     */
     export function ChargementPage() {
+
+      // Sélectionne l'élément de chargement et le formulaire pour l'email non vérifié.
       const chargement = document.querySelector("#chargement");
       const emailNonVerifier = document.querySelector("#emailNonVerifier");
     
-      chargement.innerHTML =  `<svg id="svg-spinner" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
-        <circle cx="24" cy="4" r="4" fill="#fff" />
-        <circle cx="12.19" cy="7.86" r="3.7" fill="#fffbf2" />
-        <circle cx="5.02" cy="17.68" r="3.4" fill="#fef7e4" />
-        <circle cx="5.02" cy="30.32" r="3.1" fill="#fef3d7" />
-        <circle cx="12.19" cy="40.14" r="2.8" fill="#feefc9" />
-        <circle cx="24" cy="44" r="2.5" fill="#feebbc" />
-        <circle cx="35.81" cy="40.14" r="2.2" fill="#fde7af" />
-        <circle cx="42.98" cy="30.32" r="1.9" fill="#fde3a1" />
-        <circle cx="42.98" cy="17.68" r="1.6" fill="#fddf94" />
-        <circle cx="35.81" cy="7.86" r="1.3" fill="#fcdb86" />
-      </svg>`;
+      // Affichage d'une animation de chargement en cercle sur le bouton pendant que Firebase indique si l'utilisateur est connecté ou non.
+      AjoutAnimationChargementBlanc(chargement);
 
+      // Agrandissement de l'animation de chargement en cercle et l'affiche au milieu de la page.
       const svgSpinner = document.querySelector("#svg-spinner");
       svgSpinner.style.height = '70px';
-
       chargement.style.display = 'block';
 
+      // Si l'utilisateur est connecté, on affiche le formulaire pour l'e-mail non vérifié.
+      // En redéfinissant la taille originale de l'animation de chargement en cercle pour le bouton.
+      // Sinon, on redirige l'utilisateur vers la page de connexion.
       auth.onAuthStateChanged(user => {
         if (user) {
           svgSpinner.style.height = '13px';
+
+          // État de connexion de l'utilisateur trouvé par Firebase, donc on enlève l'animation de chargement de la page.
           chargement.innerHTML = ''; 
           chargement.style.display = 'none';
+
+          // Affichage du formulaire pour l'email non vérifié.
           emailNonVerifier.style.display = 'block';
         } else {
 
+          // Redirection de l'utilisateur vers la page de connexion.
           window.location.replace('https://truqac-test.web.app/');
       }
       });

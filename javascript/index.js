@@ -75,7 +75,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Sélection de l'ID de la modal.
     const modalID = 'modalID';
 
-    console.log(fermerModal);
     fermerModal.addEventListener('click', function() {fermerModale(modalID);});
 
     // Affichage du mot de passe à l'aide d'une case à cocher et de sa fonction associée.
@@ -137,34 +136,42 @@ document.addEventListener('DOMContentLoaded', () => {
         const btnChangerMotDePasse = document.querySelector("#btnChangerMotDePasse");
         btnChangerMotDePasse.addEventListener('click', (event) => modifierMotDePasse(event, oobCode));
 
-    }else if(modificationMDP === 'true'){
-      const emailModal = document.querySelector("#modalID");
-      const txtPremier = document.querySelector('#txtPremier');
-      txtPremier.textContent = 'Votre mot de passe a bien été changé !';
-      const txtDeuxieme = document.querySelector('#txtDeuxieme');
-      txtDeuxieme.textContent = '';
-      emailModal.style.display = 'block';
     }
-    // Ajout des divers fonctions à un bouton de l'interface
+
+    // Si la condition est respectée, nous sommes à la fin du processus de réinitialisation du mot de passe de l'utilisateur.
+    else if(modificationMDP === 'true'){
+
+      // Définition du texte à intégrer dans la modal.
+      const txtPremier = 'Votre mot de passe a bien été changé !';
+      const txtDeuxieme = '';
+      afficherModalEmail(txtPremier,txtDeuxieme,modalID);
+
+    }
+
+    // Association de la fonction de connexion au bouton correspondant.
     const btnConnexion = document.querySelector("#btnConnexion");
     btnConnexion.addEventListener("click", connexionEmailMotDePasse);
 
   }
   else if(pageMotDePasseOublier){
+
     gestionChargementPageAuthentification();
     
+    // Association de la fonction de mot de pase oublier au bouton correspondant.
     const btnEnvoyerLien = document.querySelector("#btnEnvoyerLien");
     btnEnvoyerLien.addEventListener('click',motDePasseOublier);
 
   }
   else if(pageEmailNonVerifier){
-    surveillanceEtatAuthentification();
 
+    // Association de la fonction pour envoyer un nouveau lien de vérification au bouton correspondant.
     const btnEnvoyerLien = document.querySelector("#btnEnvoyerLien");
     btnEnvoyerLien.addEventListener("click",nouveauLienVerification)
 
+    // Association de la fonction pour se déconnecter au bouton correspondant.
     const btnDeconnexion = document.querySelector("#deconnexion");
     btnDeconnexion.addEventListener("click",deconnexionRedirection);
+    
     ChargementPage();
   }
 
