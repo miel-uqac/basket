@@ -165,12 +165,14 @@ export const afficherFormulaireConnexion = () => {
 
 
 /**
- * Fonction pour fermer la modale d'email.
- * Elle sélectionne l'élément avec l'ID 'emailModal' dans le DOM
+ * Fonction pour fermer la modale.
+ * Cette fonction sélectionne l'élément modal dans le DOM par son ID
  * et change son style pour le masquer en mettant 'display' à 'none'.
+ * 
+ * @param {string} modalID - L'ID de la modale à fermer.
  */
-export function fermerModale() {
-  const modale = document.querySelector("#emailModal");
+export function fermerModale(modalID) {
+  const modale = document.querySelector(`#${modalID}`);
   modale.style.display = "none";
 }
 
@@ -299,7 +301,3 @@ export function modifierModalEmail(premierTexte, deuxiemeTexte, modalId) {
   txtDeuxieme.textContent = deuxiemeTexte;
   
 }
-
-
-
-

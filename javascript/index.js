@@ -70,8 +70,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const modificationMDP = urlParametres.get('modificationMDP');
 
     // Sélectionne le bouton de fermeture de la modale d'information afin de lui associer sa fonction de fermeture.
-    const fermerModal = document.querySelector("#close");
-    fermerModal.addEventListener('click', fermerModale);
+    const fermerModal = document.querySelector("#fermer");
+
+    // Sélection de l'ID de la modal.
+    const modalID = 'modalID';
+
+    console.log(fermerModal);
+    fermerModal.addEventListener('click', function() {fermerModale(modalID);});
 
     // Affichage du mot de passe à l'aide d'une case à cocher et de sa fonction associée.
     const caseCocher = document.querySelector('#afficherMotDePasse');
@@ -81,8 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Si la condition est respectée, nous sommes à la fin du processus d'envoi de l'email de vérification.
     if(envoyerEmail === 'true'){
 
-      // Sélection de l'ID de la modal et le texte à intégrer dedans.
-      const modalID = 'modalID';
+      // Définition du texte à intégrer dans la modal.
       const txtPremier = 'Email de vérification envoyé avec succès !';
       const txtDeuxieme = 'Si vous ne le trouvez pas, vérifiez dans vos courriers indésirables.';
 
@@ -93,8 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Si la condition est respectée, nous sommes à la fin du processus d'envoi de l'email pour modifier le mot de passe.
     else if(envoyerEmailPassword === 'true'){
       
-      // Sélection de l'ID de la modal et le texte à intégrer dedans.
-      const modalID = document.querySelector("#modalID");
+      // Définition du texte à intégrer dans la modal.
       const txtPremier = 'Email de réinitialisation du mot de passe envoyé avec succès !';
       const txtDeuxieme = 'Si vous ne le trouvez pas, vérifiez dans vos courriers indésirables.';
 
@@ -110,20 +113,28 @@ document.addEventListener('DOMContentLoaded', () => {
     // Si la condition est respectée, nous sommes dans le processus de réinitialisation du mot de passe de l'utilisateur.
     else if(mode === 'resetPassword'){
       
+        // Si nous sommes dans le processus de réinitialisation du mot de passe.
+        // Il faut enlever le formulaire de connexion car les deux sont sur la même page.
+        // On sélectionne le formulaire de connexion et le formulaire de réinitialisation du mot de passe.
         const formulaireConnexion = document.querySelector("#connexion");
         const modifierMotDePass = document.querySelector("#modifierMotDePasse");
-        const btnChangerMotDePasse = document.querySelector("#btnChangerMotDePasse");
 
+        // Masque le formulaire de connexion et affiche le formulaire de réinitialisation.
         formulaireConnexion.style.display = 'none';
         modifierMotDePass.style.display = 'block';
 
-        let checkbox = document.querySelector('#AfficherNouveauMotDePasse');
-        let passwordInput = document.querySelector('#txtNouveauMotDePasse');
-        afficherMotDePasse(checkbox,passwordInput);
+        // Affichage du nouveau mot de passe à l'aide d'une case à cocher et de sa fonction associée.
+        let caseCocher = document.querySelector('#afficherNouveauMotDePasse');
+        let champMotDePasse = document.querySelector('#txtNouveauMotDePasse');
+        afficherMotDePasse(caseCocher,champMotDePasse);
     
-        checkbox = document.querySelector('#AfficherNouveauMotDePasse');
-        passwordInput = document.querySelector('#txtConfirmerNouveauMotDePasse');
-        afficherMotDePasse(checkbox,passwordInput);
+        // Affichage du nouveau mot de passe de confirmation à l'aide d'une case à cocher et de sa fonction associée.
+        caseCocher = document.querySelector('#afficherNouveauMotDePasse');
+        champMotDePasse = document.querySelector('#txtConfirmerNouveauMotDePasse');
+        afficherMotDePasse(caseCocher,champMotDePasse);
+
+        // Sélectionne le bouton pour changer le mot de passe et lui associe sa fonction.
+        const btnChangerMotDePasse = document.querySelector("#btnChangerMotDePasse");
         btnChangerMotDePasse.addEventListener('click', (event) => modifierMotDePasse(event, oobCode));
 
     }else if(modificationMDP === 'true'){

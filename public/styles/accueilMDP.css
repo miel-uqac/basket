@@ -195,7 +195,7 @@ form{
     font-size: 16px;
 }
 
-.formulaireMotDePasseOublier #AfficherNouveauMotDePasse{
+.formulaireMotDePasseOublier #afficherNouveauMotDePasse{
     display: flex;
     width: 15px;
     height: 15px;

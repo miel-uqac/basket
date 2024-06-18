@@ -196,8 +196,9 @@ import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateC
 
     // Sélectionne l'ID de la modal pour l'afficher pendant le traitement de la fonction ainsi que l'animation de chargement pour l'utilisateur.
     const modalID = document.querySelector("#modalID");
+    
+    // Affichage d'une animation de chargement en cercle sur la modal pendant le chargement.
     const txtPremier  = modalID.querySelector('#txtPremier');
-
     AjoutAnimationChargementBleu(txtPremier);
 
     // Modification du style de l'animation de chargement pour l'utilisateur.
@@ -315,70 +316,84 @@ export const nouveauLienVerification = async (event) =>{
 
 
   /**
-   * Fonction permettant à un utilisateur de créer un compte en utilisant une adresse e-mail et un mot de passe,
-   * et lui envoie un e-mail de vérification.
+   * Fonction permettant de modifier le mot de passe d'un utilisateur après validation des champs
+   * et envoie une requête de réinitialisation au service d'authentification.
+   * @param {Event} event L'événement de clic sur le bouton de modification de mot de passe.
+   * @param {string} oobCode Le code unique pour la réinitialisation du mot de passe.
    * @returns {void}
    */
   export const modifierMotDePasse = async (event,oobCode) => {
 
     event.preventDefault();
+
+    // Affichage d'une animation de chargement en cercle sur le bouton pendant le chargement.
     const btnChangerMotDePasse = document.querySelector("#btnChangerMotDePasse");
-    btnChangerMotDePasse.innerHTML = `<svg id="svg-spinner" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
-    <circle cx="24" cy="4" r="4" fill="#fff" />
-    <circle cx="12.19" cy="7.86" r="3.7" fill="#fffbf2" />
-    <circle cx="5.02" cy="17.68" r="3.4" fill="#fef7e4" />
-    <circle cx="5.02" cy="30.32" r="3.1" fill="#fef3d7" />
-    <circle cx="12.19" cy="40.14" r="2.8" fill="#feefc9" />
-    <circle cx="24" cy="44" r="2.5" fill="#feebbc" />
-    <circle cx="35.81" cy="40.14" r="2.2" fill="#fde7af" />
-    <circle cx="42.98" cy="30.32" r="1.9" fill="#fde3a1" />
-    <circle cx="42.98" cy="17.68" r="1.6" fill="#fddf94" />
-    <circle cx="35.81" cy="7.86" r="1.3" fill="#fcdb86" />
-  </svg>` ;
+    AjoutAnimationChargementBlanc(btnChangerMotDePasse);
   
+    // Si le bouton est déjà désactivé, on arrête ici pour éviter les traitements multiples.
     if (btnChangerMotDePasse.disabled) {
       return;
     }
 
+    // Désactive le bouton pour éviter les soumissions multiples.
     btnChangerMotDePasse.disabled = true; 
 
+    // Expressions régulières pour la validation du mot de passe.
     const motDePasseVerificationRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
 
-    if(document.querySelector("#txtNouveauMotDePasse").value === document.querySelector("#txtConfirmerNouveauMotDePasse").value && !document.querySelector("#txtNouveauMotDePasse").value == '' && !document.querySelector("#txtConfirmerNouveauMotDePasse").value == ''){
+    // Récupération et nettoyage de la valeur saisie dans les différents champs.
+    const champMotDePasse = document.querySelector("#txtNouveauMotDePasse").value.trim();
+    const champConfirmerMotDePasse = document.querySelector("#txtConfirmerNouveauMotDePasse").value.trim();
 
-      if (motDePasseVerificationRegex.test(document.querySelector("#txtNouveauMotDePasse").value)) {
+    // Vérification si les mots de passe correspondent et ne sont pas vides.
+    if(champMotDePasse === champConfirmerMotDePasse && !champMotDePasse == '' && !champConfirmerMotDePasse == ''){
+
+      // Validation du mot de passe.
+      if (motDePasseVerificationRegex.test(champMotDePasse)) {
         try {
+
+           // Attend la confirmation de réinitialisation du mot de passe par le service d'authentification,
+           // puis redirige l'utilisateur vers la page de confirmation.
             await confirmPasswordReset(auth, oobCode, document.querySelector("#txtNouveauMotDePasse").value);
             window.location.replace("https://truqac-test.web.app/?modificationMDP=true");
+
           } catch (error) {
+
+            // En cas d'erreur lors de la modification du mot de passe, affiche l'erreur et réinitialise le bouton "ChangerMotDePasse" à son état par défaut.
             erreurAuthentification(error);
-            btnChangerMotDePasse.innerHTML = 'Réinitialiser le mot de passe';
-            btnChangerMotDePasse.disabled = false;
+            renitialisationBouton(btnChangerMotDePasse,'Réinitialiser le mot de passe')
           }
 
-        }   
-        else{
-          erreurAuthentification('auth/mdpTropFaible');
-          btnChangerMotDePasse.innerHTML = 'Réinitialiser le mot de passe';
-          btnChangerMotDePasse.disabled = false; 
+        } 
 
-        }
-      }
-
-      else if(document.querySelector("#txtNouveauMotDePasse").value == '' && document.querySelector("#txtConfirmerNouveauMotDePasse").value == ''){
-        erreurAuthentification('auth/missing-password');
-          btnChangerMotDePasse.innerHTML = 'Réinitialiser le mot de passe';
-          btnChangerMotDePasse.disabled = false; 
-
-        }
-
+      // Mot de passe ne respectant pas les critères minimum.
       else{
+
+          // En cas d'erreur lors de la modification du mot de passe, affiche l'erreur et réinitialise le bouton "ChangerMotDePasse" à son état par défaut.
+          erreurAuthentification('auth/mdpTropFaible');
+          renitialisationBouton(btnChangerMotDePasse,'Réinitialiser le mot de passe')
+
+        }
+    }
+
+    // Les champs mot de pase et confirmer le mot de passe sont vide.
+    else if(champMotDePasse == '' && champConfirmerMotDePasse == ''){
+        
+        // En cas d'erreur lors de la modification du mot de passe, affiche l'erreur et réinitialise le bouton "ChangerMotDePasse" à son état par défaut.
+        erreurAuthentification('auth/missing-password');
+        renitialisationBouton(btnChangerMotDePasse,'Réinitialiser le mot de passe')
+
+        }
+
+    // Les champs mot de passe et confirmer mot de passe sont différent. 
+    else{
+
+        // En cas d'erreur lors de la modification du mot de passe, affiche l'erreur et réinitialise le bouton "ChangerMotDePasse" à son état par défaut.
         erreurAuthentification('auth/mdpDifferent');
-        btnChangerMotDePasse.innerHTML = 'Réinitialiser le mot de passe';
-        btnChangerMotDePasse.disabled = false; 
+        renitialisationBouton(btnChangerMotDePasse,'Réinitialiser le mot de passe')
 
       }
-    };
+};
 
 
     export const initialiserEcouteurAuth = async () =>{
@@ -471,5 +486,3 @@ export function gestionChargementPageAuthentification() {
     }
   });
 }
-
-

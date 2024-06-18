@@ -26,8 +26,8 @@ body {
     border-radius: 10px;
   }
   
-  /* The Close Button */
-  #close {
+  /* The fermer Button */
+  #fermer {
     margin-top: 15px;
     color: black;
     background-color: rgb(38, 114, 236);
@@ -39,8 +39,8 @@ body {
     font-weight: bold;
   }
   
-  #close:hover,
-  #close:focus {
+  #fermer:hover,
+  #fermer:focus {
     opacity: 0.5; 
     cursor: pointer;
   }
@@ -127,7 +127,7 @@ body {
 
 
 
-.formulaireConnexion #AfficherMotDePasse{
+.formulaireConnexion #afficherMotDePasse{
     display: flex;
     width: 15px;
     height: 15px;
