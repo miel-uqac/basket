@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, connectAuthEmulator} from "firebase/auth";
 import { getDatabase, connectDatabaseEmulator } from "firebase/database";
-import {connexionEmailMotDePasse,creerCompte,surveillanceEtatAuthentification, verifierEmailUtilisateur, nouveauLienVerification,motDePasseOublier, modifierMotDePasse, deconnexionRedirection,ChargementPage, gestionChargementPageAuthentification, functionChargementPageDeconnecter} from "./authentification";
+import {connexionEmailMotDePasse,creerCompte,surveillanceEtatAuthentification, verifierEmailUtilisateur, nouveauLienVerification,motDePasseOublier, modifierMotDePasse, deconnexionRedirection,ChargementPage, gestionChargementPageAuthentification} from "./authentification";
 import {fermerModale, afficherMotDePasse,afficherModalEmail} from "./ui";
 
 // Configuration application Web FireBase.
@@ -104,12 +104,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }
 
-    // Si la condition est respectée, nous sommes dans le processus de vérification de l'email de l'utilisateur.
+    // Si la condition est respectée, nous sommes dans le processus de vérification de l'email de la personne utilisatrice.
     else if(mode === 'verifyEmail'){
         verifierEmailUtilisateur(oobCode);
     }
 
-    // Si la condition est respectée, nous sommes dans le processus de réinitialisation du mot de passe de l'utilisateur.
+    // Si la condition est respectée, nous sommes dans le processus de réinitialisation du mot de passe de la personne utilisatrice.
     else if(mode === 'resetPassword'){
       
         // Si nous sommes dans le processus de réinitialisation du mot de passe.
@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }
 
-    // Si la condition est respectée, nous sommes à la fin du processus de réinitialisation du mot de passe de l'utilisateur.
+    // Si la condition est respectée, nous sommes à la fin du processus de réinitialisation du mot de passe de la personne utilisatrice.
     else if(modificationMDP === 'true'){
 
       // Définition du texte à intégrer dans la modal.
