@@ -1,5 +1,7 @@
+// Fichier contenant toutes les fonctions concernant l'authentification de la personne utilisatrice.
+
 import { auth } from "./index";
-import { erreurAuthentification, etatConnexion, afficherFormulaireConnexion, renitialisationErreurAuthentification, AjoutAnimationChargementBlanc,renitialisationBouton,messageInterfaceUtilisateur,AjoutAnimationChargementBleu,modifierModalEmail } from "./ui";
+import { erreurAuthentification, etatConnexion, afficherFormulaireConnexion, renitialisationErreurAuthentification, ajoutAnimationChargementBlanc,renitialisationBouton,messageInterfaceUtilisateur,ajoutAnimationChargementBleu,modifierModalEmail } from "./ui";
 import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, sendEmailVerification, applyActionCode,sendPasswordResetEmail,confirmPasswordReset, browserSessionPersistence,setPersistence } from "firebase/auth";
     
 
@@ -18,7 +20,7 @@ import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateC
       event.preventDefault();
 
       // Affichage d'une animation de chargement en cercle sur le bouton pendant le chargement.
-      AjoutAnimationChargementBlanc(btnConnexion);
+      ajoutAnimationChargementBlanc(btnConnexion);
 
       // Si le bouton est déjà désactivé, on arrête ici pour éviter les traitements multiples.
       if (btnConnexion.disabled) {
@@ -75,7 +77,7 @@ import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateC
 
     // Affichage d'une animation de chargement en cercle sur le bouton pendant le chargement.
     const btnCreationCompte = document.querySelector("#btnCreerCompte");
-    AjoutAnimationChargementBlanc(btnCreationCompte);
+    ajoutAnimationChargementBlanc(btnCreationCompte);
   
     // Si le bouton est déjà désactivé, on arrête ici pour éviter les traitements multiples.
     if (btnCreationCompte.disabled) {
@@ -205,7 +207,7 @@ import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateC
     
     // Affichage d'une animation de chargement en cercle sur la modal pendant le chargement.
     const txtPremier  = modalID.querySelector('#txtPremier');
-    AjoutAnimationChargementBleu(txtPremier);
+    ajoutAnimationChargementBleu(txtPremier);
 
     // Modification du style de l'animation de chargement pour la personne utilisatrice.
     const svgsSpinner = document.querySelector('#svg-spinner');
@@ -247,7 +249,7 @@ import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateC
   
     // Affichage d'une animation de chargement en cercle sur le bouton pendant le chargement.
     const btnEnvoyerLien = document.querySelector("#btnEnvoyerLien");
-    AjoutAnimationChargementBlanc(btnEnvoyerLien);
+    ajoutAnimationChargementBlanc(btnEnvoyerLien);
   
 
     // Si le bouton est déjà désactivé, on arrête ici pour éviter les traitements multiples.
@@ -305,7 +307,7 @@ import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateC
 
     // Affichage d'une animation de chargement en cercle sur le bouton pendant le chargement.
     const btnCompteNonVerifier = document.querySelector("#btnEnvoyerLien");
-    AjoutAnimationChargementBlanc(btnCompteNonVerifier);
+    ajoutAnimationChargementBlanc(btnCompteNonVerifier);
 
     // Si le bouton est déjà désactivé, on arrête ici pour éviter les traitements multiples.
     if (btnCompteNonVerifier.disabled) {
@@ -351,7 +353,7 @@ import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateC
 
     // Affichage d'une animation de chargement en cercle sur le bouton pendant le chargement.
     const btnChangerMotDePasse = document.querySelector("#btnChangerMotDePasse");
-    AjoutAnimationChargementBlanc(btnChangerMotDePasse);
+    ajoutAnimationChargementBlanc(btnChangerMotDePasse);
   
     // Si le bouton est déjà désactivé, on arrête ici pour éviter les traitements multiples.
     if (btnChangerMotDePasse.disabled) {
@@ -424,7 +426,7 @@ import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateC
 
     // Affichage d'une animation de chargement en cercle sur le bouton pendant le chargement.
     const btnDeconnexion = document.querySelector("#deconnexion");
-    AjoutAnimationChargementBlanc(btnDeconnexion);
+    ajoutAnimationChargementBlanc(btnDeconnexion);
 
     // Appele à fonction de déconnexion de la personne utilisatrice.
     deconnexion();
@@ -449,7 +451,7 @@ import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateC
     const emailNonVerifier = document.querySelector("#emailNonVerifier");
     
     // Affichage d'une animation de chargement en cercle sur le bouton pendant que Firebase indique si la personne utilisatrice est connecté ou non.
-    AjoutAnimationChargementBlanc(chargement);
+    ajoutAnimationChargementBlanc(chargement);
 
     // Agrandissement de l'animation de chargement en cercle et l'affiche au milieu de la page.
     const svgSpinner = document.querySelector("#svg-spinner");

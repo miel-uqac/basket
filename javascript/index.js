@@ -1,3 +1,5 @@
+// Main principal, fichier où l'on détermine sur quelle page nous sommes et associons les fonctions aux éléments HTML en conséquence.
+
 import { initializeApp } from "firebase/app";
 import { getAuth, connectAuthEmulator} from "firebase/auth";
 import { getDatabase, connectDatabaseEmulator } from "firebase/database";
