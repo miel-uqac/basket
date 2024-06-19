@@ -1,7 +1,7 @@
 // Fichier contenant toutes les fonctions concernant l'authentification de la personne utilisatrice.
 
 import { auth } from "./index";
-import { erreurAuthentification, etatConnexion, afficherFormulaireConnexion, renitialisationErreurAuthentification, ajoutAnimationChargementBlanc,renitialisationBouton,messageInterfaceUtilisateur,ajoutAnimationChargementBleu,modifierModalEmail } from "./ui";
+import { erreurAuthentification, etatConnexion, renitialisationErreurAuthentification, ajoutAnimationChargementBlanc,renitialisationBouton,messageInterfaceUtilisateur,ajoutAnimationChargementBleu,modifierModalEmail } from "./ui";
 import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, sendEmailVerification, applyActionCode,sendPasswordResetEmail,confirmPasswordReset, browserSessionPersistence,setPersistence } from "firebase/auth";
     
 
@@ -180,7 +180,7 @@ import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateC
         }
       } 
       else {
-        afficherFormulaireConnexion();
+        console.log('pas connecter');
       }
     });
   };
