@@ -3,7 +3,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, connectAuthEmulator} from "firebase/auth";
 import { getDatabase, connectDatabaseEmulator } from "firebase/database";
-import {connexionEmailMotDePasse,creerCompte,surveillanceEtatAuthentification, verifierEmailUtilisateur, nouveauLienVerification,motDePasseOublier, modifierMotDePasse, deconnexionRedirection,ChargementPage, gestionChargementPageAuthentification} from "./authentification";
+import {connexionEmailMotDePasse,creerCompte,surveillanceEtatAuthentification, verifierEmailUtilisateur, nouveauLienVerification,motDePasseOublier, modifierMotDePasse, deconnexionRedirection,ChargementPage, gestionChargementPageAuthentification,gestionChargementPageApplication} from "./authentification";
 import {fermerModale, afficherMotDePasse,afficherModalEmail} from "./ui";
 
 // Configuration application Web FireBase.
@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const pageInscription = document.querySelector("#inscription") !== null;
   const pageMotDePasseOublier = document.querySelector("#motDePasseOublier") !== null;
   const pageEmailNonVerifier = document.querySelector("#emailNonVerifier") !== null;
+  const pageAccueilApp = document.querySelector("#accueil");
 
   // Gestion des différentes pages et exécution des fonctionnalités associées.
   if(pageInscription){
@@ -175,6 +176,9 @@ document.addEventListener('DOMContentLoaded', () => {
     btnDeconnexion.addEventListener("click",deconnexionRedirection);
     
     ChargementPage();
+  }
+  else if(pageAccueilApp){
+    gestionChargementPageApplication();
   }
 
 });

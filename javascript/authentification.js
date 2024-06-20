@@ -482,7 +482,7 @@ import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateC
 
   /**
    * Gère le chargement de la page en fonction de l'état de l'authentification la personne utilisatrice.
-   * Redirige la personne utilisatrice en fonction de son état d'authentification.
+   * Redirige la personne utilisatrice en fonction de son état d'authentification dans le formulaire d'authentification.
    * @returns {void}
    */
   export function gestionChargementPageAuthentification() {
@@ -500,3 +500,18 @@ import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateC
       }
     });
   }
+
+    /**
+   * Gère le chargement de la page en fonction de l'état de l'authentification la personne utilisatrice.
+   * Redirige la personne utilisatrice en fonction de son état d'authentification dans l'application.
+   * @returns {void}
+   */
+    export function gestionChargementPageApplication() {
+      onAuthStateChanged(auth, user => {
+        if (!user) {
+          
+          // Redirection de la personne utilisatrice vers la page de connexion.
+          window.location.replace('https://truqac-test.web.app/');
+        }
+      });
+    }
