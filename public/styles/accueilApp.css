@@ -1,0 +1,56 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: black;
+  }
+  
+  .navbar {
+    background-color: #383c44;
+    /* Couleur de fond de la barre */
+    color: #fff;
+    /* Couleur du texte */
+    display: flex;
+    justify-content: space-between;
+    /* Répartit les éléments à gauche et à droite */
+    align-items: center;
+    padding: 7px 7px;
+    /* Espacement intérieur */
+  }
+  
+  .title {
+    margin: 0;
+    font-size: 20px;
+    color: #576E23;
+    /* Supprime la marge par défaut du titre */
+  }
+  
+  .menu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .menu ul li {
+    display: inline-block;
+    /* Espacement entre les éléments du menu */
+  }
+  
+  .menu ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+  }
+  
+  .content {
+    padding: 20px;
+  }
+
+  .menu svg{
+    margin-top: 4px;
+  }
+
+  .menu li{
+    margin-right: 15px;
+  }
