@@ -10,7 +10,7 @@
 
   <body>
 
-    <div id="Inscription">
+    <div id="inscription">
 
       <div class="entete">
 
@@ -23,8 +23,12 @@
       <form>
         <div class="formulaireInscription">
          
-          <div id="ConnexionErreur" style="display: none;">
-            <p id="ConnexionMessageErreur"></p>
+          <div id="interfaceMessage" style="display: none;">
+            <p id="message"></p>
+          </div>
+          
+          <div id="erreurInterface" style="display: none;">
+            <p id="messageErreur"></p>
           </div>
 
 
@@ -48,8 +52,8 @@
           <input id="txtConfirmerMotDePasse" type="password" placeholder="Confirmez le mot de passe">
 
           <div id="DivMotDePasse">
-            <input id="AfficherMotDePasse" type="checkbox"/>
-            <label id="labelAfficherMotDePasse" for="AfficherMotDePasse">Afficher</label>
+            <input id="afficherMotDePasse" type="checkbox"/>
+            <label id="labelAfficherMotDePasse" for="afficherMotDePasse">Afficher</label>
           </div>
 
         <div id="content">

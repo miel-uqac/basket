@@ -26,8 +26,8 @@ body {
     border-radius: 10px;
   }
   
-  /* The Close Button */
-  #close {
+  /* The fermer Button */
+  #fermer {
     margin-top: 15px;
     color: black;
     background-color: rgb(38, 114, 236);
@@ -39,8 +39,8 @@ body {
     font-weight: bold;
   }
   
-  #close:hover,
-  #close:focus {
+  #fermer:hover,
+  #fermer:focus {
     opacity: 0.5; 
     cursor: pointer;
   }
@@ -66,7 +66,7 @@ body {
 }
 
 
-.formulaireConnexion #ConnexionErreur {
+.formulaireConnexion #erreurInterface {
     color: red;
     font-size: 13px;
     display: flex;
@@ -126,7 +126,8 @@ body {
 
 
 
-.formulaireConnexion #AfficherMotDePasse{
+
+.formulaireConnexion #afficherMotDePasse{
     display: flex;
     width: 15px;
     height: 15px;
@@ -271,6 +272,15 @@ opacity: 0.5;
 
 }
 
+#CompteNonVerifier {
+  padding: 10px 20px;
+  background-color: transparent;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  padding: 0px;
+}
+
 #svg-spinner {
     -webkit-transition-property: -webkit-transform;
     -webkit-transition-duration: 1.2s;
@@ -367,11 +377,47 @@ opacity: 0.5;
 }
 
 
-@media (max-height: 588px) {
+@media (max-width: 480px) and (max-height: 645px) {
   #BasPage {
         background-attachment: local;
         flex-direction: column;
-        margin-top: 72px; 
+        margin-top: 78px; 
+        width: 100%;
+        text-align: center;
+        position: relative; 
+    }
+    
+    #BasPage a {
+        color: white;
+        text-decoration: none;
+        margin: 4px 0;
+        font-size: 10px;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 768px) and (max-height: 685px) {
+  #BasPage {
+        background-attachment: local;
+        flex-direction: column;
+        margin-top: 70px; 
+        width: 100%;
+        text-align: center;
+        position: relative; 
+    }
+    
+    #BasPage a {
+        color: white;
+        text-decoration: none;
+        margin: 4px 0;
+        font-size: 10px;
+    }
+}
+
+@media (min-width: 769px) and (max-height: 685px) {
+  #BasPage {
+        background-attachment: local;
+        flex-direction: column;
+        margin-top: 55px; 
         width: 100%;
         text-align: center;
         position: relative; 
@@ -403,7 +449,7 @@ opacity: 0.5;
     }
 
 
-    .formulaireConnexion a,.formulaireConnexion #ConnexionErreur,.formulaireConnexion #btnConnexion,.formulaireConnexion #DivLabeEmail,.formulaireConnexion #DivLabelMotDePasse{
+    .formulaireConnexion a,.formulaireConnexion #erreurInterface,.formulaireConnexion #btnConnexion,.formulaireConnexion #DivLabeEmail,.formulaireConnexion #DivLabelMotDePasse{
         max-width: 260px;
     }
 
@@ -411,7 +457,7 @@ opacity: 0.5;
         width: 84%;
     }
 
-    .formulaireConnexion #ConnexionErreur,.formulaireConnexion #DivLabeEmail,.formulaireConnexion #DivLabelMotDePasse {
+    .formulaireConnexion #erreurInterface,.formulaireConnexion #DivLabeEmail,.formulaireConnexion #DivLabelMotDePasse {
         width: 84%;
 
     }
@@ -442,7 +488,7 @@ opacity: 0.5;
     }
 
 
-    .formulaireConnexion a,.formulaireConnexion #ConnexionErreur,.formulaireConnexion #btnConnexion,.formulaireConnexion #DivLabeEmail,.formulaireConnexion #DivLabelMotDePasse{
+    .formulaireConnexion a,.formulaireConnexion #erreurInterface,.formulaireConnexion #btnConnexion,.formulaireConnexion #DivLabeEmail,.formulaireConnexion #DivLabelMotDePasse{
         max-width: 260px;
     }
 
@@ -451,7 +497,7 @@ opacity: 0.5;
         
     }
 
-    .formulaireConnexion #ConnexionErreur,.formulaireConnexion #DivLabeEmail,.formulaireConnexion #DivLabelMotDePasse {
+    .formulaireConnexion #erreurInterface,.formulaireConnexion #DivLabeEmail,.formulaireConnexion #DivLabelMotDePasse {
         width: 250px; 
 
     }
@@ -484,7 +530,7 @@ opacity: 0.5;
         height: 42px;
     }
 
-    .formulaireConnexion a,.formulaireConnexion #ConnexionErreur,.formulaireConnexion #btnConnexion,.formulaireConnexion #DivLabeEmail,.formulaireConnexion #DivLabelMotDePasse{
+    .formulaireConnexion a,.formulaireConnexion #erreurInterface,.formulaireConnexion #btnConnexion,.formulaireConnexion #DivLabeEmail,.formulaireConnexion #DivLabelMotDePasse{
         max-width: 340px;
     }
 
@@ -492,7 +538,7 @@ opacity: 0.5;
         width: 330px;
     }
 
-    .formulaireConnexion #ConnexionErreur,.formulaireConnexion #DivLabeEmail,.formulaireConnexion #DivLabelMotDePasse {
+    .formulaireConnexion #erreurInterface,.formulaireConnexion #DivLabeEmail,.formulaireConnexion #DivLabelMotDePasse {
         width: 330px;
 
     }
@@ -519,7 +565,7 @@ opacity: 0.5;
         height: 44px;
     }
     
-    .formulaireConnexion a,.formulaireConnexion #ConnexionErreur,.formulaireConnexion #btnConnexion,.formulaireConnexion #DivLabeEmail,.formulaireConnexion #DivLabelMotDePasse{
+    .formulaireConnexion a,.formulaireConnexion #erreurInterface,.formulaireConnexion #btnConnexion,.formulaireConnexion #DivLabeEmail,.formulaireConnexion #DivLabelMotDePasse{
         max-width: 360px;
     }
 
@@ -527,7 +573,7 @@ opacity: 0.5;
         width: 350px;
     }
 
-    .formulaireConnexion #ConnexionErreur,.formulaireConnexion #DivLabeEmail,.formulaireConnexion #DivLabelMotDePasse{
+    .formulaireConnexion #erreurInterface,.formulaireConnexion #DivLabeEmail,.formulaireConnexion #DivLabelMotDePasse{
         width: 350px;
 
     }

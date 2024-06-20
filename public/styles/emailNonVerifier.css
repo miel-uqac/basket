@@ -23,7 +23,7 @@ body {
     opacity: 0.15;
 }
 
-.formulaireMotDePasseOublier #erreurInterface {
+.formulaireEmailNonVerifier #erreurInterface {
     color: red;
     width: 90%;
     box-sizing: border-box;
@@ -33,26 +33,27 @@ body {
 
 
 
-.formulaireMotDePasseOublier #divMessageInfo{
+.formulaireEmailNonVerifier #divMessageInfo{
     width: 90%;
     box-sizing: border-box;
     margin-bottom: 10px;
-    font-size: 13px;
+    font-size: 17px;
     color: white;
+    text-align: justify;
 }
 
-.formulaireMotDePasseOublier #DivLabeEmail{
+.formulaireEmailNonVerifier #DivLabeEmail{
   margin-top: 15px;
   display: flex;
   margin-bottom: 5px;
 }
 
-.formulaireMotDePasseOublier #labelEmail{
+.formulaireEmailNonVerifier #labelEmail{
   color: white;
   font-size: 13px;
 }
 
-.formulaireMotDePasseOublier {
+.formulaireEmailNonVerifier {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -60,38 +61,36 @@ body {
 }
 
 
-.formulaireMotDePasseOublier input{
+.formulaireEmailNonVerifier input{
     border-radius: 12px;
     width: 90%;
     box-sizing: border-box;
 }
 
-.formulaireMotDePasseOublier input::placeholder {
+.formulaireEmailNonVerifier input::placeholder {
     color: black;
 }
 
 
-.formulaireMotDePasseOublier #content {
+.formulaireEmailNonVerifier #content {
   height: 100%;
   display: flex; 
   flex-direction: column;  
   
 }
 
-.formulaireMotDePasseOublier #btnEnvoyerLien{
-    margin-top: 60px;
-}
 
-.formulaireMotDePasseOublier #btnEnvoyerLien:hover{
+
+.formulaireEmailNonVerifier #btnEnvoyerLien:hover,.formulaireEmailNonVerifier #deconnexion:hover{
   opacity: 0.5; 
 }
 
 
 
-.formulaireMotDePasseOublier button {
-    width: 107px;
+
+.formulaireEmailNonVerifier #btnEnvoyerLien {
+    width: 200px;
     font-size: 14px;
-    margin-top: 30px;
     box-sizing: border-box;
     background-color: rgb(38, 114, 236);
     border: none;
@@ -99,32 +98,50 @@ body {
     padding: 5px 5px;
     text-decoration: none;
 }
-.formulaireMotDePasseOublier #compteExiste {
-  margin-block-start: 1em;
-  margin-block-end: 0;
-  margin-inline-start: 0px;
-  margin-inline-end: 0px;
+
+
+.formulaireEmailNonVerifier #deconnexion {
+    width: 120px;
+    font-size: 14px;
+    box-sizing: border-box;
+    background-color: rgb(38, 114, 236);
+    border: none;
+    color: white;
+    text-decoration: none;
 }
 
-.formulaireMotDePasseOublier #CreerCompte {
-  margin-block-start: 10px;
-  margin-block-end: 0;
-  margin-inline-start: 0px;
-  margin-inline-end: 0px;
+.formulaireEmailNonVerifier #deconnexion {
+    width: 120px;
+    margin-top: 30px;
+    padding: 5px 5px;
+
+    font-size: 14px;
+    box-sizing: border-box;
+    background-color: rgb(38, 114, 236);
+    border: none;
+    color: white;
+    text-decoration: none;
 }
 
-.formulaireMotDePasseOublier #compteExiste{
+.formulaireEmailNonVerifier #compteExiste{
   
   font-size: 12px;
   color: white;
 }
 
-.formulaireMotDePasseOublier #CreerCompte{
+.formulaireEmailNonVerifier #CreerCompte{
     font-size: 12px;
     color: white;
+    
   }
 
-.formulaireMotDePasseOublier #btnConnexion,#btnInscription{
+.formulaireEmailNonVerifier #info{
+    font-size: 12px;
+    color: white;
+    flex-direction: column;  
+  }
+
+.formulaireEmailNonVerifier #btnConnexion,#btnInscription{
   font-size: 14px;
   color: rgb(38, 114, 236);
   text-decoration: none;
@@ -184,7 +201,13 @@ body {
     }
   }
 
-
+  #chargement{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
 
 
 @media (max-width: 320px) {
@@ -197,15 +220,15 @@ body {
     font-size: 35px;
 }
 
-.formulaireMotDePasseOublier #content,.formulaireMotDePasseOublier #DivLabeEmail {
+.formulaireEmailNonVerifier #content,.formulaireEmailNonVerifier #DivLabeEmail {
     width: 84%;
 }
 
-.formulaireMotDePasseOublier #erreurInterface {
+.formulaireEmailNonVerifier #erreurInterface {
     width: 84%;
 }
 
-.formulaireMotDePasseOublier #divMessageInfo{
+.formulaireEmailNonVerifier #divMessageInfo{
     width: 84%;
     font-size: 14px;
 
@@ -223,7 +246,7 @@ body {
 
 }
 
-.formulaireMotDePasseOublier input {
+.formulaireEmailNonVerifier input {
   max-width: 260px;
   height: 40px;
 }
@@ -248,16 +271,16 @@ body {
       font-size: 35px;
   }
 
-  .formulaireMotDePasseOublier input {
+  .formulaireEmailNonVerifier input {
       max-width: 260px;
       height: 40px;
   }
 
-  .formulaireMotDePasseOublier a,.formulaireMotDePasseOublier #erreurInterface, .formulaireMotDePasseOublier #divMessageInfo{
+  .formulaireEmailNonVerifier a,.formulaireEmailNonVerifier #erreurInterface, .formulaireEmailNonVerifier #divMessageInfo{
       max-width: 260px;
   }
 
-  .formulaireMotDePasseOublier #content,.formulaireMotDePasseOublier #DivLabeEmail{
+  .formulaireEmailNonVerifier #content,.formulaireEmailNonVerifier #DivLabeEmail{
     width: 250px; 
     
 }
@@ -279,17 +302,17 @@ body {
         font-size: 44px;
     }
 
-    .formulaireMotDePasseOublier input {
+    .formulaireEmailNonVerifier input {
         max-width: 340px;
         height: 42px;
     }
 
-    .formulaireMotDePasseOublier a,.formulaireMotDePasseOublier #erreurInterface,.formulaireMotDePasseOublier #divMessageInfo{
+    .formulaireEmailNonVerifier a,.formulaireEmailNonVerifier #erreurInterface,.formulaireEmailNonVerifier #divMessageInfo{
         max-width: 340px;
     }
 
 
-    .formulaireMotDePasseOublier #content,.formulaireMotDePasseOublier #DivLabeEmail {
+    .formulaireEmailNonVerifier #content,.formulaireEmailNonVerifier #DivLabeEmail {
       width: 330px;
   }
 }
@@ -309,18 +332,18 @@ body {
         font-size: 46px;
     }
 
-    .formulaireMotDePasseOublier input {
+    .formulaireEmailNonVerifier input {
         max-width: 360px;
         height: 44px;
     }
     
-    .formulaireMotDePasseOublier a,.formulaireMotDePasseOublier #erreurInterface,.formulaireMotDePasseOublier #divMessageInfo{
+    .formulaireEmailNonVerifier a,.formulaireEmailNonVerifier #erreurInterface,.formulaireEmailNonVerifier #divMessageInfo{
         max-width: 360px;
     }
 
 
 
-    .formulaireMotDePasseOublier #content,.formulaireMotDePasseOublier #DivLabeEmail {
+    .formulaireEmailNonVerifier #content,.formulaireEmailNonVerifier #DivLabeEmail {
       width: 350px;
   }
 

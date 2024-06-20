@@ -1,0 +1,44 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: black;
+}
+
+.barre-de-navigation {
+    background-color: #383c44;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 7px 7px;
+}
+
+.titre {
+    margin: 0;
+    font-size: 20px;
+    color: #6a8915;
+}
+
+.menu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.menu ul li {
+    display: inline-block;
+    margin-right: 15px; 
+}
+
+.menu ul li a {
+    margin-top: 3px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    display: inline-flex; 
+    padding: 2px; 
+}
+
+

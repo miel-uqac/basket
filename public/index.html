@@ -11,12 +11,12 @@
   </head>
 
   <body>
-
-    <div id="emailModal" class="modal"  style="display: none;">
+      
+    <div id="modalID" class="modal"  style="display: none;">
       <div class="modal-content">
         <p id="txtPremier"></p>
         <p id="txtDeuxieme"></p>
-        <button id="close">Fermer</button>
+        <button id="fermer">Fermer</button>
       </div>
     </div>
 
@@ -30,8 +30,8 @@
       <form>
         <div class="formulaireConnexion">
          
-          <div id="ConnexionErreur" style="display: none;">
-            <p id="ConnexionMessageErreur">Identifiant ou mot de passe invalide</p>
+          <div id="erreurInterface" style="display: none;">
+            <p id="messageErreur">Identifiant ou mot de passe invalide</p>
           </div>
 
           <div id="DivLabeEmail">    
@@ -47,8 +47,8 @@
         
           
           <div id="DivMotDePasse">
-            <input id="AfficherMotDePasse" type="checkbox"/>
-            <label id="labelAfficherMotDePasse" for="AfficherMotDePasse">Afficher</label>
+            <input id="afficherMotDePasse" type="checkbox"/>
+            <label id="labelAfficherMotDePasse" for="afficherMotDePasse">Afficher</label>
           </div>
           
         <div id="content">
@@ -74,7 +74,7 @@
 
 
 
-    <div id="ModifierMotDePasse" style="display: none;">
+    <div id="modifierMotDePasse" style="display: none;">
 
       <div class="entete">
 
@@ -85,8 +85,8 @@
       <form>
         <div class="formulaireMotDePasseOublier">
          
-          <div id="ConnexionErreurNouveauMotDePasse" style="display: none;">
-            <p id="ConnexionMessageErreurNouveauMotDePasse"></p>
+          <div id="erreurInterfaceNouveauMotDePasse" style="display: none;">
+            <p id="messageErreurNouveauMotDePasse"></p>
           </div>
 
 
@@ -104,8 +104,8 @@
           <input id="txtConfirmerNouveauMotDePasse" type="password" placeholder="Confirmez le nouveau mot de passe">
 
           <div id="DivNouveauMotDePasse">
-            <input id="AfficherNouveauMotDePasse" type="checkbox"/>
-            <label id="labelAfficherNouveauMotDePasse" for="AfficherNouveauMotDePasse">Afficher</label>
+            <input id="afficherNouveauMotDePasse" type="checkbox"/>
+            <label id="labelAfficherNouveauMotDePasse" for="afficherNouveauMotDePasse">Afficher</label>
           </div>
 
         <div id="content">

@@ -22,7 +22,7 @@
     opacity: 0.15;
 }
 
-.formulaireMotDePasseOublier #ConnexionErreurNouveauMotDePasse {
+.formulaireMotDePasseOublier #erreurInterfaceNouveauMotDePasse {
     color: red;
     width: 90%;
     box-sizing: border-box;
@@ -79,6 +79,12 @@ form{
 
 }
 
+#chargement{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 
 @supports (-webkit-appearance: none) or (-moz-appearance: none) {
     #DivNouveauMotDePasse input[type=checkbox] {
@@ -189,7 +195,7 @@ form{
     font-size: 16px;
 }
 
-.formulaireMotDePasseOublier #AfficherNouveauMotDePasse{
+.formulaireMotDePasseOublier #afficherNouveauMotDePasse{
     display: flex;
     width: 15px;
     height: 15px;
@@ -311,7 +317,7 @@ form{
     width: 84%;
 }
 
-.formulaireMotDePasseOublier #ConnexionErreurNouveauMotDePasse {
+.formulaireMotDePasseOublier #erreurInterfaceNouveauMotDePasse {
     width: 84%;
 }
 
@@ -354,7 +360,7 @@ form{
       height: 40px;
   }
 
-  .formulaireMotDePasseOublier a,.formulaireMotDePasseOublier #ConnexionErreurNouveauMotDePasse{
+  .formulaireMotDePasseOublier a,.formulaireMotDePasseOublier #erreurInterfaceNouveauMotDePasse{
       max-width: 260px;
   }
 
@@ -381,7 +387,7 @@ form{
         height: 42px;
     }
 
-    .formulaireMotDePasseOublier a,.formulaireMotDePasseOublier #ConnexionErreurNouveauMotDePasse{
+    .formulaireMotDePasseOublier a,.formulaireMotDePasseOublier #erreurInterfaceNouveauMotDePasse{
         max-width: 340px;
     }
 
@@ -411,7 +417,7 @@ form{
         height: 44px;
     }
     
-    .formulaireMotDePasseOublier a,.formulaireMotDePasseOublier #ConnexionErreurNouveauMotDePasse{
+    .formulaireMotDePasseOublier a,.formulaireMotDePasseOublier #erreurInterfaceNouveauMotDePasse{
         max-width: 360px;
     }
 
