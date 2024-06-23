@@ -285,3 +285,25 @@ import { AuthErrorCodes } from "firebase/auth";
     txtPremier.textContent = premierTexte;
     txtDeuxieme.textContent = deuxiemeTexte;
   }
+
+  /**
+   * Initialise le processus de suppression de compte de la personne utilisatrice.
+   * Affiche une modal de confirmation.
+   * @returns {void}
+   */
+  export function supprimerCompteBouton(){
+
+    // Animation de chargement au bouton de déconnexion
+    const btnSupprimer = document.querySelector("#supprimerCompte");
+    ajoutAnimationChargementBlanc(btnSupprimer);
+
+    // Définition du texte à intégrer dans la modal.
+    const modalID = 'modalID';
+    const txtPremier = 'Voulez-vous supprimer définitivement votre compte ?';
+    const txtDeuxieme = 'Toutes les données seront perdues.';
+    
+    afficherModalEmail(txtPremier,txtDeuxieme,modalID);
+
+    // Réinitialise le texte et l'état du bouton après l'action de suppression.
+    renitialisationBouton(btnSupprimer,'Supprimer compte');
+  }

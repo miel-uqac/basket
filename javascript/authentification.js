@@ -44,7 +44,7 @@ import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateC
 
       // Réinitialisation de l'interface avant de rediriger la personne utilisatrice.
       renitialisationErreurAuthentification();
-      renitialisationBouton(btnConnexion,'Connexion')
+      renitialisationBouton(btnConnexion,'Connexion');
 
       // Redirection en fonction du statut de vérification de l'e-mail.
       if (user) {
@@ -417,22 +417,22 @@ import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateC
   };
 
   /**
-   * Fonction asynchrone pour gérer la déconnexion de la personne utilisatrice et rediriger vers la page d'accueil.
+   * Fonction asynchrone pour gérer la déconnexion de la personnage utilisatrice et redirige vers la page d'accueil.
    * @param {Event} event - L'événement de soumission du formulaire (pour empêcher le comportement par défaut).
+   * @param {string} deconnexionID - L'ID du bouton de déconnexion sur lequel ajouter l'animation de chargement.
    * @returns {void}
    */
-  export const deconnexionRedirection = async (event) =>{
+  export const deconnexionRedirection = async (event,deconnexionID) =>{
     event.preventDefault();
 
     // Affichage d'une animation de chargement en cercle sur le bouton pendant le chargement.
-    const btnDeconnexion = document.querySelector("#deconnexion");
-    ajoutAnimationChargementBlanc(btnDeconnexion);
+    ajoutAnimationChargementBlanc(deconnexionID);
 
     // Appele à fonction de déconnexion de la personne utilisatrice.
     deconnexion();
 
     // Rétablir le texte du bouton avant la redirection.
-    renitialisationBouton(btnDeconnexion,'Déconnexion');
+    renitialisationBouton(deconnexionID,'Déconnexion');
 
     // Redirige la personne utilisatrice vers la page d'accueil après la déconnexion.
     window.location.replace('https://truqac-test.web.app/');
@@ -501,17 +501,54 @@ import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateC
     });
   }
 
-    /**
-   * Gère le chargement de la page en fonction de l'état de l'authentification la personne utilisatrice.
-   * Redirige la personne utilisatrice en fonction de son état d'authentification dans l'application.
-   * @returns {void}
-   */
-    export function gestionChargementPageApplication() {
-      onAuthStateChanged(auth, user => {
-        if (!user) {
+  /**
+    * Gère le chargement de la page en fonction de l'état de l'authentification la personne utilisatrice.
+    * Redirige la personne utilisatrice en fonction de son état d'authentification dans l'application.
+    * @returns {void}
+    */
+  export function gestionChargementPageApplication() {
+    onAuthStateChanged(auth, user => {
+      if (!user) {
           
-          // Redirection de la personne utilisatrice vers la page de connexion.
-          window.location.replace('https://truqac-test.web.app/');
-        }
+        // Redirection de la personne utilisatrice vers la page de connexion.
+        window.location.replace('https://truqac-test.web.app/');
+      }
+    });
+  }
+
+   /**
+    * Supprime le compte de la personne utilisatrice actuellement connecté.
+    * @returns {void}
+    */
+  export  function suppresionCompte() {
+    const user = auth.currentUser;
+    const suppresion = document.querySelector("#supprimerConfirmation");
+
+    // Redirige la personne utilisatrice vers une nouvelle URL après la suppression réussie du compte.
+    if (user) {
+      user.delete().then(() => {
+
+        // Affichage d'une animation de chargement en cercle sur le bouton.
+        const btnSuppresionCompte = document.querySelector("#supprimerConfirmation");
+        ajoutAnimationChargementBlanc(btnSuppresionCompte);
+
+        // Rétablir le texte du bouton avant la redirection.
+        renitialisationBouton(suppresion,'Supprimer');
+
+        window.location.replace('https://truqac-test.web.app/');
+
+      }).catch((error) => {
+
+        // Affiche une erreur dans une modal en cas d'échec de la suppression du compte.
+        const txtPremier = error.message;
+        const txtDeuxieme = '';
+        const modalID = 'modalID';
+
+        modifierModalEmail(txtPremier,txtDeuxieme,modalID);
+
+        // Rétablir le texte du bouton.
+        renitialisationBouton(suppresion,'Supprimer');
+
       });
     }
+  }
