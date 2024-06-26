@@ -175,7 +175,6 @@ margin-top: 15px; /* Ajoute un espacement au-dessus des boutons */
 input {
   margin-top: 5px;
   display: block; /* Faire de l'input un élément bloc */
-  width: 100%; /* Ajustement de la largeur */
   box-sizing: border-box;
   padding: 8px;
   border-radius: 8px;
