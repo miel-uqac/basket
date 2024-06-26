@@ -4,7 +4,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth, connectAuthEmulator} from "firebase/auth";
 import { getDatabase, connectDatabaseEmulator } from "firebase/database";
 import {connexionEmailMotDePasse,creerCompte,surveillanceEtatAuthentification, verifierEmailUtilisateur, nouveauLienVerification,motDePasseOublier, modifierMotDePasse, deconnexionRedirection, gestionChargementPageAuthentification,gestionChargementPageApplication, suppresionCompte,gestionChargementPageEmailNonVerifier} from "./authentification";
-import {fermerModale, afficherMotDePasse,afficherModalEmail,supprimerCompteBouton} from "./ui";
+import {fermerModale, afficherMotDePasse,afficherModalEmail,supprimerCompteBouton,informationUtilisateurProfil} from "./ui";
 
 // Configuration application Web FireBase.
 const firebaseConfig = {
@@ -204,6 +204,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Association de la fonction pour supprimer le compte au bouton correspondant.
     const btnSuppresion = document.querySelector("#supprimerConfirmation");
     btnSuppresion.addEventListener('click',suppresionCompte);
+
+    informationUtilisateurProfil();
 
   }
 
