@@ -3,7 +3,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, connectAuthEmulator} from "firebase/auth";
 import { getDatabase, connectDatabaseEmulator } from "firebase/database";
-import {connexionEmailMotDePasse,creerCompte,surveillanceEtatAuthentification, verifierEmailUtilisateur, nouveauLienVerification,motDePasseOublier, modifierMotDePasse, deconnexionRedirection,ChargementPage, gestionChargementPageAuthentification,gestionChargementPageApplication, suppresionCompte} from "./authentification";
+import {connexionEmailMotDePasse,creerCompte,surveillanceEtatAuthentification, verifierEmailUtilisateur, nouveauLienVerification,motDePasseOublier, modifierMotDePasse, deconnexionRedirection, gestionChargementPageAuthentification,gestionChargementPageApplication, suppresionCompte,gestionChargementPageEmailNonVerifier} from "./authentification";
 import {fermerModale, afficherMotDePasse,afficherModalEmail,supprimerCompteBouton} from "./ui";
 
 // Configuration application Web FireBase.
@@ -168,6 +168,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   else if(pageEmailNonVerifier){
 
+    gestionChargementPageEmailNonVerifier();
+
     // Association de la fonction pour envoyer un nouveau lien de vérification au bouton correspondant.
     const btnEnvoyerLien = document.querySelector("#btnEnvoyerLien");
     btnEnvoyerLien.addEventListener("click",nouveauLienVerification)
@@ -176,13 +178,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnDeconnexion = document.querySelector("#deconnexion");
     btnDeconnexion.addEventListener('click', (event) => deconnexionRedirection(event, btnDeconnexion));
     
-    ChargementPage();
   }
   else if(pageAccueilApp){
-    gestionChargementPageApplication();
+    gestionChargementPageApplication("accueil");
   }
   else if(pageProfil){
-    gestionChargementPageApplication();
+    gestionChargementPageApplication("profil");
 
     // Association de la fonction pour se déconnecter au bouton correspondant.
     const btnDeconnexion = document.querySelector("#btnDeconnexion");
@@ -200,9 +201,10 @@ document.addEventListener('DOMContentLoaded', () => {
    
     fermerModal.addEventListener('click', function() {fermerModale(modalID);});
 
-    // Association de la fonction pour se supprimer le compte au bouton correspondant.
+    // Association de la fonction pour supprimer le compte au bouton correspondant.
     const btnSuppresion = document.querySelector("#supprimerConfirmation");
     btnSuppresion.addEventListener('click',suppresionCompte);
+
   }
 
 });
