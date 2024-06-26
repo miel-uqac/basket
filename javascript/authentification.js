@@ -586,7 +586,7 @@ import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateC
         // Rétablir le texte du bouton avant la redirection.
         renitialisationBouton(suppresion,'Supprimer');
 
-        window.location.replace('https://truqac-test.web.app/');
+        window.location.replace('https://truqac-test.web.app/?supression=true');
 
       }).catch((error) => {
 

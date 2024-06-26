@@ -72,6 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const envoyerEmailPassword = urlParametres.get('motDePasseEnvoyer');
     const oobCode = urlParametres.get('oobCode');
     const modificationMDP = urlParametres.get('modificationMDP');
+    const suppresion = urlParametres.get('supression');
 
     // Sélectionne le bouton de fermeture de la modale d'information afin de lui associer sa fonction de fermeture.
     const fermerModal = document.querySelector("#fermer");
@@ -150,6 +151,15 @@ document.addEventListener('DOMContentLoaded', () => {
       const txtDeuxieme = '';
       afficherModalEmail(txtPremier,txtDeuxieme,modalID);
 
+    }
+
+    // Si la condition est respectée, nous sommes à la fin du processus de suppresion de compte de la personne utilisatrice.
+    else if(suppresion === 'true'){
+
+      // Définition du texte à intégrer dans la modal.
+        const txtPremier = 'Votre compte a bien été supprimé !';
+        const txtDeuxieme = '';
+        afficherModalEmail(txtPremier,txtDeuxieme,modalID);
     }
 
     // Association de la fonction de connexion au bouton correspondant.

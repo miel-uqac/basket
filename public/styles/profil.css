@@ -1,280 +1,281 @@
 body {
-    font-family: Arial, Helvetica, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: black;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh; /* Utilisation de min-height pour permettre au contenu de dépasser si nécessaire */
-    flex-direction: column; /* Pour aligner les éléments verticalement */
+  margin: 0;
+  padding: 0;
+  background-color: black;
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: black;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Utilisation de min-height pour permettre au contenu de dépasser si nécessaire */
+  flex-direction: column; /* Pour aligner les éléments verticalement */
 }
 
 /* Modale */
 .modal {
-    position: fixed; 
-    z-index: 1; 
-    left: 0;
-    top: 0;
-    width: 100%; 
-    height: 100%; 
-    background-color: rgba(0, 0, 0, 0.4); 
-    
-  }
-  
-  /* Modal Content/Box */
-  .modal-content {
-    background-color: #fefefe;
-    margin: 15% auto; 
-    padding: 50px;
-    border: 1px solid #888;
-    width: 30%; 
-    text-align: center;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); 
-    border-radius: 10px;
+  position: fixed; 
+  z-index: 1; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  background-color: rgba(0, 0, 0, 0.4); 
 
-  }
+}
 
-  #txtPremier,#txtDeuxieme{
-    color: black;
-  }
-  
-  /* The fermer Button */
-  #fermer {
-    margin-top: 15px;
-    color: black;
-    background-color: rgb(38, 114, 236);
-    border: none;
-    padding: 5px 5px;
-    text-decoration: none;
-    color: white;
-    font-size: 14px;
-    font-weight: bold;
-    
-  }
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; 
+  padding: 50px;
+  border: 1px solid #888;
+  width: 30%; 
+  text-align: center;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); 
+  border-radius: 10px;
 
-  .button-container {
-  display: flex;
-  flex-direction: column; /* Affiche les boutons en colonne */
-  align-items: center; /* Centre les boutons horizontalement */
-  margin-top: 15px; /* Ajoute un espacement au-dessus des boutons */
+}
+
+#txtPremier,#txtDeuxieme{
+  color: black;
+}
+
+/* The fermer Button */
+#fermer {
+  margin-top: 15px;
+  color: black;
+  background-color: rgb(38, 114, 236);
+  border: none;
+  padding: 5px 5px;
+  text-decoration: none;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+
+}
+
+.button-container {
+display: flex;
+flex-direction: column; /* Affiche les boutons en colonne */
+align-items: center; /* Centre les boutons horizontalement */
+margin-top: 15px; /* Ajoute un espacement au-dessus des boutons */
 }
 
 
-  #supprimerConfirmation{
-    margin-top: 30px;
-    color: black;
-    background-color:red;
-    border: none;
-    padding: 5px 5px;
-    text-decoration: none;
-    color: white;
-    font-size: 14px;
-    font-weight: bold;
-  }
+#supprimerConfirmation{
+  margin-top: 30px;
+  color: black;
+  background-color:red;
+  border: none;
+  padding: 5px 5px;
+  text-decoration: none;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+}
 
-  #fermer:hover,
-  #fermer:focus,
-  #supprimerConfirmation:hover,
-  #supprimerConfirmation:focus {
-    opacity: 0.5; 
-    cursor: pointer;
-  }
+#fermer:hover,
+#fermer:focus,
+#supprimerConfirmation:hover,
+#supprimerConfirmation:focus {
+  opacity: 0.5; 
+  cursor: pointer;
+}
 
 #titreStatistique {
-    width: 60%; /* Largeur du carré des statistiques */
-    max-width: 600px; /* Largeur maximale similaire à .stat */
-    text-align: left; /* Centrage du texte comme .stat */
-    font-size: 14px;
+  width: 60%; /* Largeur du carré des statistiques */
+  max-width: 600px; /* Largeur maximale similaire à .stat */
+  text-align: left; /* Centrage du texte comme .stat */
+  font-size: 14px;
 }
 
 #personneUtilisatrice{
-    text-align: center;
-    color: #DCFFA3;
-    margin-bottom: 20px; /* Espacement en dessous */
+  text-align: center;
+  color: #DCFFA3;
+  margin-bottom: 20px; /* Espacement en dessous */
 }
 
 /* Styles pour la section des statistiques */
 .statistiques {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Divise en 2 colonnes */
-    grid-template-rows: repeat(2, auto); /* Hauteur automatique pour s'adapter au contenu */
-    gap: 3px; /* Espacement entre les statistiques */
-    width: 60%; /* Largeur du carré des statistiques */
-    max-width: 600px; /* Largeur maximale du carré des statistiques */
-    background-color: white;
-    padding: 2px; /* Ajustement du padding pour un meilleur espacement */
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 50px; /* Espacement en dessous ajusté */
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Divise en 2 colonnes */
+  grid-template-rows: repeat(2, auto); /* Hauteur automatique pour s'adapter au contenu */
+  gap: 3px; /* Espacement entre les statistiques */
+  max-width: 600px; /* Largeur maximale du carré des statistiques */
+  background-color: white;
+  padding: 2px; /* Ajustement du padding pour un meilleur espacement */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 50px; /* Espacement en dessous ajusté */
 }
 
 /* Styles pour chaque statistique */
 .stat {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-    text-align: center;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    background-color: black;
-    color: #333;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  text-align: center;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: black;
+  color: #333;
 }
 
 .stat h3 {
-    margin-bottom: 10px;
-    font-size: 18px;
-    color: white;
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: white;
 }
 
 .stat p {
-    margin: 0;
-    font-size: 16px;
-    color: #DCFFA3;
+  margin: 0;
+  font-size: 16px;
+  color: #DCFFA3;
 }
 
 #DivLabeEmail, #DivNomPersonneUtilisatrice, #content,#accountSection,#deconnexion {
-    width: 60%; /* Largeur du carré des statistiques */
-    max-width: 600px; /* Largeur maximale similaire à .stat */
-    text-align: left; /* Aligner le texte à gauche comme .stat */
-    font-size: 14px;
-    margin-bottom: 20px; /* Espacement en dessous */
+  width: 60%; /* Largeur du carré des statistiques */
+  max-width: 600px; /* Largeur maximale similaire à .stat */
+  text-align: left; /* Aligner le texte à gauche comme .stat */
+  font-size: 14px;
+  margin-bottom: 20px; /* Espacement en dessous */
 }
 
 #BasPage{
-    margin-top: 30px;
-    width: 60%; /* Largeur du carré des statistiques */
-    max-width: 600px; /* Largeur maximale similaire à .stat */
-    text-align: left; /* Aligner le texte à gauche comme .stat */
-    font-size: 14px;
-    margin-bottom: 20px; /* Espacement en dessous */
+  margin-top: 30px;
+  max-width: 600px; /* Largeur maximale similaire à .stat */
+  text-align: left; /* Aligner le texte à gauche comme .stat */
+  font-size: 14px;
+  margin-bottom: 20px; /* Espacement en dessous */
 }
 
 #btnChangerNomPersonneUtilisatrice,#btnDeconnexion {
-    width: 90px;
-    font-size: 14px;
-    margin-top: 10px; /* Espacement en dessus */
-    background-color: rgb(38, 114, 236);
-    border: none;
-    color: white;
-    padding: 5px 5px;
-    text-decoration: none;
-    cursor: pointer;
+  width: 90px;
+  font-size: 14px;
+  margin-top: 10px; /* Espacement en dessus */
+  background-color: rgb(38, 114, 236);
+  border: none;
+  color: white;
+  padding: 5px 5px;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 
 
 #btnChangerNomPersonneUtilisatrice:hover,#btnDeconnexion:hover,#supprimerCompte:hover {
-    opacity: 0.8; 
+  opacity: 0.8; 
 }
 
 input {
-    margin-top: 5px;
-    display: block; /* Faire de l'input un élément bloc */
-    width: 100%; /* Ajustement de la largeur */
-    box-sizing: border-box;
-    padding: 8px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    font-size: 14px;
+  margin-top: 5px;
+  display: block; /* Faire de l'input un élément bloc */
+  width: 100%; /* Ajustement de la largeur */
+  box-sizing: border-box;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
 }
 
 
 #supprimerCompte {
-    width: 130px;
-    font-size: 14px;
-    margin-top: 10px; /* Espacement en dessus */
-    background-color:red;
-    border: none;
-    color: white;
-    padding: 5px 5px;
-    text-decoration: none;
-    cursor: pointer;
+  width: 130px;
+  font-size: 14px;
+  margin-top: 10px; /* Espacement en dessus */
+  background-color:red;
+  border: none;
+  color: white;
+  padding: 5px 5px;
+  text-decoration: none;
+  cursor: pointer;
 
 }
 
 
 
 #BasPage a {
-    color: white;
-    text-decoration: none;
-    display: block;
-    margin-bottom: 5px;
-    text-align: center;
-    font-size: 10px;
+  color: white;
+  text-decoration: none;
+  display: block;
+  margin-bottom: 5px;
+  text-align: center;
+  font-size: 10px;
 }
 
 
 #svg-spinner {
-    -webkit-transition-property: -webkit-transform;
-    -webkit-transition-duration: 1.2s;
-    -webkit-animation-name: rotate;
-    -webkit-animation-iteration-count: infinite;
-    -webkit-animation-timing-function: linear;
-  
-    -moz-transition-property: -moz-transform;
-    
-    -moz-animation-name: rotate;
-    -moz-animation-duration: 1.2s;
-    -moz-animation-iteration-count: infinite;
-    -moz-animation-timing-function: linear;
-  
-    transition-property: transform;
-    transition-duration: 1.2s;
-    animation-name: rotate;
-    animation-duration: 1.2s;
-    animation-iteration-count: infinite;
-    animation-timing-function: linear;
-    height: 13px; 
+  -webkit-transition-property: -webkit-transform;
+  -webkit-transition-duration: 1.2s;
+  -webkit-animation-name: rotate;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+
+  -moz-transition-property: -moz-transform;
+
+  -moz-animation-name: rotate;
+  -moz-animation-duration: 1.2s;
+  -moz-animation-iteration-count: infinite;
+  -moz-animation-timing-function: linear;
+
+  transition-property: transform;
+  transition-duration: 1.2s;
+  animation-name: rotate;
+  animation-duration: 1.2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  height: 13px; 
+}
+
+@-webkit-keyframes rotate {
+  from {
+    -webkit-transform: rotate(0deg);
   }
-  
-  @-webkit-keyframes rotate {
-    from {
-      -webkit-transform: rotate(0deg);
-    }
-  
-    to {
-      -webkit-transform: rotate(360deg);
-    }
+
+  to {
+    -webkit-transform: rotate(360deg);
   }
-  
-  @-moz-keyframes rotate {
-    from {
-      -moz-transform: rotate(0deg);
-    }
-  
-    to {
-      -moz-transform: rotate(360deg);
-    }
+}
+
+@-moz-keyframes rotate {
+  from {
+    -moz-transform: rotate(0deg);
   }
-  
-  @keyframes rotate {
-    from {
-      transform: rotate(0deg);
-    }
-  
-    to {
-      transform: rotate(360deg);
-    }
+
+  to {
+    -moz-transform: rotate(360deg);
   }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
 
 
 /* Media queries pour la réactivité */
 @media (max-width: 550px) {
-    .statistiques {
-        grid-template-columns: 1fr; /* Une seule colonne pour les petits écrans */
-    }
+  .statistiques {
+      grid-template-columns: 1fr; /* Une seule colonne pour les petits écrans */
+  }
 }
 
 /* Media queries pour la réactivité */
 @media (min-width: 550px) {
-    input {
+  input {
 
-        width: 330px; /* Ajustement de la largeur */
-    }
+      width: 330px; /* Ajustement de la largeur */
+  }
 
 }
 
