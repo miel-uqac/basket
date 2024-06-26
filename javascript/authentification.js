@@ -44,7 +44,7 @@ import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateC
 
       // Réinitialisation de l'interface avant de rediriger la personne utilisatrice.
       renitialisationErreurAuthentification();
-      renitialisationBouton(btnConnexion,'Connexion')
+      renitialisationBouton(btnConnexion,'Connexion');
 
       // Redirection en fonction du statut de vérification de l'e-mail.
       if (user) {
@@ -417,22 +417,22 @@ import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateC
   };
 
   /**
-   * Fonction asynchrone pour gérer la déconnexion de la personne utilisatrice et rediriger vers la page d'accueil.
+   * Fonction asynchrone pour gérer la déconnexion de la personnage utilisatrice et redirige vers la page d'accueil.
    * @param {Event} event - L'événement de soumission du formulaire (pour empêcher le comportement par défaut).
+   * @param {string} deconnexionID - L'ID du bouton de déconnexion sur lequel ajouter l'animation de chargement.
    * @returns {void}
    */
-  export const deconnexionRedirection = async (event) =>{
+  export const deconnexionRedirection = async (event,deconnexionID) =>{
     event.preventDefault();
 
     // Affichage d'une animation de chargement en cercle sur le bouton pendant le chargement.
-    const btnDeconnexion = document.querySelector("#deconnexion");
-    ajoutAnimationChargementBlanc(btnDeconnexion);
+    ajoutAnimationChargementBlanc(deconnexionID);
 
     // Appele à fonction de déconnexion de la personne utilisatrice.
     deconnexion();
 
     // Rétablir le texte du bouton avant la redirection.
-    renitialisationBouton(btnDeconnexion,'Déconnexion');
+    renitialisationBouton(deconnexionID,'Déconnexion');
 
     // Redirige la personne utilisatrice vers la page d'accueil après la déconnexion.
     window.location.replace('https://truqac-test.web.app/');
@@ -440,15 +440,17 @@ import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateC
 
 
   /**
-   * Fonction pour gérer le chargement initial de la page, vérifier l'état de l'authentification de la personne utilisatrice
+   * Fonction pour gérer le chargement initial de la page, vérifier l'état de l'authentification de l'utilisateur
    * et afficher les éléments appropriés en conséquence.
+   * @param {string} pageHTMLID - L'ID de l'élément HTML à afficher lorsque l'utilisateur est authentifié.
    * @returns {void}
    */
-  export function ChargementPage() {
+  export function gestionChargementPageApplication(pageHTMLID) {
 
-    // Sélectionne l'élément de chargement et le formulaire pour l'email non vérifié.
+    // Sélectionne l'élément de chargement et le formulaire de la page.
     const chargement = document.querySelector("#chargement");
-    const emailNonVerifier = document.querySelector("#emailNonVerifier");
+    const pageHTML = document.querySelector(`#${pageHTMLID}`);
+
     
     // Affichage d'une animation de chargement en cercle sur le bouton pendant que Firebase indique si la personne utilisatrice est connecté ou non.
     ajoutAnimationChargementBlanc(chargement);
@@ -458,11 +460,20 @@ import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateC
     svgSpinner.style.height = '70px';
     chargement.style.display = 'block';
 
-    // Si la personne utilisatrice est connecté, on affiche le formulaire pour l'e-mail non vérifié.
-    // En redéfinissant la taille originale de l'animation de chargement en cercle pour le bouton.
+    // Si la personne utilisatrice est connectée, on affiche le formulaire de la page.
+    // Sinon, si la personne utilisatrice est connectée mais n'a pas d'email vérifié, on la redirige vers la page adéquate.
     // Sinon, on redirige la personne utilisatrice vers la page de connexion.
     auth.onAuthStateChanged(user => {
       if (user) {
+
+        if(!user.emailVerified){
+
+          // Redirection de la personne utilisatrice vers la page destinées aux comptes non vérifiés.
+          window.location.replace('https://truqac-test.web.app/auth/emailNonVerifier.html');
+          return;
+        }
+
+        // On remet l'animation de chargement à la taille initial.
         svgSpinner.style.height = '13px';
 
         // État de connexion de la personne utilisatrice trouvé par Firebase, donc on enlève l'animation de chargement de la page.
@@ -470,9 +481,63 @@ import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateC
         chargement.style.display = 'none';
 
         // Affichage du formulaire pour l'email non vérifié.
-        emailNonVerifier.style.display = 'block';
-      } else {
+        pageHTML.style.display = 'block';
 
+      }else{
+               
+        // Redirection de la personne utilisatrice vers la page de connexion.
+        window.location.replace('https://truqac-test.web.app/');
+      }
+    });
+  }
+  
+
+  /**
+   * Fonction pour gérer le chargement initial de la page, vérifier l'état de l'authentification de l'utilisateur
+   * et afficher les éléments appropriés en conséquence uniquement de la page EmailNonVerifier.
+   * @param {string} pageHTMLID - L'ID de l'élément HTML à afficher lorsque l'utilisateur est authentifié.
+   * @returns {void}
+   */
+  export function gestionChargementPageEmailNonVerifier() {
+
+    // Sélectionne l'élément de chargement et le formulaire de la page.
+    const chargement = document.querySelector("#chargement");
+    const pageHTML = document.querySelector("#emailNonVerifier");
+
+    
+    // Affichage d'une animation de chargement en cercle sur le bouton pendant que Firebase indique si la personne utilisatrice est connecté ou non.
+    ajoutAnimationChargementBlanc(chargement);
+
+    // Agrandissement de l'animation de chargement en cercle et l'affiche au milieu de la page.
+    const svgSpinner = document.querySelector("#svg-spinner");
+    svgSpinner.style.height = '70px';
+    chargement.style.display = 'block';
+
+    // Si la personne utilisatrice est connectée, on affiche le formulaire de la page.
+    // Sinon, si la personne utilisatrice est connectée mais n'a pas d'email vérifié, on la redirige vers la page adéquate.
+    // Sinon, on redirige la personne utilisatrice vers la page de connexion.
+    auth.onAuthStateChanged(user => {
+      if (user) {
+
+        if(user.emailVerified){
+
+          // Redirection de la personne utilisatrice vers la page destinées aux comptes vérifiés.
+          window.location.replace('https://truqac-test.web.app/app/accueil.html');
+          return;
+        }
+
+        // On remet l'animation de chargement à la taille initial.
+        svgSpinner.style.height = '13px';
+
+        // État de connexion de la personne utilisatrice trouvé par Firebase, donc on enlève l'animation de chargement de la page.
+        chargement.innerHTML = ''; 
+        chargement.style.display = 'none';
+
+        // Affichage du formulaire pour l'email non vérifié.
+        pageHTML.style.display = 'block';
+
+      }else{
+               
         // Redirection de la personne utilisatrice vers la page de connexion.
         window.location.replace('https://truqac-test.web.app/');
       }
@@ -501,17 +566,40 @@ import {signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateC
     });
   }
 
-    /**
-   * Gère le chargement de la page en fonction de l'état de l'authentification la personne utilisatrice.
-   * Redirige la personne utilisatrice en fonction de son état d'authentification dans l'application.
-   * @returns {void}
-   */
-    export function gestionChargementPageApplication() {
-      onAuthStateChanged(auth, user => {
-        if (!user) {
-          
-          // Redirection de la personne utilisatrice vers la page de connexion.
-          window.location.replace('https://truqac-test.web.app/');
-        }
+
+   /**
+    * Supprime le compte de la personne utilisatrice actuellement connecté.
+    * @returns {void}
+    */
+  export  function suppresionCompte() {
+    const user = auth.currentUser;
+    const suppresion = document.querySelector("#supprimerConfirmation");
+
+    // Redirige la personne utilisatrice vers une nouvelle URL après la suppression réussie du compte.
+    if (user) {
+      user.delete().then(() => {
+
+        // Affichage d'une animation de chargement en cercle sur le bouton.
+        const btnSuppresionCompte = document.querySelector("#supprimerConfirmation");
+        ajoutAnimationChargementBlanc(btnSuppresionCompte);
+
+        // Rétablir le texte du bouton avant la redirection.
+        renitialisationBouton(suppresion,'Supprimer');
+
+        window.location.replace('https://truqac-test.web.app/?supression=true');
+
+      }).catch((error) => {
+
+        // Affiche une erreur dans une modal en cas d'échec de la suppression du compte.
+        const txtPremier = error.message;
+        const txtDeuxieme = '';
+        const modalID = 'modalID';
+
+        modifierModalEmail(txtPremier,txtDeuxieme,modalID);
+
+        // Rétablir le texte du bouton.
+        renitialisationBouton(suppresion,'Supprimer');
+
       });
     }
+  }

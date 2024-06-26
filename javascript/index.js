@@ -3,8 +3,8 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, connectAuthEmulator} from "firebase/auth";
 import { getDatabase, connectDatabaseEmulator } from "firebase/database";
-import {connexionEmailMotDePasse,creerCompte,surveillanceEtatAuthentification, verifierEmailUtilisateur, nouveauLienVerification,motDePasseOublier, modifierMotDePasse, deconnexionRedirection,ChargementPage, gestionChargementPageAuthentification,gestionChargementPageApplication} from "./authentification";
-import {fermerModale, afficherMotDePasse,afficherModalEmail} from "./ui";
+import {connexionEmailMotDePasse,creerCompte,surveillanceEtatAuthentification, verifierEmailUtilisateur, nouveauLienVerification,motDePasseOublier, modifierMotDePasse, deconnexionRedirection, gestionChargementPageAuthentification,gestionChargementPageApplication, suppresionCompte,gestionChargementPageEmailNonVerifier} from "./authentification";
+import {fermerModale, afficherMotDePasse,afficherModalEmail,supprimerCompteBouton,informationUtilisateurProfil} from "./ui";
 
 // Configuration application Web FireBase.
 const firebaseConfig = {
@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const pageMotDePasseOublier = document.querySelector("#motDePasseOublier") !== null;
   const pageEmailNonVerifier = document.querySelector("#emailNonVerifier") !== null;
   const pageAccueilApp = document.querySelector("#accueil");
+  const pageProfil = document.querySelector("#personneUtilisatrice");
 
   // Gestion des différentes pages et exécution des fonctionnalités associées.
   if(pageInscription){
@@ -71,6 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const envoyerEmailPassword = urlParametres.get('motDePasseEnvoyer');
     const oobCode = urlParametres.get('oobCode');
     const modificationMDP = urlParametres.get('modificationMDP');
+    const suppresion = urlParametres.get('supression');
 
     // Sélectionne le bouton de fermeture de la modale d'information afin de lui associer sa fonction de fermeture.
     const fermerModal = document.querySelector("#fermer");
@@ -151,6 +153,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }
 
+    // Si la condition est respectée, nous sommes à la fin du processus de suppresion de compte de la personne utilisatrice.
+    else if(suppresion === 'true'){
+
+      // Définition du texte à intégrer dans la modal.
+        const txtPremier = 'Votre compte a bien été supprimé !';
+        const txtDeuxieme = '';
+        afficherModalEmail(txtPremier,txtDeuxieme,modalID);
+    }
+
     // Association de la fonction de connexion au bouton correspondant.
     const btnConnexion = document.querySelector("#btnConnexion");
     btnConnexion.addEventListener("click", connexionEmailMotDePasse);
@@ -167,18 +178,45 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   else if(pageEmailNonVerifier){
 
+    gestionChargementPageEmailNonVerifier();
+
     // Association de la fonction pour envoyer un nouveau lien de vérification au bouton correspondant.
     const btnEnvoyerLien = document.querySelector("#btnEnvoyerLien");
     btnEnvoyerLien.addEventListener("click",nouveauLienVerification)
 
     // Association de la fonction pour se déconnecter au bouton correspondant.
     const btnDeconnexion = document.querySelector("#deconnexion");
-    btnDeconnexion.addEventListener("click",deconnexionRedirection);
+    btnDeconnexion.addEventListener('click', (event) => deconnexionRedirection(event, btnDeconnexion));
     
-    ChargementPage();
   }
   else if(pageAccueilApp){
-    gestionChargementPageApplication();
+    gestionChargementPageApplication("accueil");
+  }
+  else if(pageProfil){
+    gestionChargementPageApplication("profil");
+
+    // Association de la fonction pour se déconnecter au bouton correspondant.
+    const btnDeconnexion = document.querySelector("#btnDeconnexion");
+    btnDeconnexion.addEventListener('click', (event) => deconnexionRedirection(event, btnDeconnexion));
+   
+    // Association de la fonction pour afficher la modal de confirmation de suppresion de son compte au bouton correspondant.
+    const btnSupprimerCompte = document.querySelector("#supprimerCompte");
+    btnSupprimerCompte.addEventListener('click',supprimerCompteBouton);
+
+    // Sélectionne le bouton de fermeture de la modale d'information afin de lui associer sa fonction de fermeture.
+    const fermerModal = document.querySelector("#fermer");
+
+    // Sélection de l'ID de la modal.
+    const modalID = 'modalID';
+   
+    fermerModal.addEventListener('click', function() {fermerModale(modalID);});
+
+    // Association de la fonction pour supprimer le compte au bouton correspondant.
+    const btnSuppresion = document.querySelector("#supprimerConfirmation");
+    btnSuppresion.addEventListener('click',suppresionCompte);
+
+    informationUtilisateurProfil();
+
   }
 
 });

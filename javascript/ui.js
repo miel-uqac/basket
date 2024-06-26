@@ -1,7 +1,7 @@
 // Fichier contenant toutes les fonctions de changement de design dynamique.
 
 import { AuthErrorCodes } from "firebase/auth";
-
+import { auth } from "./index"
   /**
    * Fonction qui gère l'affichage visuel des erreurs d'authentification de Firebase.
    * @param {Object | string} error - L'objet d'erreur renvoyé par Firebase ou une chaîne de caractères identifiant l'erreur.
@@ -284,4 +284,54 @@ import { AuthErrorCodes } from "firebase/auth";
     // Met à jour les textes
     txtPremier.textContent = premierTexte;
     txtDeuxieme.textContent = deuxiemeTexte;
+  }
+
+  /**
+   * Initialise le processus de suppression de compte de la personne utilisatrice.
+   * Affiche une modal de confirmation.
+   * @returns {void}
+   */
+  export function supprimerCompteBouton(){
+
+    // Animation de chargement au bouton de déconnexion
+    const btnSupprimer = document.querySelector("#supprimerCompte");
+    ajoutAnimationChargementBlanc(btnSupprimer);
+
+    // Définition du texte à intégrer dans la modal.
+    const modalID = 'modalID';
+    const txtPremier = 'Voulez-vous supprimer définitivement votre compte ?';
+    const txtDeuxieme = 'Toutes les données seront perdues.';
+    
+    afficherModalEmail(txtPremier,txtDeuxieme,modalID);
+
+    // Réinitialise le texte et l'état du bouton après l'action de suppression.
+    renitialisationBouton(btnSupprimer,'Supprimer compte');
+  }
+
+
+  /**
+   * Fonction pour mettre à jour les informations de profil de la personne utilisatrice dans l'interface de la personne utilisatrice.
+   * Cette fonction utilise Firebase Authentication pour récupérer et afficher l'adresse e-mail vérifiée de la personne utilisatrice.
+   * Elle met à jour le texte spécifié et le placeholder du champ pour y mettre l'email de la personne utilisatrice sur la page profil.
+   * @return {void}
+   */
+  export function informationUtilisateurProfil() {
+    auth.onAuthStateChanged(user => {
+      if (user) {
+
+        // Vérifie si l'e-mail de l'utilisateur a été vérifié
+        if (user.emailVerified) {
+          
+          // Sélectionne l'élément pour afficher l'adresse e-mail de l'utilisateur
+          const personneUtilisatrice = document.querySelector("#personneUtilisatrice");
+          // Sélectionne l'élément pour définir le placeholder avec l'adresse e-mail de l'utilisateur
+          const txtPersonneUtilisatrice = document.querySelector("#txtEmail");
+
+          // Met à jour le texte de l'élément avec l'adresse e-mail de l'utilisateur
+          personneUtilisatrice.textContent = user.email.toString();
+          // Définit le placeholder du champ de saisie avec l'adresse e-mail de l'utilisateur
+          txtPersonneUtilisatrice.placeholder = user.email.toString();
+        }
+      }
+    });
   }
