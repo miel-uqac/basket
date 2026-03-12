@@ -1,8 +1,8 @@
 "use client";
 
+import TopBar from "@/components/top-bar";
 import "./globals.css";
-import { createClient } from '@supabase/supabase-js'
-
+import BottomBar from "@/components/bottom-bar";
 
 export default async function RootLayout({
 	children,
@@ -10,16 +10,15 @@ export default async function RootLayout({
 	children: React.ReactNode;
 }>) {
 
-	// const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY)
-
-	// const { data, error } = await supabase.auth.signInWithPassword({
-	// 	email: 'example@email.com',
-	// 	password: 'example-password',
-	// })
-
 	return (
 		<html lang="en">
-			<body className={""}>{children}</body>
+			<body className={"flex flex-col bg-black/10 text-white"}>
+				<TopBar />
+				<div className="w-full h-full">
+					{children}
+				</div>
+				<BottomBar />
+			</body>
 		</html>
 	);
 }

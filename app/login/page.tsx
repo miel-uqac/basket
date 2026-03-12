@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation';
 import { createClient } from "@supabase/supabase-js";
 import { Armchair, Loader2, Send } from "lucide-react";
 import { useEffect, useState } from "react"
+import { Button, InputBox, LoadingBox, UqacBox } from '@/components/uqac-utils';
 
 export default function Login() {
 	const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || "", process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || "")
@@ -47,26 +48,26 @@ export default function Login() {
 	}
 
 	return <>
-		<div className="border-2 border-red-500 w-full h-full flex items-center justify-center">
+		<div className="w-full h-full flex items-center justify-center">
 			{isReady ? (
-				<div className="border-2 border-purple-500 w-[50%] h-[50%] flex flex-col items-center justify-center">
-					<input onChange={e=>setM(e.target.value)} placeholder="email"></input>
-					<input className="text-black" onChange={e=>setP(e.target.value)} placeholder="password"></input>
-					<button disabled={isLoading} onClick={(e) => {login()}} className={`p-2 rounded-md m-2 flex items-center justify-center border-2 border-white/40 transition ${isLoading ? "text-white/60" : "hover:border-white/80 hover:cursor-pointer"}`}>
+				<UqacBox className="w-[50%] h-[50%] flex flex-col items-center justify-center" title={"Login"}>
+
+					<InputBox placeholder={"email"} onChange={(e:any)=>setM(e.target.value)} type={"email"} className="mb-2" />
+
+					<InputBox placeholder={"password"} onChange={(e:any)=>setP(e.target.value)} type={"password"} />
+					
+					<Button disabled={isLoading} onClick={(e: any) => {login()}} className={`m-2 flex items-center justify-center border-2 border-white/40`}>
 						{isLoading ? (
 							<Loader2 className="transition animate-spin mr-1" size={20} />
 						) : (
 							<Send className="mr-1" size={20} />
 						)}
 						Confirm
-					</button>
-					<span className="text-red-500">{err}</span>
-				</div>
+					</Button>
+					<span className="text-red-500 h-[10px]">{err}</span>
+				</UqacBox>
 			) : (
-				<span className='flex items-center justify-center'>
-					<Loader2 className="mr-2 transition animate-spin" />
-					Loading
-				</span>
+				<LoadingBox />
 			)}
 		</div>
 	</>

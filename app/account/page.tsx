@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation';
 import { createClient } from "@supabase/supabase-js";
 import { Armchair, Loader2, Send } from "lucide-react";
 import { useEffect, useState } from "react"
+import { Button, LoadingBox, UqacBox } from '@/components/uqac-utils';
 
 export default function Account() {
 	const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || "", process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || "")
@@ -29,16 +30,13 @@ export default function Account() {
 	}
 
 	return <>
-		<div className="border-2 border-red-500 w-full h-full flex items-center justify-center">
+		<div className="border-2 w-full h-full flex items-center justify-center">
 			{user ? (
-				<div className="border-2 border-purple-500 w-[50%] h-[50%] flex flex-col items-center justify-center">
-					<button onClick={signOut}>Logout</button>
-				</div>
+				<UqacBox className="w-[90%] h-[90%] flex flex-col items-center justify-center" title={"Account"}>
+					<Button onClick={signOut}>Logout</Button>
+				</UqacBox>
 			) : (
-				<span className='flex items-center justify-center'>
-					<Loader2 className="mr-2 transition animate-spin" />
-					Loading
-				</span>
+				<LoadingBox />
 			)}
 		</div>
 	</>

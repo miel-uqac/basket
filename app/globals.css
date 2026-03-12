@@ -6,7 +6,10 @@ html, body {
   width: 100%;
   height: 100%;
   margin: 0;
+  font-family: "Montserrat";
 }
+
+/* uqac green 7e923a */
 
 :root {
   --foreground-rgb: 0, 0, 0;
@@ -22,7 +25,7 @@ html, body {
   }
 }
 
-body {
+/* body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,
@@ -30,10 +33,16 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
-}
+} */
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
 }
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url("/fonts/Montserrat-VariableFont_wght.ttf") format('truetype');
+}
+
