@@ -43,6 +43,6 @@ html, body {
 
 @font-face {
     font-family: 'Montserrat';
-    src: url("/fonts/Montserrat-VariableFont_wght.ttf") format('truetype');
+    src: url("../public/fonts/Montserrat-VariableFont_wght.ttf") format('truetype');
 }
 
