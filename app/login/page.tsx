@@ -42,7 +42,7 @@ export default function Login() {
 			setIsLoading(false);
 			setErr(error.toString());
 		} else {
-			router.push("/login")
+			router.push("/account")
 		}
 	}
 

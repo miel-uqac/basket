@@ -32,7 +32,7 @@ export default function Account() {
 		<div className="border-2 border-red-500 w-full h-full flex items-center justify-center">
 			{user ? (
 				<div className="border-2 border-purple-500 w-[50%] h-[50%] flex flex-col items-center justify-center">
-
+					<button onClick={signOut}>Logout</button>
 				</div>
 			) : (
 				<span className='flex items-center justify-center'>
