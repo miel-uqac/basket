@@ -4,9 +4,10 @@ import { createClient } from "@supabase/supabase-js";
 import { Armchair, Loader2, Send } from "lucide-react";
 import { useEffect, useState } from "react"
 import { Button, InputBox, LoadingBox, UqacBox } from '@/components/uqac-utils';
+import { getClient, getUser } from '@/lib/uqac-lib';
 
 export default function Login() {
-	const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || "", process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || "")
+	const client = getClient();
 	const router = useRouter();
 
 	const [isReady, setIsReady] = useState(false);
@@ -16,25 +17,22 @@ export default function Login() {
 	const [err, setErr] = useState("");
 
 	useEffect(() => {
-		const getUser = async () => {
-			const user = await supabase.auth.getUser()
-			console.log(user)
-			if (user.data.user) {
+		const checkUser = async () => {
+			const user = await getUser(client)
+			if (user) {
 				router.push("/account")
 			} else {
 				setIsReady(true)
 			}
 		}
-		if (!isReady) {
-			getUser()
-		}
+		if (!isReady) {checkUser()}
 	}, [isReady])
 
 	const login = async () => {
 		setIsLoading(true);
 		setErr("");
 
-		const { data, error } = await supabase.auth.signInWithPassword({
+		const { data, error } = await client.auth.signInWithPassword({
 			email: m,
 			password: p,
 		})
