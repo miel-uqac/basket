@@ -8,10 +8,10 @@ export function Button({children, disabled=false, onClick, className=""}: {child
     )
 }
 
-export function UqacBox({children, className, title}: {children: React.ReactNode, className: string, title: string}) {
+export function UqacBox({children, className="", title}: {children?: React.ReactNode, className?: string, title: string}) {
     return (
-        <div className={`shadow-[2px_4px_13px_-1px_rgba(0,0,0,0.09)] border-[1px] border-black/20 relative ${className}`}>
-            <div className="w-full h-[50px] bg-uqac-green top-0 absolute flex items-center justify-center">
+        <div className={`overflow-hidden overflow-y-auto shadow-[2px_4px_13px_-1px_rgba(0,0,0,0.09)] max-h-[calc(100%-105px)] min-w-[20%] min-h-[20%] border-[1px] border-black/20 relative ${className}`}>
+            <div className="z-[2] w-full h-[50px] bg-uqac-green top-0 sticky flex items-center justify-center">
                 <span className="text-white text-3xl">{title}</span>
             </div>
             {children}
@@ -31,5 +31,13 @@ export function LoadingBox() {
 export function InputBox({placeholder, onChange, type, className=""}: {placeholder: string, onChange: any, type: string, className?: string}) {
     return (
         <input className={`p-2 border-[1px] border-black/20 text-black ${className}`} placeholder={placeholder} onChange={onChange} type={type}></input>
+    )
+}
+
+export function Wrapper({children, className=""}: {children?: React.ReactNode, className?: string}) {
+    return (
+        <div className={`w-full h-full flex items-center justify-center ${className}`}>
+            {children}
+        </div>
     )
 }

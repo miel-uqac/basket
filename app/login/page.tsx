@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import { createClient } from "@supabase/supabase-js";
 import { Armchair, Loader2, Send } from "lucide-react";
 import { useEffect, useState } from "react"
-import { Button, InputBox, LoadingBox, UqacBox } from '@/components/uqac-utils';
+import { Button, InputBox, LoadingBox, UqacBox, Wrapper } from '@/components/uqac-utils';
 import { getClient, getUser } from '@/lib/uqac-lib';
 
 export default function Login() {
@@ -46,7 +46,7 @@ export default function Login() {
 	}
 
 	return <>
-		<div className="w-full h-full flex items-center justify-center">
+		<Wrapper>
 			{isReady ? (
 				<UqacBox className="w-[50%] h-[50%] flex flex-col items-center justify-center" title={"Login"}>
 
@@ -67,6 +67,6 @@ export default function Login() {
 			) : (
 				<LoadingBox />
 			)}
-		</div>
+		</Wrapper>
 	</>
 }
