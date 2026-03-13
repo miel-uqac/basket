@@ -1,12 +1,26 @@
 "use client";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { UqacBox, Wrapper } from "@/components/uqac-utils";
-import { getClient } from "@/lib/uqac-lib";
+import { LoadingBox, UqacBox, Wrapper } from "@/components/uqac-utils";
+import { getClient, getUser } from "@/lib/uqac-lib";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function LeaderboardPage() {
     const client = getClient()
+    const router = useRouter();
     const [scores, setScores] = useState<any>();
+    const [user, setUser] = useState<any>();
+
+    useEffect(() => {
+        const checkUser = async () => {
+            const user = await getUser(client)
+            if (!user) {
+                router.push("/login")
+            }
+            setUser(user)
+        }
+        if (!user) {checkUser()}
+    }, [user])
 
     useEffect(() => {
         const fetchData = async () => {
@@ -16,7 +30,7 @@ export default function LeaderboardPage() {
             }
         }
 
-        if (!scores) {
+        if (!scores && user) {
             fetchData()
         }
 
@@ -30,32 +44,38 @@ export default function LeaderboardPage() {
         return () => {
             client.removeChannel(channel)
         }
-    }, [scores])
+    }, [scores, user])
     
     return (
         <Wrapper>
-            <UqacBox title={"Leaderboard"}>
-                {scores && (
-                    <Table className="text-black">
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>user_id</TableHead>
-                                <TableHead>username</TableHead>
-                                <TableHead>score</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {scores.map((r: any) => (
+            {user ? (
+                <UqacBox className="w-[60%] h-[60%]" title={"Leaderboard"}>
+                    {scores ? (
+                        <Table className="text-black">
+                            <TableHeader>
                                 <TableRow>
-                                    <TableCell>{r.user_id}</TableCell>
-                                    <TableCell>{r.username}</TableCell>
-                                    <TableCell>{r.score}</TableCell>
+                                    <TableHead>user_id</TableHead>
+                                    <TableHead>username</TableHead>
+                                    <TableHead>score</TableHead>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                )}
-            </UqacBox>
+                            </TableHeader>
+                            <TableBody>
+                                {scores.map((r: any) => (
+                                    <TableRow>
+                                        <TableCell>{r.user_id}</TableCell>
+                                        <TableCell>{r.username}</TableCell>
+                                        <TableCell>{r.score}</TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    ) : (
+                        <LoadingBox className="w-full h-full" />
+                    )}
+                </UqacBox>
+            ) : (
+                <LoadingBox />
+            )}
         </Wrapper>
     )
 }

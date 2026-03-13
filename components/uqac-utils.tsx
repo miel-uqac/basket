@@ -10,18 +10,20 @@ export function Button({children, disabled=false, onClick, className=""}: {child
 
 export function UqacBox({children, className="", title}: {children?: React.ReactNode, className?: string, title: string}) {
     return (
-        <div className={`overflow-hidden overflow-y-auto shadow-[2px_4px_13px_-1px_rgba(0,0,0,0.09)] max-h-[calc(100%-105px)] min-w-[20%] min-h-[20%] border-[1px] border-black/20 relative ${className}`}>
+        <div className={`overflow-hidden shadow-[2px_4px_13px_-1px_rgba(0,0,0,0.09)] max-h-[calc(100%-105px)] min-w-[20%] min-h-[20%] border-[1px] border-black/20 relative ${className}`}>
             <div className="z-[2] w-full h-[50px] bg-uqac-green top-0 sticky flex items-center justify-center">
                 <span className="text-white text-3xl">{title}</span>
             </div>
-            {children}
+            <div className="relative flex-1 overflow-y-auto w-full h-[calc(100%-50px)] flex flex-col items-center justify-center">
+                {children}
+            </div>
         </div>
     )
 }
 
-export function LoadingBox() {
+export function LoadingBox({className=""}: {className?: string}) {
     return (
-        <span className='bg-black/80 absolute top-0 left-0 w-full h-full flex items-center justify-center text-white'>
+        <span className={`bg-black/80 absolute top-0 left-0 w-full h-full flex items-center justify-center text-white ${className}`}>
             <Loader2 className="mr-2 transition animate-spin" />
             Loading...
         </span>
