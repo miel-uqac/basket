@@ -17,3 +17,18 @@ export async function getUser(client: any) {
         return null
     }
 }
+
+export function checkQrData(data: string) {
+    if (data.startsWith("BASKET") && data.endsWith("UQAC")) {
+        const payload = data.split("-")[1];
+        const bytes = Buffer.from(payload, "hex")
+        const token = new Uint8Array(bytes.length);
+
+        for (let i = 0; i < bytes.length; i++) {
+            token[i] = bytes[i] ^ 0x97;
+        }
+
+        return new TextDecoder().decode(token);
+    }
+    return "";
+}
