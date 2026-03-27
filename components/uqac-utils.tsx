@@ -14,7 +14,7 @@ export function UqacBox({children, className="", title}: {children?: React.React
             <div className="z-[2] w-full h-[50px] bg-uqac-green top-0 sticky flex items-center justify-center">
                 <span className="text-white text-3xl">{title}</span>
             </div>
-            <div className="relative flex-1 overflow-y-auto w-full h-[calc(100%-50px)] flex flex-col items-center justify-center">
+            <div className="relative flex-1 p-4 overflow-y-auto w-full h-[calc(100%-50px)] flex flex-col items-center justify-center">
                 {children}
             </div>
         </div>

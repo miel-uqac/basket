@@ -48,8 +48,7 @@ export default function Login() {
 	return <>
 		<Wrapper>
 			{isReady ? (
-				<UqacBox className="w-[50%] h-[50%] flex flex-col items-center justify-center" title={"Login"}>
-
+				<UqacBox className="min-w-[70%] min-h-[70%] flex flex-col items-center justify-center" title={"Login"}>
 					<InputBox placeholder={"email"} onChange={(e:any)=>setM(e.target.value)} type={"email"} className="mb-2" />
 
 					<InputBox placeholder={"password"} onChange={(e:any)=>setP(e.target.value)} type={"password"} />
@@ -63,6 +62,8 @@ export default function Login() {
 						Confirm
 					</Button>
 					<span className="text-red-500 h-[10px]">{err}</span>
+
+					<a href="/signup" className="absolute hover:underline bottom-0 text-uqac-green">Create an account</a>
 				</UqacBox>
 			) : (
 				<LoadingBox />

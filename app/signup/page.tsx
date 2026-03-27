@@ -15,7 +15,7 @@ export default function SignUp() {
     const [p, setP] = useState("");
     const [err, setErr] = useState("");
 
-    const login = async () => {
+    const signUp = async () => {
         setIsLoading(true);
         setErr("");
 
@@ -29,7 +29,11 @@ export default function SignUp() {
 
         if (error) {
             setIsLoading(false);
-            setErr(error.toString());
+            let errorMessage = "Only @uqac.ca or @etu.uqac.ca emails are allowed"
+            if (error.toString() !== "AuthApiError: Unexpected status code returned from hook: 422") {
+                errorMessage = error.toString()
+            }
+            setErr(errorMessage);
         } else {
             router.push("/login")
         }
@@ -37,14 +41,13 @@ export default function SignUp() {
 
     return <>
         <Wrapper>
-            <UqacBox title={"Sign Up"} className="w-[50%] h-[50%] flex flex-col items-center justify-center">
-
+            <UqacBox title={"Sign Up"} className="min-w-[70%] min-h-[70%] flex flex-col items-center justify-center">
                 <InputBox placeholder={"email"} onChange={(e:any)=>setM(e.target.value)} type={"email"} className="mb-2" />
                 
                 <InputBox placeholder={"password"} onChange={(e:any)=>setP(e.target.value)} type={"password"} />
                                     
                 
-                <Button disabled={isLoading} onClick={(e: any) => {SignUp()}} className={`m-2 flex items-center justify-center border-2 border-white/40`}>
+                <Button disabled={isLoading} onClick={(e: any) => {signUp()}} className={`m-2 flex items-center justify-center border-2 border-white/40`}>
                     {isLoading ? (
                         <Loader2 className="transition animate-spin mr-1" size={20} />
                     ) : (
@@ -54,6 +57,8 @@ export default function SignUp() {
                 </Button>
 
                 <span className="text-red-500 h-[10px]">{err}</span>
+
+                <a href="/login" className="absolute hover:underline bottom-0 text-uqac-green">Login</a>
             </UqacBox>
         </Wrapper>
     </>

@@ -1,7 +1,7 @@
 export default function BottomBar() {
     return (
         <div className="shrink-0 w-full h-[30px] bg-black flex items-center justify-center overflow-hidden">
-            <span className="text-[1rem] font-light">Work in progress site | miel-uqac/Basket | v{process.env.NEXT_PUBLIC_PROJECT_VERSION}</span>
+            <span className="text-[1rem] font-light truncate">Work in progress site | miel-uqac/Basket | v{process.env.NEXT_PUBLIC_PROJECT_VERSION}</span>
         </div>
     )
 }
