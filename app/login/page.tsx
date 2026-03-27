@@ -20,7 +20,7 @@ export default function Login() {
 		const checkUser = async () => {
 			const user = await getUser(client)
 			if (user) {
-				router.push("/account")
+				router.push("/leaderboard")
 			} else {
 				setIsReady(true)
 			}
@@ -41,7 +41,7 @@ export default function Login() {
 			setIsLoading(false);
 			setErr(error.toString());
 		} else {
-			router.push("/account")
+			router.push("/leaderboard")
 		}
 	}
 

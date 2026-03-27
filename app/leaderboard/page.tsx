@@ -1,8 +1,9 @@
 "use client";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { LoadingBox, UqacBox, Wrapper } from "@/components/uqac-utils";
+import { Button, LoadingBox, UqacBox, Wrapper } from "@/components/uqac-utils";
 import { useAuth } from "@/hooks/useAuth";
 import { getClient, getUser } from "@/lib/uqac-lib";
+import { ArrowBigLeft, Play, UserPen } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -59,8 +60,9 @@ export default function LeaderboardPage() {
     }, [scores, user])
     
     return (
-        <Wrapper>
+        <Wrapper className="flex-col">
             {user ? (
+                <>
                 <UqacBox className="w-[95%] h-[95%]" title={"Leaderboard"}>
                     {scores ? (
                         <Table className="text-black">
@@ -106,6 +108,19 @@ export default function LeaderboardPage() {
                         <LoadingBox className="w-full h-full" />
                     )}
                 </UqacBox>
+                
+                <div className="flex mt-4 gap-4">
+                    <Button className="flex items-center justify-center border-2 border-white/40 font-bold" onClick={(e: any) => {router.push("/account")}}>
+                        <UserPen />
+                        Account
+                    </Button>
+
+                    <Button className="flex items-center justify-center border-2 border-white/40 font-bold" onClick={(e: any) => {router.push("/qr")}}>
+                        <Play />
+                        Start game
+                    </Button>
+                </div>
+                </>
             ) : (
                 <LoadingBox />
             )}

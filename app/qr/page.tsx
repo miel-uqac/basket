@@ -81,7 +81,6 @@ export default function QrPage() {
         if (code) {
             const token = checkQrData(code.data)
             if (token != "") {
-                console.log("token : " + token)
                 setVideoReady(false);
 
                 // stop video
@@ -90,6 +89,8 @@ export default function QrPage() {
                     stream.getTracks().forEach(track => track.stop());
                     videoRef.current.srcObject = null;
                 }
+
+                router.push(`/game?token=${token}`)
 
                 return;
             }
