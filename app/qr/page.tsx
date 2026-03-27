@@ -1,14 +1,19 @@
 "use client";
 
-import { LoadingBox, Wrapper } from "@/components/uqac-utils";
+import { Button, LoadingBox, Wrapper } from "@/components/uqac-utils";
+import { useAuth } from "@/hooks/useAuth";
 import { checkQrData } from "@/lib/uqac-lib";
 import jsQR from "jsqr";
+import { ArrowBigLeft } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 export default function QrPage() {
     const videoRef = useRef<HTMLVideoElement>(null);
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const [videoReady, setVideoReady] = useState(false);
+    const router = useRouter();
+    const user = useAuth();
 
     useEffect(() => {
         canvasRef.current = document.createElement("canvas");
@@ -16,10 +21,16 @@ export default function QrPage() {
     
     useEffect(() => {
         const start = async () => {
-            const stream = await navigator.mediaDevices.getUserMedia({
-                video: true,
-                audio: false,
-            })
+            let stream;
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({
+                    video: true,
+                    audio: false,
+                })
+            } catch {
+                alert("cannot start camera !")
+                return
+            }
 
             if (videoRef.current) {
                 videoRef.current.srcObject = stream;
@@ -40,8 +51,10 @@ export default function QrPage() {
             }
         }
 
-        start();
-    }, [])
+        if (user) {
+            start();
+        }
+    }, [user])
 
     const scan = () => {
         const canvas = canvasRef.current;
@@ -87,15 +100,25 @@ export default function QrPage() {
 
     return (
         <>
-        <Wrapper>
-            <div className="relative flex items-center justify-center w-[90%] h-[90%] overflow-hidden">
-                <div className="absolute top-0 left-0 bottom-0 right-0 m-auto max-w-full max-h-full aspect-square rounded-md overflow-hidden border-4 border-uqac-green bg-uqac-green flex items-center justify-center">
-                    {!videoReady && (
-                        <LoadingBox />
-                    )}
-                    <video className="w-full h-full object-cover" ref={videoRef} autoPlay playsInline />
+        <Wrapper className="flex-col">
+            {user ? (
+                <>
+                <div className="relative flex items-center justify-center w-[85%] h-[85%] overflow-hidden">
+                    <div className="absolute top-0 left-0 bottom-0 right-0 m-auto max-w-full max-h-full aspect-square rounded-md overflow-hidden border-4 border-uqac-green bg-uqac-green flex items-center justify-center">
+                        {!videoReady && (
+                            <LoadingBox />
+                        )}
+                        <video className="w-full h-full object-cover" ref={videoRef} autoPlay playsInline />
+                    </div>
                 </div>
-            </div>
+                <Button className="mt-4 flex items-center justify-center border-2 border-white/40 font-bold" onClick={(e: any) => {router.push("/leaderboard")}}>
+                    <ArrowBigLeft />
+                    Go back
+                </Button>
+                </>
+            ) : (
+                <LoadingBox />
+            )}
         </Wrapper>
         </>
     )

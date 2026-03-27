@@ -5,22 +5,12 @@ import { Armchair, Loader2, Send } from "lucide-react";
 import { useEffect, useState } from "react"
 import { Button, LoadingBox, UqacBox, Wrapper } from '@/components/uqac-utils';
 import { getClient, getUser } from '@/lib/uqac-lib';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function Account() {
 	const client = getClient();
 	const router = useRouter();
-	const [user, setUser] = useState<any>();
-
-	useEffect(() => {
-		const checkUser = async () => {
-			const user = await getUser(client)
-			if (!user) {
-				router.push("/login")
-			}
-			setUser(user)
-		}
-		if (!user) {checkUser()}
-	}, [user])
+	const user = useAuth();
 
 	const signOut = async () => {
 		await client.auth.signOut()

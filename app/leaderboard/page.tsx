@@ -1,6 +1,7 @@
 "use client";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { LoadingBox, UqacBox, Wrapper } from "@/components/uqac-utils";
+import { useAuth } from "@/hooks/useAuth";
 import { getClient, getUser } from "@/lib/uqac-lib";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -9,18 +10,7 @@ export default function LeaderboardPage() {
     const client = getClient()
     const router = useRouter();
     const [scores, setScores] = useState<any>();
-    const [user, setUser] = useState<any>();
-
-    useEffect(() => {
-        const checkUser = async () => {
-            const user = await getUser(client)
-            if (!user) {
-                router.push("/login")
-            }
-            setUser(user)
-        }
-        if (!user) {checkUser()}
-    }, [user])
+    const user = useAuth();
 
     useEffect(() => {
         const fetchData = async () => {
