@@ -24,10 +24,32 @@ export default function LeaderboardPage() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const { data, error } = await client.from("users").select("*").order("score", {ascending: false}).limit(10);
-            if (data) {
-                setScores(data)
+            // top 10
+            const { data: top } = await client
+                .from("users")
+                .select("*")
+                .order("score", { ascending: false })
+                .limit(10);
+            // ourselves
+            let me = null;
+
+            if (user) {
+                const { data } = await client
+                    .from("users")
+                    .select("*")
+                    .eq("user_id", user.id)
+                    .single();
+
+                me = data;
             }
+            // add us if not in top 10
+            let final = top || [];
+
+            if (me && !final.some((r: any) => r.user_id === me.user_id)) {
+                final = [...final, me]; // bottom
+            }
+            // set
+            setScores(final);
         }
 
         if (!scores && user) {
@@ -49,7 +71,7 @@ export default function LeaderboardPage() {
     return (
         <Wrapper>
             {user ? (
-                <UqacBox className="w-[60%] h-[60%]" title={"Leaderboard"}>
+                <UqacBox className="w-[95%] h-[95%]" title={"Leaderboard"}>
                     {scores ? (
                         <Table className="text-black">
                             <TableHeader>
@@ -60,13 +82,34 @@ export default function LeaderboardPage() {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {scores.map((r: any) => (
-                                    <TableRow>
-                                        <TableCell>{r.user_id}</TableCell>
-                                        <TableCell>{r.username}</TableCell>
-                                        <TableCell>{r.score}</TableCell>
-                                    </TableRow>
-                                ))}
+                                {scores.map((r: any, i: number) => {
+                                    const isMe = r.user_id === user?.id;
+
+                                    let color = "";
+                                    let medal = "";
+                                    if (i === 0) { 
+                                        color = "bg-yellow-400";
+                                        medal = "🥇 ";
+                                    }
+                                    else if (i === 1) {
+                                        color = "bg-gray-400";
+                                        medal = "🥈 ";
+                                    }
+                                    else if (i === 2) {
+                                        color = "bg-orange-400";
+                                        medal = "🥉 ";
+                                    }
+
+                                    if (isMe) color = "bg-blue-400";
+
+                                    return (
+                                        <TableRow key={r.user_id} className={`${color} hover:${color} ${isMe && "font-bold"}`}>
+                                            <TableCell>{r.user_id}</TableCell>
+                                            <TableCell>{medal}{r.username} {isMe && ("(you)")}</TableCell>
+                                            <TableCell>{r.score}</TableCell>
+                                        </TableRow>
+                                    );
+                                })}
                             </TableBody>
                         </Table>
                     ) : (

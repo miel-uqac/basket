@@ -10,7 +10,7 @@ export function Button({children, disabled=false, onClick, className=""}: {child
 
 export function UqacBox({children, className="", title}: {children?: React.ReactNode, className?: string, title: string}) {
     return (
-        <div className={`overflow-hidden shadow-[2px_4px_13px_-1px_rgba(0,0,0,0.09)] max-h-[calc(100%-105px)] min-w-[20%] min-h-[20%] border-[1px] border-black/20 relative ${className}`}>
+        <div className={`overflow-hidden shadow-[2px_4px_13px_-1px_rgba(0,0,0,0.09)] max-h-[calc(100%-95px)] min-w-[20%] min-h-[20%] border-[1px] border-black/20 relative ${className}`}>
             <div className="z-[2] w-full h-[50px] bg-uqac-green top-0 sticky flex items-center justify-center">
                 <span className="text-white text-3xl">{title}</span>
             </div>
