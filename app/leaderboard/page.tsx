@@ -111,12 +111,12 @@ export default function LeaderboardPage() {
                 
                 <div className="flex mt-4 gap-4">
                     <Button className="flex items-center justify-center border-2 border-white/40 font-bold" onClick={(e: any) => {router.push("/account")}}>
-                        <UserPen />
+                        <UserPen className="mr-1" />
                         Account
                     </Button>
 
                     <Button className="flex items-center justify-center border-2 border-white/40 font-bold" onClick={(e: any) => {router.push("/qr")}}>
-                        <Play />
+                        <Play className="mr-1" />
                         Start game
                     </Button>
                 </div>

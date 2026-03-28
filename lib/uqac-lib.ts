@@ -19,16 +19,13 @@ export async function getUser(client: any) {
 }
 
 export function checkQrData(data: string) {
-    if (data.startsWith("BASKET") && data.endsWith("UQAC")) {
-        const payload = data.split("-")[1];
-        const bytes = Buffer.from(payload, "hex")
-        const token = new Uint8Array(bytes.length);
-
-        for (let i = 0; i < bytes.length; i++) {
-            token[i] = bytes[i] ^ 0x97;
-        }
-
-        return new TextDecoder().decode(token);
+    if (data.startsWith("https://miel-uqac.github.io/basket/game?token=")) {
+        const token = data.split("token=")[1];
+        return token
     }
     return "";
+}
+
+export function formatDate(text: string) {
+    return new Date(text).toLocaleString("en-US", {day: "numeric", month: "long", year: "numeric", hour: "numeric", minute: "numeric", hour12: false})
 }
