@@ -12,6 +12,7 @@ export default function GamePage() {
     const router = useRouter();
     const user = useAuth();
     const [token, setToken] = useState("")
+    const [score, setScore] = useState(0);
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
@@ -23,6 +24,41 @@ export default function GamePage() {
             setToken(gameToken);
         }
     }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            // ourselves
+            let me = 0;
+
+            if (user) {
+                const { data } = await client
+                    .from("users")
+                    .select("score")
+                    .eq("user_id", user.id)
+                    .single();
+
+                me = parseInt(data?.score);
+            }
+
+            // set
+            setScore(me);
+        }
+
+        if (!score && user) {
+            fetchData()
+        }
+
+        const channel = client.channel("scores-live")
+        .on("postgres_changes",
+            {event: "*", schema: "basket", table: "users"},
+            () => fetchData()
+        )
+        .subscribe()
+
+        return () => {
+            client.removeChannel(channel)
+        }
+    }, [score, user])
     
     return (
         <>
@@ -34,7 +70,7 @@ export default function GamePage() {
                         <>
                         <div>
                             <span className="font-bold">Goals : </span>
-                            <span>...</span>
+                            <span>{score}</span>
                         </div>
                         <div>
                             <span className="font-bold">Accuracy : </span>
