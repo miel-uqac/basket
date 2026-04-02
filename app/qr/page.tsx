@@ -24,11 +24,11 @@ export default function QrPage() {
             let stream;
             try {
                 stream = await navigator.mediaDevices.getUserMedia({
-                    video: true,
+                    video: { facingMode: "environment" },
                     audio: false,
                 })
-            } catch {
-                alert("cannot start camera !")
+            } catch (err) {
+                alert(`cannot start camera ! ${err}`)
                 return
             }
 
@@ -84,11 +84,7 @@ export default function QrPage() {
                 setVideoReady(false);
 
                 // stop video
-                if (videoRef.current && videoRef.current.srcObject) {
-                    const stream = videoRef.current.srcObject as MediaStream;
-                    stream.getTracks().forEach(track => track.stop());
-                    videoRef.current.srcObject = null;
-                }
+                stopVideo();
 
                 router.push(`/game?token=${token}`)
 
@@ -97,6 +93,14 @@ export default function QrPage() {
         }
 
         requestAnimationFrame(scan);
+    }
+
+    const stopVideo = () => {
+        if (videoRef.current && videoRef.current.srcObject) {
+            const stream = videoRef.current.srcObject as MediaStream;
+            stream.getTracks().forEach(track => track.stop());
+            videoRef.current.srcObject = null;
+        }
     }
 
     return (
@@ -112,7 +116,7 @@ export default function QrPage() {
                         <video className="w-full h-full object-cover" ref={videoRef} autoPlay playsInline />
                     </div>
                 </div>
-                <Button className="mt-4 flex items-center justify-center border-2 border-white/40 font-bold" onClick={(e: any) => {router.push("/leaderboard")}}>
+                <Button className="mt-4 flex items-center justify-center border-2 border-white/40 font-bold" onClick={(e: any) => {stopVideo(); router.push("/leaderboard")}}>
                     <ArrowBigLeft />
                     Go back
                 </Button>
