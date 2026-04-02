@@ -86,7 +86,7 @@ export default function LeaderboardPage() {
                 <>
                 <UqacBox className="w-[95%] h-[95%]" title={"Leaderboard"}>
                     {scores ? (
-                        <Table className="text-black">
+                        <Table className="text-black w-full">
                             <TableHeader>
                                 <TableRow>
                                     {/* <TableHead>user_id</TableHead> */}
@@ -95,7 +95,7 @@ export default function LeaderboardPage() {
                                     <TableHead>score</TableHead>
                                 </TableRow>
                             </TableHeader>
-                            <TableBody>
+                            <TableBody className="w-full">
                                 {scores.map((r: any, i: number) => {
                                     const isMe = r.user_id === user?.id;
 
@@ -117,7 +117,7 @@ export default function LeaderboardPage() {
                                     if (isMe) color = "bg-blue-400";
 
                                     return (
-                                        <TableRow key={r.user_id} className={`${color} hover:${color} ${isMe && "font-bold"}`}>
+                                        <TableRow key={r.user_id} className={`${color} truncate hover:${color} ${isMe && "font-bold"}`}>
                                             {/* <TableCell>{r.user_id}</TableCell> */}
                                             <TableCell>{r.rank}</TableCell>
                                             <TableCell>{medal}{r.username} {isMe && ("(you)")} - {r.user_id}</TableCell>
