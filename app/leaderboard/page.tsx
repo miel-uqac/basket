@@ -15,33 +15,54 @@ export default function LeaderboardPage() {
 
     useEffect(() => {
         const fetchData = async () => {
-            // top 10
-            const { data: top } = await client
+        // top 10
+        const { data: top } = await client
+            .from("users")
+            .select("*")
+            .order("score", { ascending: false })
+            .limit(10);
+
+        // attach rank to top
+        const topWithRank = await Promise.all(
+            (top || []).map(async (u: any) => {
+            const { count } = await client
                 .from("users")
-                .select("*")
-                .order("score", { ascending: false })
-                .limit(10);
-            // ourselves
-            let me = null;
+                .select("*", { count: "exact", head: true })
+                .gt("score", u.score);
 
-            if (user) {
-                const { data } = await client
-                    .from("users")
-                    .select("*")
-                    .eq("user_id", user.id)
-                    .single();
+            return { ...u, rank: (count ?? 0) + 1 };
+            })
+        );
 
-                me = data;
+        // ourselves
+        let me = null;
+
+        if (user) {
+            const { data } = await client
+            .from("users")
+            .select("*")
+            .eq("user_id", user.id)
+            .single();
+
+            if (data) {
+            const { count } = await client
+                .from("users")
+                .select("*", { count: "exact", head: true })
+                .gt("score", data.score);
+
+            me = { ...data, rank: (count ?? 0) + 1 };
             }
-            // add us if not in top 10
-            let final = top || [];
-
-            if (me && !final.some((r: any) => r.user_id === me.user_id)) {
-                final = [...final, me]; // bottom
-            }
-            // set
-            setScores(final);
         }
+
+        // merge
+        let final = topWithRank;
+
+        if (me && !final.some((r: any) => r.user_id === me.user_id)) {
+            final = [...final, me];
+        }
+
+        setScores(final);
+        };
 
         if (!scores && user) {
             fetchData()
@@ -68,7 +89,8 @@ export default function LeaderboardPage() {
                         <Table className="text-black">
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>user_id</TableHead>
+                                    {/* <TableHead>user_id</TableHead> */}
+                                    <TableHead>position</TableHead>
                                     <TableHead>username</TableHead>
                                     <TableHead>score</TableHead>
                                 </TableRow>
@@ -96,8 +118,9 @@ export default function LeaderboardPage() {
 
                                     return (
                                         <TableRow key={r.user_id} className={`${color} hover:${color} ${isMe && "font-bold"}`}>
-                                            <TableCell>{r.user_id}</TableCell>
-                                            <TableCell>{medal}{r.username} {isMe && ("(you)")}</TableCell>
+                                            {/* <TableCell>{r.user_id}</TableCell> */}
+                                            <TableCell>{r.rank}</TableCell>
+                                            <TableCell>{medal}{r.username} {isMe && ("(you)")} - {r.user_id}</TableCell>
                                             <TableCell>{r.score}</TableCell>
                                         </TableRow>
                                     );
