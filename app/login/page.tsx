@@ -37,6 +37,9 @@ export default function Login() {
 			password: p,
 		})
 
+		// set up defaults for user
+		
+
 		if (error) {
 			setIsLoading(false);
 			setErr(error.toString());
@@ -63,7 +66,7 @@ export default function Login() {
 					</Button>
 					<span className="text-red-500 h-[10px]">{err}</span>
 
-					<a href="/signup" className="absolute hover:underline bottom-0 text-uqac-green">Create an account</a>
+					<Button className="bg-transparent hover:bg-transparent absolute hover:underline bottom-0 text-uqac-green" onClick={(e: any) => {router.push("/signup")}}>Create an account</Button>
 				</UqacBox>
 			) : (
 				<LoadingBox />
