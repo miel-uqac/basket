@@ -93,7 +93,7 @@ export default function GamePage() {
                 <div className="flex mt-4 gap-4">
                     <Button className="flex items-center justify-center border-2 border-white/40 font-bold" onClick={(e: any) => {router.push("/leaderboard")}}>
                         <ArrowBigLeft className="mr-1" />
-                        Account
+                        Leave game
                     </Button>
                 </div>
                 </>
