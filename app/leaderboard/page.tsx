@@ -1,4 +1,5 @@
 "use client";
+import Leaderboard from "@/components/leaderboard";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button, LoadingBox, UqacBox, Wrapper } from "@/components/uqac-utils";
 import { useAuth } from "@/hooks/useAuth";
@@ -8,130 +9,15 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function LeaderboardPage() {
-    const client = getClient()
     const router = useRouter();
-    const [scores, setScores] = useState<any>();
     const user = useAuth();
     const [loading, setLoading] = useState(false);
-
-    useEffect(() => {
-        const fetchData = async () => {
-        // top 10
-        const { data: top } = await client
-            .from("users")
-            .select("*")
-            .order("score", { ascending: false })
-            .limit(10);
-
-        // attach rank to top
-        const topWithRank = await Promise.all(
-            (top || []).map(async (u: any) => {
-            const { count } = await client
-                .from("users")
-                .select("*", { count: "exact", head: true })
-                .gt("score", u.score);
-
-            return { ...u, rank: (count ?? 0) + 1 };
-            })
-        );
-
-        // ourselves
-        let me = null;
-
-        if (user) {
-            const { data } = await client
-            .from("users")
-            .select("*")
-            .eq("user_id", user.id)
-            .single();
-
-            if (data) {
-            const { count } = await client
-                .from("users")
-                .select("*", { count: "exact", head: true })
-                .gt("score", data.score);
-
-            me = { ...data, rank: (count ?? 0) + 1 };
-            }
-        }
-
-        // merge
-        let final = topWithRank;
-
-        if (me && !final.some((r: any) => r.user_id === me.user_id)) {
-            final = [...final, me];
-        }
-
-        setScores(final);
-        };
-
-        if (!scores && user) {
-            fetchData()
-        }
-
-        const channel = client.channel("scores-live")
-        .on("postgres_changes",
-            {event: "*", schema: "basket", table: "users"},
-            () => fetchData()
-        )
-        .subscribe()
-
-        return () => {
-            client.removeChannel(channel)
-        }
-    }, [scores, user])
     
     return (
         <Wrapper className="flex-col">
             {(user && !loading) ? (
                 <>
-                <UqacBox className="w-[95%] h-[95%]" title={"Leaderboard"}>
-                    {scores ? (
-                        <Table className="text-black w-full">
-                            <TableHeader>
-                                <TableRow>
-                                    {/* <TableHead>user_id</TableHead> */}
-                                    <TableHead>position</TableHead>
-                                    <TableHead>username</TableHead>
-                                    <TableHead>score</TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody className="w-full">
-                                {scores.map((r: any, i: number) => {
-                                    const isMe = r.user_id === user?.id;
-
-                                    let color = "";
-                                    let medal = "";
-                                    if (i === 0) { 
-                                        color = "bg-yellow-400";
-                                        medal = "🥇 ";
-                                    }
-                                    else if (i === 1) {
-                                        color = "bg-gray-400";
-                                        medal = "🥈 ";
-                                    }
-                                    else if (i === 2) {
-                                        color = "bg-orange-400";
-                                        medal = "🥉 ";
-                                    }
-
-                                    if (isMe) color = "bg-blue-400";
-
-                                    return (
-                                        <TableRow key={r.user_id} className={`${color} truncate hover:${color} ${isMe && "font-bold"}`}>
-                                            {/* <TableCell>{r.user_id}</TableCell> */}
-                                            <TableCell>{r.rank}</TableCell>
-                                            <TableCell>{medal}{r.username} {isMe && ("(you)")} - {r.user_id}</TableCell>
-                                            <TableCell>{r.score}</TableCell>
-                                        </TableRow>
-                                    );
-                                })}
-                            </TableBody>
-                        </Table>
-                    ) : (
-                        <LoadingBox className="w-full h-full" />
-                    )}
-                </UqacBox>
+                <Leaderboard user={user.id} />
                 
                 <div className="flex mt-4 gap-4">
                     <Button className="flex items-center justify-center border-2 border-white/40 font-bold" onClick={(e: any) => {setLoading(true); router.push("/account")}}>
