@@ -13,8 +13,10 @@ export default function Account() {
 	const user = useAuth();
 
 	const [userData, setUserData] = useState<any>();
+	const [loading, setLoading] = useState(false);
 
 	const signOut = async () => {
+		setLoading(true);
 		await client.auth.signOut()
 		router.push("/login");
 	}
@@ -36,7 +38,7 @@ export default function Account() {
 
 	return <>
 		<Wrapper className="flex-col">
-			{(user && userData) ? (
+			{(user && userData && !loading) ? (
 				<>
 				<UqacBox className="w-[90%] h-[90%] text-black text-[1.5rem] leading-[2.5rem] flex flex-col items-center justify-center" title={"Account"}>
 					<div>
@@ -81,7 +83,7 @@ export default function Account() {
 				</UqacBox>
 
 				<div className="flex mt-4 gap-4">
-                    <Button className="flex items-center justify-center border-2 border-white/40 font-bold" onClick={(e: any) => {router.push("/leaderboard")}}>
+                    <Button className="flex items-center justify-center border-2 border-white/40 font-bold" onClick={(e: any) => {setLoading(true); router.push("/leaderboard")}}>
                         <ArrowBigLeft className="mr-1" />
                         Go back
                     </Button>

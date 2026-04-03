@@ -13,6 +13,8 @@ export default function GamePage() {
     const user = useAuth();
     const [token, setToken] = useState("")
     const [score, setScore] = useState(0);
+    const [loading, setLoading] = useState(false);
+    const [gameReady, setGameReady] = useState(false);
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
@@ -27,6 +29,16 @@ export default function GamePage() {
 
     useEffect(() => {
         const fetchData = async () => {
+
+            const gameExists: any = await client.from("game").select("*").eq("id", token);
+
+            if (gameExists.data.length == 0) {
+                alert("Partie introuvable !");
+                router.push("/qr");
+                return;
+            }
+            setGameReady(true);
+
             // ourselves
             let me = 0;
 
@@ -63,10 +75,10 @@ export default function GamePage() {
     return (
         <>
         <Wrapper className="flex-col">
-            {user ? (
+            {(user && !loading) ? (
                 <>
                 <UqacBox className="w-[95%] h-[95%] text-black text-[2.5rem] leading-[3.5rem]" title={"Game"}>
-                    {true ? (
+                    {gameReady ? (
                         <>
                         <div>
                             <span className="font-bold">Goals : </span>
@@ -91,7 +103,7 @@ export default function GamePage() {
                 </UqacBox>
                 
                 <div className="flex mt-4 gap-4">
-                    <Button className="flex items-center justify-center border-2 border-white/40 font-bold" onClick={(e: any) => {router.push("/leaderboard")}}>
+                    <Button className="flex items-center justify-center border-2 border-white/40 font-bold" onClick={(e: any) => {setLoading(true); router.push("/leaderboard")}}>
                         <ArrowBigLeft className="mr-1" />
                         Leave game
                     </Button>

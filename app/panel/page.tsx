@@ -3,12 +3,12 @@
 import QrCodeImg from "@/components/qrcode-img";
 import { Button, Wrapper } from "@/components/uqac-utils";
 import { getClient } from "@/lib/uqac-lib";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function TestPage() {
     const client = getClient()
     const [token, setToken] = useState("");
-    const refreshTime = 10;
+    const refreshTime = 60;
     const [countdown, setCountdown] = useState(refreshTime); // refresh
     
     const update = async () => {
@@ -26,13 +26,21 @@ export default function TestPage() {
             .eq("user_id", "da709ef0-0e30-40be-b4a9-1b03f51d9140");
     }
 
-    const updateToken = () => {
-        console.log("yaaa");
+    const updateToken = async () => {
         const uuid = window.crypto.randomUUID();
         setToken(uuid);
+
+        // remove old row
+        await client.from("game").delete().eq("pk", 1);
+
+        // add new row
+        await client.from("game").insert([{pk: 1, id: uuid}]);
     }
 
+    const ran = useRef(false);
     useEffect(() => {
+        if (ran.current) return;
+        ran.current = true;
         updateToken();
 
         const interval = setInterval(() => {
@@ -46,7 +54,7 @@ export default function TestPage() {
         }, 1000);
 
         return () => clearInterval(interval);
-    }, []);
+    }, [refreshTime]);
     
     return (
         <>

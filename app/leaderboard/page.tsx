@@ -12,6 +12,7 @@ export default function LeaderboardPage() {
     const router = useRouter();
     const [scores, setScores] = useState<any>();
     const user = useAuth();
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -82,7 +83,7 @@ export default function LeaderboardPage() {
     
     return (
         <Wrapper className="flex-col">
-            {user ? (
+            {(user && !loading) ? (
                 <>
                 <UqacBox className="w-[95%] h-[95%]" title={"Leaderboard"}>
                     {scores ? (
@@ -133,12 +134,12 @@ export default function LeaderboardPage() {
                 </UqacBox>
                 
                 <div className="flex mt-4 gap-4">
-                    <Button className="flex items-center justify-center border-2 border-white/40 font-bold" onClick={(e: any) => {router.push("/account")}}>
+                    <Button className="flex items-center justify-center border-2 border-white/40 font-bold" onClick={(e: any) => {setLoading(true); router.push("/account")}}>
                         <UserPen className="mr-1" />
                         Account
                     </Button>
 
-                    <Button className="flex items-center justify-center border-2 border-white/40 font-bold" onClick={(e: any) => {router.push("/qr")}}>
+                    <Button className="flex items-center justify-center border-2 border-white/40 font-bold" onClick={(e: any) => {setLoading(true); router.push("/qr")}}>
                         <Play className="mr-1" />
                         Start game
                     </Button>
