@@ -1,6 +1,7 @@
 "use client";
 
 import { Button, LoadingBox, UqacBox, Wrapper } from "@/components/uqac-utils";
+import UserStats from "@/components/user-stats";
 import { useAuth } from "@/hooks/useAuth";
 import { getClient } from "@/lib/uqac-lib";
 import { ArrowBigLeft } from "lucide-react";
@@ -29,15 +30,33 @@ export default function GamePage() {
 
     useEffect(() => {
         const fetchData = async () => {
-
-            const gameExists: any = await client.from("game").select("*").eq("id", token);
-
-            if (gameExists.data.length == 0) {
-                alert("Partie introuvable !");
-                router.push("/qr");
+            if (loading) {
                 return;
             }
-            setGameReady(true);
+
+            const gameExists: any = await client.from("game").select("player").eq("id", token);
+
+            if (gameExists.data.length == 0) {
+                setGameReady(false);
+                alert("Game not found !");
+                router.push("/qr");
+                client.removeChannel(channel)
+                return;
+            }
+
+            if (gameExists.data[0].player) {
+                console.log("player exists");
+                if (gameExists.data[0].player != user.id) {
+                    setGameReady(false);
+                    alert("Someone else is playing !");
+                    router.push("/qr");
+                    client.removeChannel(channel)
+                    return;
+                }
+            } else {
+                console.log("update player" + user.id);
+                await client.from("game").update({ player: user.id }).eq("id", token);
+            }
 
             // ourselves
             let me = 0;
@@ -54,6 +73,7 @@ export default function GamePage() {
 
             // set
             setScore(me);
+            setGameReady(true);
         }
 
         if (!score && user) {
@@ -62,7 +82,7 @@ export default function GamePage() {
 
         const channel = client.channel("scores-live")
         .on("postgres_changes",
-            {event: "*", schema: "basket", table: "users"},
+            {event: "*", schema: "basket", table: "game"},
             () => fetchData()
         )
         .subscribe()
@@ -70,40 +90,23 @@ export default function GamePage() {
         return () => {
             client.removeChannel(channel)
         }
-    }, [score, user])
+    }, [score, user, loading])
+
+    const leaveGame = async () => {
+        setLoading(true);
+        await client.from("game").update({ player: null }).eq("id", token);
+        router.push("/leaderboard")
+    }
     
     return (
         <>
         <Wrapper className="flex-col">
-            {(user && !loading) ? (
+            {(user && !loading && gameReady) ? (
                 <>
-                <UqacBox className="w-[95%] h-[95%] text-black text-[2.5rem] leading-[3.5rem]" title={"Game"}>
-                    {gameReady ? (
-                        <>
-                        <div>
-                            <span className="font-bold">Goals : </span>
-                            <span>{score}</span>
-                        </div>
-                        <div>
-                            <span className="font-bold">Accuracy : </span>
-                            <span>...</span>
-                        </div>
-                        <div>
-                            <span className="font-bold">Best streak : </span>
-                            <span>...%</span>
-                        </div>
-                        <div>
-                            <span className="font-bold">Most launched item : </span>
-                            <span>...</span>
-                        </div>
-                        </>
-                    ) : (
-                        <LoadingBox className="w-full h-full" />
-                    )}
-                </UqacBox>
+                <UserStats user={user.id} />
                 
                 <div className="flex mt-4 gap-4">
-                    <Button className="flex items-center justify-center border-2 border-white/40 font-bold" onClick={(e: any) => {setLoading(true); router.push("/leaderboard")}}>
+                    <Button className="flex items-center justify-center border-2 border-white/40 font-bold" onClick={(e: any) => {leaveGame()}}>
                         <ArrowBigLeft className="mr-1" />
                         Leave game
                     </Button>
