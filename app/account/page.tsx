@@ -1,11 +1,12 @@
 "use client";
 import { useRouter } from 'next/navigation';
 import { createClient } from "@supabase/supabase-js";
-import { Armchair, ArrowBigLeft, Loader2, LogOut, Send } from "lucide-react";
+import { Armchair, ArrowBigLeft, ArrowBigRight, Loader2, LogOut, Send } from "lucide-react";
 import { useEffect, useState } from "react"
 import { Button, LoadingBox, UqacBox, Wrapper } from '@/components/uqac-utils';
 import { formatDate, getClient, getUser } from '@/lib/uqac-lib';
 import { useAuth } from '@/hooks/useAuth';
+import UserStats from '@/components/user-stats';
 
 export default function Account() {
 	const client = getClient();
@@ -37,7 +38,7 @@ export default function Account() {
 	}, [userData, user])
 
 	return <>
-		<Wrapper className="flex-col">
+		<Wrapper className="p-4 flex-col gap-4">
 			{(user && userData && !loading) ? (
 				<>
 				<UqacBox className="w-[90%] h-[90%] text-black text-[1.5rem] leading-[2.5rem] flex flex-col items-center justify-center" title={"Account"}>
@@ -57,40 +58,19 @@ export default function Account() {
 						<span className="font-bold">Last login : </span>
 						<span>{formatDate(user.last_sign_in_at)}</span>
 					</div>
-
-					<hr className="border-0 h-[2px] bg-black w-full mt-4 mb-4" />
-
-					<div>
-						<span className="font-bold">Games count : </span>
-						<span>...</span>
-					</div>
-					<div>
-						<span className="font-bold">Goals : </span>
-						<span>...</span>
-					</div>
-					<div>
-						<span className="font-bold">Accuracy : </span>
-						<span>...%</span>
-					</div>
-					<div>
-						<span className="font-bold">Best streak : </span>
-						<span>...</span>
-					</div>
-					<div>
-						<span className="font-bold">Most launched item : </span>
-						<span>...</span>
-					</div>
 				</UqacBox>
 
-				<div className="flex mt-4 gap-4">
-                    <Button className="flex items-center justify-center border-2 border-white/40 font-bold" onClick={(e: any) => {setLoading(true); router.push("/leaderboard")}}>
-                        <ArrowBigLeft className="mr-1" />
-                        Go back
-                    </Button>
+				<UserStats user={user.id} />
 
-                    <Button className="flex items-center justify-center border-2 border-white/40 font-bold" onClick={signOut}>
+				<div className="flex mt-4 gap-4">
+					<Button className="flex items-center justify-center border-2 border-white/40 font-bold" onClick={signOut}>
                         <LogOut className="mr-1" />
                         Logout
+                    </Button>
+
+                    <Button className="flex items-center justify-center border-2 border-white/40 font-bold" onClick={(e: any) => {setLoading(true); router.push("/leaderboard")}}>
+                        <ArrowBigRight className="mr-1" />
+                        Go back
                     </Button>
                 </div>
 				</>
