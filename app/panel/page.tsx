@@ -146,15 +146,17 @@ export default function TestPage() {
 
                     <QrCodeImg disabled={currentPlayer} code={`https://miel-uqac.github.io/basket/game?token=${token}`} />
                 </UqacBox>
-
-                {currentPlayer ? (
-                    <UserStats user={currentPlayer} />
-                ) : (
-                    <UqacBox className="flex flex-col items-center justify-center" title="Stats">
-                        <span className="text-black">Nobody is playing...</span>
-                    </UqacBox>
-                )}
             </div>
+
+            {currentPlayer ? (
+                <div className="w-[500px] max-h-[700px]">
+                    <UserStats user={currentPlayer} />
+                </div>
+            ) : (
+                <UqacBox className="flex flex-col items-center justify-center" title="Stats">
+                    <span className="text-black">Nobody is playing...</span>
+                </UqacBox>
+            )}
             
         </Wrapper>
         </>
