@@ -51,7 +51,7 @@ export default function Login() {
 	return <>
 		<Wrapper>
 			{isReady ? (
-				<UqacBox className="min-w-[70%] min-h-[70%] flex flex-col items-center justify-center" title={"Login"}>
+				<UqacBox className="border-[4px] border-blue-500 min-w-[70%] min-h-[70%] flex flex-col items-center justify-center" title={"Login"}>
 					<InputBox placeholder={"email"} onChange={(e:any)=>setM(e.target.value)} type={"email"} className="mb-2" />
 
 					<InputBox placeholder={"password"} onChange={(e:any)=>setP(e.target.value)} type={"password"} />
@@ -66,7 +66,7 @@ export default function Login() {
 					</Button>
 					<span className="text-red-500 h-[10px]">{err}</span>
 
-					<Button className="bg-transparent hover:bg-transparent absolute hover:underline bottom-0 text-uqac-green" onClick={(e: any) => {router.push("/signup")}}>Create an account</Button>
+					<Button className="bg-transparent hover:!bg-transparent absolute hover:underline bottom-0 text-uqac-green" onClick={(e: any) => {router.push("/signup")}}>Create an account</Button>
 				</UqacBox>
 			) : (
 				<LoadingBox />

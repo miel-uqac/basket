@@ -23,7 +23,7 @@ export default function SignUp() {
             email: m,
             password: p,
             options: {
-                emailRedirectTo: "/login"
+                emailRedirectTo: "https://miel-uqac.github.io/basket/login"
             }
         })
 
@@ -35,13 +35,14 @@ export default function SignUp() {
             }
             setErr(errorMessage);
         } else {
+            alert("Your account was created ! You will receive an email to activate it then you can login");
             router.push("/login")
         }
     }
 
     return <>
         <Wrapper>
-            <UqacBox title={"Sign Up"} className="min-w-[70%] min-h-[70%] flex flex-col items-center justify-center">
+            <UqacBox title={"Sign Up"} className="border-[4px] border-red-500 min-w-[70%] min-h-[70%] flex flex-col items-center justify-center">
                 <InputBox placeholder={"email"} onChange={(e:any)=>setM(e.target.value)} type={"email"} className="mb-2" />
                 
                 <InputBox placeholder={"password"} onChange={(e:any)=>setP(e.target.value)} type={"password"} />
@@ -58,7 +59,7 @@ export default function SignUp() {
 
                 <span className="text-red-500 h-[10px]">{err}</span>
 
-                <Button className="bg-transparent hover:bg-transparent absolute hover:underline bottom-0 text-uqac-green" onClick={(e: any) => {router.push("/login")}}>Login</Button>
+                <Button className="bg-transparent hover:!bg-transparent absolute hover:underline bottom-0 text-uqac-green" onClick={(e: any) => {router.push("/login")}}>Login</Button>
             </UqacBox>
         </Wrapper>
     </>
