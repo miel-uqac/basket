@@ -27,13 +27,13 @@ export default function LeaderboardPage() {
                 
                 <div className="flex mt-4 gap-4">
                     {/* go to account page */}
-                    <Button className="flex items-center justify-center border-2 border-white/40 font-bold" onClick={(e: any) => {setLoading(true); router.push("/account")}}>
+                    <Button onClick={(e: any) => {setLoading(true); router.push("/account")}}>
                         <UserPen className="mr-1" />
                         Account
                     </Button>
 
                     {/* start game (QR page) */}
-                    <Button className="flex items-center justify-center border-2 border-white/40 font-bold" onClick={(e: any) => {setLoading(true); router.push("/qr")}}>
+                    <Button onClick={(e: any) => {setLoading(true); router.push("/qr")}}>
                         <Play className="mr-1" />
                         Start game
                     </Button>

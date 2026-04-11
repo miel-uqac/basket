@@ -132,7 +132,7 @@ export default function QrPage() {
                 </div>
 
                 {/* back button */}
-                <Button className="mt-4 flex items-center justify-center border-2 border-white/40 font-bold" onClick={(e: any) => {setLoading(true); stopVideo(); router.push("/leaderboard")}}>
+                <Button className="mt-4" onClick={(e: any) => {setLoading(true); stopVideo(); router.push("/leaderboard")}}>
                     <ArrowBigLeft />
                     Go back
                 </Button>

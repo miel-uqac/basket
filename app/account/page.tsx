@@ -72,12 +72,12 @@ export default function Account() {
 				<UserStats user={user.id} />
 
 				<div className="flex mt-4 gap-4">
-					<Button className="flex items-center justify-center border-2 border-white/40 font-bold" onClick={signOut}>
+					<Button onClick={signOut}>
                         <LogOut className="mr-1" />
                         Logout
                     </Button>
 
-                    <Button className="flex items-center justify-center border-2 border-white/40 font-bold" onClick={(e: any) => {setLoading(true); router.push("/leaderboard")}}>
+                    <Button onClick={(e: any) => {setLoading(true); router.push("/leaderboard")}}>
                         <ArrowBigRight className="mr-1" />
                         Go back
                     </Button>

@@ -123,7 +123,7 @@ export default function GamePage() {
                 <UserStats user={user.id} />
                 
                 <div className="flex mt-4 gap-4">
-                    <Button className="flex items-center justify-center border-2 border-white/40 font-bold" onClick={(e: any) => {leaveGame()}}>
+                    <Button onClick={(e: any) => {leaveGame()}}>
                         <ArrowBigLeft className="mr-1" />
                         Leave game
                     </Button>

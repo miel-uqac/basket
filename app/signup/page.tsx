@@ -81,7 +81,7 @@ export default function SignUp() {
                 <span className="text-red-500 h-[10px]">{err}</span>
                 
                 {/* back to login */}
-                <Button className="bg-transparent hover:!bg-transparent absolute hover:underline bottom-0 text-uqac-green" onClick={(e: any) => {router.push("/login")}}>Login</Button>
+                <Button alternate={true} onClick={(e: any) => {router.push("/login")}}>Login</Button>
             </UqacBox>
         </Wrapper>
     </>

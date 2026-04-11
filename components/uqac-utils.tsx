@@ -9,9 +9,9 @@ import { Loader2 } from "lucide-react"
 // - className: extra styles
 // Usage:
 // <Button onClick={...}>Click</Button>
-export function Button({children, disabled=false, onClick, className=""}: {children: React.ReactNode, disabled?: boolean, onClick: any, className?: string}) {
+export function Button({children, disabled=false, onClick, className="", alternate=false}: {children: React.ReactNode, disabled?: boolean, onClick: any, className?: string, alternate?: boolean}) {
     return (
-        <button disabled={disabled} onClick={onClick} className={`text-black bg-[#b2c083] p-2 ${disabled ? "" : "hover:bg-uqac-green"} transition ${className}`}>
+        <button disabled={disabled} onClick={onClick} className={`${alternate ? "bg-transparent hover:!bg-transparent absolute hover:underline bottom-0 text-uqac-green" : "flex items-center justify-center border-2 border-white/40 font-bold"} text-black bg-[#b2c083] p-2 ${disabled ? "" : "hover:bg-uqac-green"} transition ${className}`}>
             {children}
         </button>
     )
