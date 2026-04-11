@@ -59,7 +59,7 @@ export default function Login() {
 	return <>
 		<Wrapper>
 			{isReady ? (
-				<UqacBox className="border-[4px] border-blue-500 min-w-[70%] min-h-[70%] flex flex-col items-center justify-center" title={"Login"}>
+				<UqacBox className="min-w-[70%] min-h-[70%] flex flex-col items-center justify-center" title={"Login"}>
 					<InputBox placeholder={"email"} onChange={(e:any)=>setM(e.target.value)} type={"email"} className="mb-2" />
 
 					<InputBox placeholder={"password"} onChange={(e:any)=>setP(e.target.value)} type={"password"} />

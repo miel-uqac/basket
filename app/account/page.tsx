@@ -49,7 +49,7 @@ export default function Account() {
 		<Wrapper className="p-4 flex-col gap-4">
 			{(user && userData && !loading) ? (
 				<>
-				<UqacBox className="w-[90%] h-[90%] text-black text-[1.5rem] leading-[2.5rem] flex flex-col items-center justify-center" title={"Account"}>
+				<UqacBox className="w-[90%] h-[90%] text-black text-[1.5rem] leading-[2.5rem] flex flex-col items-center justify-center" title={"👤 Account"}>
 					<div>
 						<span className="font-bold">Username : </span>
 						<span>{userData.username}</span>

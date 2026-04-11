@@ -21,12 +21,20 @@ export default function SignUp() {
     // states for typed data
     const [m, setM] = useState("");
     const [p, setP] = useState("");
+    const [cp, setCp] = useState("");
 
     const [err, setErr] = useState("");
 
     const signUp = async () => {
         setIsLoading(true);
         setErr("");
+
+        // check matching
+        if (cp != p) {
+            setErr("passwords do not match !")
+            setIsLoading(false)
+            return
+        }
 
         // signup with email confirmation redirect
         const { data, error } = await client.auth.signUp({
@@ -46,17 +54,19 @@ export default function SignUp() {
             }
             setErr(errorMessage);
         } else {
-            alert("Your account was created ! You will receive an email to activate it then you can login");
+            alert("Your account was created ! You will receive an email with an email to activate your account and that will also log you in. You will be redirected to the login page in case it doesn't automatically log you in.");
             router.push("/login")
         }
     }
 
     return <>
         <Wrapper>
-            <UqacBox title={"Sign Up"} className="border-[4px] border-red-500 min-w-[70%] min-h-[70%] flex flex-col items-center justify-center">
-                <InputBox placeholder={"email"} onChange={(e:any)=>setM(e.target.value)} type={"email"} className="mb-2" />
+            <UqacBox title={"Sign Up"} className="min-w-[70%] min-h-[70%] flex flex-col items-center justify-center">
+                <InputBox placeholder={"email"} onChange={(e:any)=>setM(e.target.value)} type={"email"} />
                 
-                <InputBox placeholder={"password"} onChange={(e:any)=>setP(e.target.value)} type={"password"} />
+                <InputBox placeholder={"password"} onChange={(e:any)=>setP(e.target.value)} type={"password"} className="mt-2 mb-2" />
+
+                <InputBox placeholder={"confirm password"} onChange={(e:any)=>setCp(e.target.value)} type={"password"} />
                 
                 <Button disabled={isLoading} onClick={(e: any) => {signUp()}} className={`m-2 flex items-center justify-center border-2 border-white/40`}>
                     {isLoading ? (

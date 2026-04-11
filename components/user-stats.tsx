@@ -50,7 +50,7 @@ export default function UserStats({user}: {user: any}) {
 	}, [])
 
 	return <>
-        <UqacBox className="w-[90%] h-[90%] text-black text-[1.5rem] leading-[2.5rem] flex flex-col items-center justify-center" title={"Stats"}>
+        <UqacBox className="w-[90%] h-[90%] text-black text-[1.5rem] leading-[2.5rem] flex flex-col items-center justify-center" title={"📋 Stats"}>
             {(user && userData) ? (
                 <>
                 <div>
