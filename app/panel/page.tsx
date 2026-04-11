@@ -4,11 +4,13 @@ import Leaderboard from "@/components/leaderboard";
 import QrCodeImg from "@/components/qrcode-img";
 import { Button, UqacBox, Wrapper } from "@/components/uqac-utils";
 import UserStats from "@/components/user-stats";
+import { useAuth } from "@/hooks/useAuth";
 import { getClient } from "@/lib/uqac-lib";
 import { useEffect, useRef, useState } from "react";
 
-export default function TestPage() {
+export default function PanelPage() {
     const client = getClient()
+    const user = useAuth();
     const [token, setToken] = useState("");
     const refreshTime = 300; // 5mn
     const inactivityTime = 180; // 3mn
@@ -129,35 +131,38 @@ export default function TestPage() {
     return (
         <>
         <Wrapper className="flex gap-4 p-4">
-            <Leaderboard user={currentPlayer} />
+            {user && (
+                <>
+                <Leaderboard user={currentPlayer} />
 
-            <div className="h-full flex flex-col gap-4">
-                <UqacBox className="h-full flex flex-col gap-2" title="Debug">
-                    <Button className="mb-4 text-[3rem]" onClick={update}>+10</Button>
+                <div className="h-full flex flex-col gap-4">
+                    <UqacBox className="h-full flex flex-col gap-2" title="Debug">
+                        <Button className="mb-4 text-[3rem]" onClick={update}>+10</Button>
 
-                    <Button disabled={!currentPlayer} onClick={kickPlayer}>kick player</Button>
+                        <Button disabled={!currentPlayer} onClick={kickPlayer}>kick player</Button>
 
-                    <div className="flex flex-col text-black gap-2">
-                        <span>game refresh : {countdown}</span>
-                        <span>player inactivity : {inactivity}</span>
-                        <span>game token : {token}</span>
-                        <span>player : {currentPlayer ? currentPlayer : "nobody"}</span>
-                    </div>
+                        <div className="flex flex-col text-black gap-2">
+                            <span>game refresh : {countdown}</span>
+                            <span>player inactivity : {inactivity}</span>
+                            <span>game token : {token}</span>
+                            <span>player : {currentPlayer ? currentPlayer : "nobody"}</span>
+                        </div>
 
-                    <QrCodeImg disabled={currentPlayer} code={`https://miel-uqac.github.io/basket/game?token=${token}`} />
-                </UqacBox>
-            </div>
-
-            {currentPlayer ? (
-                <div className="w-[500px] max-h-[700px]">
-                    <UserStats user={currentPlayer} />
+                        <QrCodeImg disabled={currentPlayer} code={`https://miel-uqac.github.io/basket/game?token=${token}`} />
+                    </UqacBox>
                 </div>
-            ) : (
-                <UqacBox className="flex flex-col items-center justify-center" title="Stats">
-                    <span className="text-black">Nobody is playing...</span>
-                </UqacBox>
+
+                {currentPlayer ? (
+                    <div className="w-[500px] max-h-[700px]">
+                        <UserStats user={currentPlayer} />
+                    </div>
+                ) : (
+                    <UqacBox className="flex flex-col items-center justify-center" title="Stats">
+                        <span className="text-black">Nobody is playing...</span>
+                    </UqacBox>
+                )}
+                </>
             )}
-            
         </Wrapper>
         </>
     )
