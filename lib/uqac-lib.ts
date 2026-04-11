@@ -40,7 +40,7 @@ export async function getUser(client: any) {
 // Usage:
 // const token = checkQrData(scannedText)
 export function checkQrData(data: string) {
-    if (data.startsWith("https://miel-uqac.github.io/basket/game?token=")) {
+    if (data.startsWith(`${process.env.NEXT_PUBLIC_PROJECT_URL}/game?token=`)) {
         const token = data.split("token=")[1];
         return token
     }

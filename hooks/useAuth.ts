@@ -31,7 +31,7 @@ export function useAuth() {
 
             // admin-only routes
             if (pathname.startsWith("/panel")) {
-                if (u.userId !== process.env.NEXT_PUBLIC_ADMIN) {
+                if (u.id !== process.env.NEXT_PUBLIC_ADMIN) {
                     router.push("/login")
                     return
                 }

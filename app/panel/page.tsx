@@ -22,8 +22,8 @@ export default function PanelPage() {
     const user = useAuth();
 
     const [token, setToken] = useState("");
-    const refreshTime = 300; // 5mn
-    const inactivityTime = 180; // 3mn
+    const refreshTime = parseInt(process.env.NEXT_PUBLIC_GAME_REFRESH || "0");
+    const inactivityTime = parseInt(process.env.NEXT_PUBLIC_IDLE_REFRESH || "0");
 
     const [countdown, setCountdown] = useState(refreshTime); // refresh
     const [inactivity, setInactivty] = useState(inactivityTime);
@@ -169,7 +169,7 @@ export default function PanelPage() {
                         </div>
 
                         {/* QR for joining game */}
-                        <QrCodeImg disabled={currentPlayer} code={`https://miel-uqac.github.io/basket/game?token=${token}`} />
+                        <QrCodeImg disabled={currentPlayer} code={`${process.env.NEXT_PUBLIC_PROJECT_URL}/game?token=${token}`} />
                     </UqacBox>
                 </div>
 

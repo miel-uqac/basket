@@ -41,7 +41,7 @@ export default function SignUp() {
             email: m,
             password: p,
             options: {
-                emailRedirectTo: "https://miel-uqac.github.io/basket/login"
+                emailRedirectTo: `${process.env.NEXT_PUBLIC_PROJECT_URL}/login`
             }
         })
 
