@@ -1,10 +1,16 @@
+// === Account Page ===
+// User account page
+// - requires auth (via useAuth)
+// - displays user info + stats
+// - allows logout + navigation
+
 "use client";
+
 import { useRouter } from 'next/navigation';
-import { createClient } from "@supabase/supabase-js";
-import { Armchair, ArrowBigLeft, ArrowBigRight, Loader2, LogOut, Send } from "lucide-react";
+import { ArrowBigRight, LogOut } from "lucide-react";
 import { useEffect, useState } from "react"
 import { Button, LoadingBox, UqacBox, Wrapper } from '@/components/uqac-utils';
-import { formatDate, getClient, getUser } from '@/lib/uqac-lib';
+import { formatDate, getClient } from '@/lib/uqac-lib';
 import { useAuth } from '@/hooks/useAuth';
 import UserStats from '@/components/user-stats';
 
@@ -16,6 +22,7 @@ export default function Account() {
 	const [userData, setUserData] = useState<any>();
 	const [loading, setLoading] = useState(false);
 
+	// sign out user + redirect
 	const signOut = async () => {
 		setLoading(true);
 		await client.auth.signOut()
@@ -24,6 +31,7 @@ export default function Account() {
 
 	useEffect(() => {
 		const fetchData = async () => {
+			// fetch full user row from DB
 			const { data } = await client
 				.from("users")
 				.select("*")
@@ -60,6 +68,7 @@ export default function Account() {
 					</div>
 				</UqacBox>
 
+				{/* user stats (separate component) */}
 				<UserStats user={user.id} />
 
 				<div className="flex mt-4 gap-4">

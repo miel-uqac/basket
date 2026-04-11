@@ -1,3 +1,12 @@
+// === QrCodeImg ===
+// Generates and displays a QR code as an <img>
+// - uses "qrcode" lib to convert string → data URL
+// Props:
+// - code: string to encode
+// - disabled: blurs the QR (visual only)
+// Usage:
+// <QrCodeImg code="..." />
+
 "use client";
 
 import { useEffect, useState } from "react";

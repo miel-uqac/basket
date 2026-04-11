@@ -1,6 +1,17 @@
+// === GamePage ===
+// Game session page
+// - accessed via QR token (?token=...)
+// - validates game existence in DB
+// - locks player into game (single player control)
+// - fetches user score
+// - listens to realtime updates on "game" table
+// - allows leaving game (clears player field)
+// Usage:
+// /game?token=XYZ
+
 "use client";
 
-import { Button, LoadingBox, UqacBox, Wrapper } from "@/components/uqac-utils";
+import { Button, LoadingBox, Wrapper } from "@/components/uqac-utils";
 import UserStats from "@/components/user-stats";
 import { useAuth } from "@/hooks/useAuth";
 import { getClient } from "@/lib/uqac-lib";
@@ -17,6 +28,7 @@ export default function GamePage() {
     const [loading, setLoading] = useState(false);
     const [gameReady, setGameReady] = useState(false);
 
+    // read token from URL
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
         const gameToken = params.get("token") || "";
@@ -34,6 +46,7 @@ export default function GamePage() {
                 return;
             }
 
+            // check game exists
             const gameExists: any = await client.from("game").select("player").eq("id", token);
 
             if (gameExists.data.length == 0) {
@@ -44,6 +57,7 @@ export default function GamePage() {
                 return;
             }
 
+            // handle player lock (only one active player)
             if (gameExists.data[0].player) {
                 console.log("player exists");
                 if (gameExists.data[0].player != user.id) {
@@ -58,7 +72,7 @@ export default function GamePage() {
                 await client.from("game").update({ player: user.id }).eq("id", token);
             }
 
-            // ourselves
+            // fetch user score
             let me = 0;
 
             if (user) {
@@ -80,6 +94,7 @@ export default function GamePage() {
             fetchData()
         }
 
+        // realtime updates for game state
         const channel = client.channel("scores-live")
         .on("postgres_changes",
             {event: "*", schema: "basket", table: "game"},
@@ -92,6 +107,7 @@ export default function GamePage() {
         }
     }, [score, user, loading])
 
+    // leave game + release lock
     const leaveGame = async () => {
         setLoading(true);
         await client.from("game").update({ player: null }).eq("id", token);
@@ -103,6 +119,7 @@ export default function GamePage() {
         <Wrapper className="flex-col">
             {(user && !loading && gameReady) ? (
                 <>
+                {/* user stats inside game */}
                 <UserStats user={user.id} />
                 
                 <div className="flex mt-4 gap-4">

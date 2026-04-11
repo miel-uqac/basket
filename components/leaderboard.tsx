@@ -1,26 +1,35 @@
+// === Leaderboard ===
+// Client component displaying top users by score
+// - fetches top N users + current user rank
+// - keeps current user visible even if outside top
+// - updates in realtime via Supabase channel
+// Props:
+// - user: current user_id
+// - max: total elements in list (default is 10)
+// Usage:
+// <Leaderboard user={userId} />
+
 "use client";
+
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Button, LoadingBox, UqacBox, Wrapper } from "@/components/uqac-utils";
-import { useAuth } from "@/hooks/useAuth";
-import { getClient, getUser } from "@/lib/uqac-lib";
-import { ArrowBigLeft, Play, UserPen } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { LoadingBox, UqacBox } from "@/components/uqac-utils";
+import { getClient } from "@/lib/uqac-lib";
 import { useEffect, useState } from "react";
 
-export default function Leaderboard({user}: {user: any}) {
+export default function Leaderboard({user, max=10}: {user: any, max?: number}) {
     const client = getClient()
     const [scores, setScores] = useState<any>();
 
     useEffect(() => {
         const fetchData = async () => {
-            // top 10
+            // get top users ordered by score
             const { data: top } = await client
                 .from("users")
                 .select("*")
                 .order("score", { ascending: false })
-                .limit(10);
+                .limit(max);
 
-            // attach rank to top
+            // compute rank for each top user
             const topWithRank = await Promise.all(
                 (top || []).map(async (u: any) => {
                 const { count } = await client
@@ -32,7 +41,7 @@ export default function Leaderboard({user}: {user: any}) {
                 })
             );
 
-            // ourselves
+            // fetch current user
             let me = null;
 
             if (user) {
@@ -52,24 +61,25 @@ export default function Leaderboard({user}: {user: any}) {
                 }
             }
 
-            // merge
+            // merge top + current user if not already included
             let final = topWithRank;
 
             if (me) {
                 const alreadyInTop = final.some((r: any) => r.user_id === me.user_id);
 
                 if (!alreadyInTop) {
-                    final = [...final.slice(0, 9), me]; // keep 9 + user
+                    final = [...final.slice(0, max - 1), me]; // keep total + user
                 }
             }
 
+            // sort by rank and display
             final.sort((a: any, b: any) => a.rank - b.rank);
-
             setScores(final);
         };
 
         fetchData()
 
+        // realtime updates on "users" table
         const channel = client.channel("scores-live")
         .on("postgres_changes",
             {event: "*", schema: "basket", table: "users"},
@@ -83,17 +93,14 @@ export default function Leaderboard({user}: {user: any}) {
     }, [user])
     
     return (
-        <UqacBox className="w-[95%] h-[95%]" title={"Leaderboard"}>
-            <span className="text-black">cu -&gt; {user}</span>
-            
+        <UqacBox className="w-[95%] h-[95%]" title={"📈 Leaderboard"}>
             {scores ? (
                 <Table className="text-black w-full">
                     <TableHeader>
                         <TableRow>
-                            {/* <TableHead>user_id</TableHead> */}
-                            <TableHead>position</TableHead>
-                            <TableHead>username</TableHead>
-                            <TableHead>score</TableHead>
+                            <TableHead>📊 Position</TableHead>
+                            <TableHead>📌 Username</TableHead>
+                            <TableHead>🎰 Score</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody className="w-full">
@@ -102,15 +109,15 @@ export default function Leaderboard({user}: {user: any}) {
 
                             let color = "";
                             let medal = "";
-                            if (i === 0) { 
+                            if (i === 0) {  // 1st
                                 color = "bg-yellow-400";
                                 medal = "🥇 ";
                             }
-                            else if (i === 1) {
+                            else if (i === 1) { // 2nd
                                 color = "bg-gray-400";
                                 medal = "🥈 ";
                             }
-                            else if (i === 2) {
+                            else if (i === 2) { // 3rd
                                 color = "bg-orange-400";
                                 medal = "🥉 ";
                             }
@@ -119,9 +126,8 @@ export default function Leaderboard({user}: {user: any}) {
 
                             return (
                                 <TableRow key={r.user_id} className={`${color} truncate hover:${color} ${isMe && "font-bold"}`}>
-                                    {/* <TableCell>{r.user_id}</TableCell> */}
-                                    <TableCell>{r.rank}</TableCell>
-                                    <TableCell>{medal}{r.username} {isMe && ("(you)")} - {r.user_id}</TableCell>
+                                    <TableCell>n°{r.rank}</TableCell>
+                                    <TableCell>{medal}{r.username} {isMe && ("(you)")}</TableCell>
                                     <TableCell>{r.score}</TableCell>
                                 </TableRow>
                             );

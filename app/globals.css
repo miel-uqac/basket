@@ -1,3 +1,5 @@
+/* scroll down for the custom content, everything else was added by the dependencies */
+
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
@@ -69,6 +71,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* CUSTOM CONTENT BEGIN */
+/* also check tailwind.config.ts for the theme color implementation */
+
 html, body {
   width: 100%;
   height: 100%;
@@ -92,16 +97,6 @@ html, body {
   }
 }
 
-/* body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-} */
-
 @layer utilities {
   .text-balance {
     text-wrap: balance;
@@ -112,6 +107,8 @@ html, body {
     font-family: 'Montserrat';
     src: url("../public/fonts/Montserrat-VariableFont_wght.ttf") format('truetype');
 }
+
+/* END CUSTOM CONTENT */
 
 @layer base {
   :root {

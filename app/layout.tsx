@@ -1,8 +1,7 @@
 "use client";
 
-import TopBar from "@/components/top-bar";
+import { BottomBar, TopBar } from "@/components/page-elements";
 import "./globals.css";
-import BottomBar from "@/components/bottom-bar";
 
 export default async function RootLayout({children,}: Readonly<{children: React.ReactNode;}>) {
 	return (

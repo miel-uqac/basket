@@ -1,3 +1,9 @@
+// === getClient ===
+// Creates and returns a Supabase client
+// - uses public env vars
+// - forces "basket" schema
+// Usage:
+// const client = getClient()
 import { createClient } from "@supabase/supabase-js";
 
 export function getClient() {
@@ -9,6 +15,13 @@ export function getClient() {
     return supabase
 }
 
+// === getUser ===
+// Fetches current authenticated user from Supabase
+// Returns:
+// - user object if logged in
+// - null otherwise
+// Usage:
+// const user = await getUser(client)
 export async function getUser(client: any) {
     const user = await client.auth.getUser()
     if (user.data.user) {
@@ -18,6 +31,14 @@ export async function getUser(client: any) {
     }
 }
 
+// === checkQrData ===
+// Validates QR string and extracts token
+// - expects specific URL format
+// Returns:
+// - token string if valid
+// - "" otherwise
+// Usage:
+// const token = checkQrData(scannedText)
 export function checkQrData(data: string) {
     if (data.startsWith("https://miel-uqac.github.io/basket/game?token=")) {
         const token = data.split("token=")[1];
@@ -26,6 +47,11 @@ export function checkQrData(data: string) {
     return "";
 }
 
+// === formatDate ===
+// Formats a date string to readable US format
+// - includes date + time (24h)
+// Usage:
+// formatDate("2024-01-01T12:00:00Z")
 export function formatDate(text: string) {
     return new Date(text).toLocaleString("en-US", {day: "numeric", month: "long", year: "numeric", hour: "numeric", minute: "numeric", hour12: false})
 }

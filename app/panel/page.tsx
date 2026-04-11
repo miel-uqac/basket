@@ -1,3 +1,12 @@
+// === PanelPage ===
+// Admin/control panel for the game system
+// - requires auth + admin access (/panel protected by useAuth)
+// - manages game session token rotation
+// - tracks current player + inactivity timeout
+// - can award score (+10)
+// - displays QR code for joining game
+// - shows live leaderboard + player stats
+
 "use client";
 
 import Leaderboard from "@/components/leaderboard";
@@ -11,13 +20,16 @@ import { useEffect, useRef, useState } from "react";
 export default function PanelPage() {
     const client = getClient()
     const user = useAuth();
+
     const [token, setToken] = useState("");
     const refreshTime = 300; // 5mn
     const inactivityTime = 180; // 3mn
+
     const [countdown, setCountdown] = useState(refreshTime); // refresh
     const [inactivity, setInactivty] = useState(inactivityTime);
     const [currentPlayer, setCurrentPlayer] = useState();
     
+    // add score to current player, what you can then link to the python for scoring
     const update = async () => {
         const { data } = await client
             .from("users")
@@ -32,9 +44,10 @@ export default function PanelPage() {
             .update({ score: data.score + 10 })
             .eq("user_id", currentPlayer);
         
-        setInactivty(inactivityTime);
+        setInactivty(inactivityTime); // reset inactivity
     }
 
+    // generate new game token + reset game row (and kick players in the process)
     const updateToken = async () => {
         const uuid = window.crypto.randomUUID();
         setToken(uuid);
@@ -47,12 +60,14 @@ export default function PanelPage() {
         await client.from("game").insert([{pk: 1, id: uuid}]);
     }
 
+    // keep track of current player because of the effects hooks
     const currentPlayerRef = useRef(currentPlayer);
-
+    
     useEffect(() => {
         currentPlayerRef.current = currentPlayer;
     }, [currentPlayer]);
 
+    // game refresh loop
     useEffect(() => {
         updateToken();
 
@@ -74,6 +89,7 @@ export default function PanelPage() {
         return () => clearInterval(interval);
     }, []);
 
+    // inactivity loop & kicks player if idle
     useEffect(() => {
         const interval = setInterval(() => {
             setInactivty((c) => {
@@ -94,6 +110,7 @@ export default function PanelPage() {
         return () => clearInterval(interval);
     }, []);
 
+    // fetch current player from game table
     useEffect(() => {
         const fetchData = async () => {
             console.log("update")
@@ -124,6 +141,7 @@ export default function PanelPage() {
         }
     }, [token])
 
+    // force reset session
     const kickPlayer = async () => {
         updateToken();
     }
@@ -133,8 +151,10 @@ export default function PanelPage() {
         <Wrapper className="flex gap-4 p-4">
             {user && (
                 <>
+                {/* leaderboard follows current player */}
                 <Leaderboard user={currentPlayer} />
 
+                {/* control panel */}
                 <div className="h-full flex flex-col gap-4">
                     <UqacBox className="h-full flex flex-col gap-2" title="Debug">
                         <Button className="mb-4 text-[3rem]" onClick={update}>+10</Button>
@@ -148,10 +168,12 @@ export default function PanelPage() {
                             <span>player : {currentPlayer ? currentPlayer : "nobody"}</span>
                         </div>
 
+                        {/* QR for joining game */}
                         <QrCodeImg disabled={currentPlayer} code={`https://miel-uqac.github.io/basket/game?token=${token}`} />
                     </UqacBox>
                 </div>
 
+                {/* player stats or empty state */}
                 {currentPlayer ? (
                     <div className="w-[500px] max-h-[700px]">
                         <UserStats user={currentPlayer} />

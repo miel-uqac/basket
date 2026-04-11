@@ -1,7 +1,13 @@
+// === SignUp Page ===
+// Handles user registration with Supabase auth
+// - email/password signup
+// - email confirmation required (redirect to login page)
+// - basic error handling (domain restriction expected)
+
 "use client";
+
 import { useRouter } from 'next/navigation';
-import { createClient } from "@supabase/supabase-js";
-import { Armchair, Loader2, Send } from "lucide-react";
+import { Loader2, Send } from "lucide-react";
 import { useState } from "react"
 import { getClient } from '@/lib/uqac-lib';
 import { Button, InputBox, UqacBox, Wrapper } from '@/components/uqac-utils';
@@ -11,14 +17,18 @@ export default function SignUp() {
     const router = useRouter();
 
     const [isLoading, setIsLoading] = useState(false);
+
+    // states for typed data
     const [m, setM] = useState("");
     const [p, setP] = useState("");
+
     const [err, setErr] = useState("");
 
     const signUp = async () => {
         setIsLoading(true);
         setErr("");
 
+        // signup with email confirmation redirect
         const { data, error } = await client.auth.signUp({
             email: m,
             password: p,
@@ -29,6 +39,7 @@ export default function SignUp() {
 
         if (error) {
             setIsLoading(false);
+            // custom message for domain restriction
             let errorMessage = "Only @uqac.ca or @etu.uqac.ca emails are allowed"
             if (error.toString() !== "AuthApiError: Unexpected status code returned from hook: 422") {
                 errorMessage = error.toString()
@@ -46,7 +57,6 @@ export default function SignUp() {
                 <InputBox placeholder={"email"} onChange={(e:any)=>setM(e.target.value)} type={"email"} className="mb-2" />
                 
                 <InputBox placeholder={"password"} onChange={(e:any)=>setP(e.target.value)} type={"password"} />
-                                    
                 
                 <Button disabled={isLoading} onClick={(e: any) => {signUp()}} className={`m-2 flex items-center justify-center border-2 border-white/40`}>
                     {isLoading ? (
@@ -56,9 +66,11 @@ export default function SignUp() {
                     )}
                     Confirm
                 </Button>
-
+                
+                {/* error message */}
                 <span className="text-red-500 h-[10px]">{err}</span>
-
+                
+                {/* back to login */}
                 <Button className="bg-transparent hover:!bg-transparent absolute hover:underline bottom-0 text-uqac-green" onClick={(e: any) => {router.push("/login")}}>Login</Button>
             </UqacBox>
         </Wrapper>

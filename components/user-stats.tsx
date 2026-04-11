@@ -1,7 +1,18 @@
+// === UserStats ===
+// Displays basic stats for current user
+// - currently only "score" (mapped as Goals)
+// - other fields are placeholders for future DB expansion
+// - updates in realtime via Supabase channel
+// Props:
+// - user: current user_id
+// Usage:
+// <UserStats user={userId} />
+
 "use client";
+
 import { useEffect, useState } from "react"
-import { Button, LoadingBox, UqacBox, Wrapper } from '@/components/uqac-utils';
-import { formatDate, getClient, getUser } from '@/lib/uqac-lib';
+import { LoadingBox, UqacBox } from '@/components/uqac-utils';
+import { getClient } from '@/lib/uqac-lib';
 
 export default function UserStats({user}: {user: any}) {
 	const client = getClient();
@@ -12,6 +23,7 @@ export default function UserStats({user}: {user: any}) {
 		const fetchData = async () => {
             let me = 0;
 
+            // fetch user score
 			const { data } = await client
                 .from("users")
                 .select("score")
@@ -25,6 +37,7 @@ export default function UserStats({user}: {user: any}) {
 
         fetchData()
 
+        // realtime updates on "users" table
         const channel = client.channel("scores-live")
         .on("postgres_changes",
             {event: "*", schema: "basket", table: "users"},
@@ -44,6 +57,8 @@ export default function UserStats({user}: {user: any}) {
                     <span className="font-bold">Goals : </span>
                     <span>{userData}</span>
                 </div>
+
+                {/* placeholders for future stats (depends on DB schema) */}
                 <div>
                     <span className="font-bold">Games count : </span>
                     <span>...</span>
