@@ -29,6 +29,8 @@ export default function UserStats({user}: {user: any}) {
                 .select("score")
                 .eq("user_id", user)
                 .single();
+            
+            console.log(data)
 
             me = parseInt(data?.score);
 
@@ -50,8 +52,8 @@ export default function UserStats({user}: {user: any}) {
 	}, [])
 
 	return <>
-        <UqacBox className="w-[90%] h-[90%] text-black text-[1.5rem] leading-[2.5rem] flex flex-col items-center justify-center" title={"📋 Stats"}>
-            {(user && userData) ? (
+        <UqacBox className="w-[90%] h-[90%] text-black text-md md:text-[1.5rem] leading-[1.5rem] md:leading-[2.5rem] flex flex-col items-center justify-center" title={"📋 Stats"}>
+            {(user && userData !== undefined) ? (
                 <>
                 <div>
                     <span className="font-bold">Goals : </span>

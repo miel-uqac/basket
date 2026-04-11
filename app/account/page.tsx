@@ -7,7 +7,7 @@
 "use client";
 
 import { useRouter } from 'next/navigation';
-import { ArrowBigRight, LogOut } from "lucide-react";
+import { ArrowBigRight, LogOut, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react"
 import { Button, LoadingBox, UqacBox, Wrapper } from '@/components/uqac-utils';
 import { formatDate, getClient } from '@/lib/uqac-lib';
@@ -27,6 +27,25 @@ export default function Account() {
 		setLoading(true);
 		await client.auth.signOut()
 		router.push("/login");
+	}
+
+	// delete account
+	const deleteAccount = async () => {
+		const confirm = prompt("Are you sure you want to delete your account ? Type 'CONFIRM' to continue.")
+
+		if (confirm == "CONFIRM") {
+			setLoading(true)
+			const { data: { session } } = await client.auth.getSession();
+			await fetch("https://gphwidwmehfwigaowhyl.supabase.co/functions/v1/delete-user", {
+				method: "POST",
+				headers: {
+					Authorization: `Bearer ${session?.access_token}`,
+				},
+			});
+			// todo: proper RLS
+			await client.from("users").delete().eq("user_id", user.id)
+			router.push("/login");
+		}
 	}
 
 	useEffect(() => {
@@ -49,7 +68,7 @@ export default function Account() {
 		<Wrapper className="p-4 flex-col gap-4">
 			{(user && userData && !loading) ? (
 				<>
-				<UqacBox className="w-[90%] h-[90%] text-black text-[1.5rem] leading-[2.5rem] flex flex-col items-center justify-center" title={"👤 Account"}>
+				<UqacBox className="w-[90%] h-[90%] text-black text-md md:text-[1.5rem] leading-[1.5rem] md:leading-[2.5rem] flex flex-col items-center justify-center" title={"👤 Account"}>
 					<div>
 						<span className="font-bold">Username : </span>
 						<span>{userData.username}</span>
@@ -66,6 +85,11 @@ export default function Account() {
 						<span className="font-bold">Last login : </span>
 						<span>{formatDate(user.last_sign_in_at)}</span>
 					</div>
+
+					<Button className="bg-red-500 hover:bg-red-400 text-[1rem] p-1 mt-2" onClick={deleteAccount}>
+						<Trash2 className="mr-1" />
+						Delete account
+					</Button>
 				</UqacBox>
 
 				{/* user stats (separate component) */}
