@@ -49,16 +49,34 @@ export default function PanelPage() {
 
     // generate new game token + reset game row (and kick players in the process)
     const updateToken = async () => {
+        console.log("== refresh ==")
         const uuid = window.crypto.randomUUID();
-        setToken(uuid);
-        setCountdown(refreshTime);
+        const oldToken = tokenRef.current;
+        console.log("old token : " + oldToken)
+        console.log("new token : " + uuid)
 
         // remove old row
         await client.from("game").delete().eq("pk", 1);
 
         // add new row
-        await client.from("game").insert([{pk: 1, id: uuid}]);
+        let temp: any = {pk: 1, id: uuid}
+        if (oldToken && oldToken != "") {
+            temp["last_id"] = oldToken
+        }
+        await client.from("game").insert([temp]);
+        
+        // update display
+        setToken(uuid);
+        setCountdown(refreshTime);
+        setCurrentPlayer(undefined);
     }
+
+    // keep track of current token because of the effects hooks
+    const tokenRef = useRef(token);
+
+    useEffect(() => {
+        tokenRef.current = token;
+    }, [token]);
 
     // keep track of current player because of the effects hooks
     const currentPlayerRef = useRef(currentPlayer);
@@ -113,13 +131,13 @@ export default function PanelPage() {
     // fetch current player from game table
     useEffect(() => {
         const fetchData = async () => {
-            console.log("update")
-            console.log(token)
+            console.log("== player update ==")
+            console.log("token : " + token)
             if (!token) {
                 return;
             }
             const currentPlayer: any = await client.from("game").select("player").eq("id", token);
-            console.log(currentPlayer)
+            console.log("player : " + currentPlayer)
             if (currentPlayer.data.length == 0) {
                 setCurrentPlayer(undefined);
                 setCountdown(refreshTime);
@@ -143,7 +161,9 @@ export default function PanelPage() {
 
     // force reset session
     const kickPlayer = async () => {
-        updateToken();
+        setToken("");
+        await updateToken();
+        await updateToken(); // i have no idea why this requires to be runned two times to be caught on the client
     }
     
     return (

@@ -17,7 +17,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { getClient } from "@/lib/uqac-lib";
 import { ArrowBigLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function GamePage() {
     const client = getClient()
@@ -27,6 +27,7 @@ export default function GamePage() {
     const [score, setScore] = useState(0);
     const [loading, setLoading] = useState(false);
     const [gameReady, setGameReady] = useState(false);
+    const [isFirstCheck, setIsFirstCheck] = useState(true);
 
     // read token from URL
     useEffect(() => {
@@ -40,18 +41,40 @@ export default function GamePage() {
         }
     }, []);
 
+    // keep track of current state because of the effects hooks
+    const stateRef = useRef(isFirstCheck);
+
+    useEffect(() => {
+        stateRef.current = isFirstCheck;
+    }, [token]);
+
     useEffect(() => {
         const fetchData = async () => {
             if (loading) {
                 return;
             }
 
+            // edge case for rolling ids
+            const rollingId: any = await client.from("game").select("id").eq("last_id", token);
+
+            // alert(JSON.stringify(rollingId))
+
+            if (rollingId.data && rollingId.data.length != 0) {
+                console.log(rollingId)
+                router.push(`/game?token=${rollingId.data[0].last_id}`)
+                return
+            }
+
             // check game exists
             const gameExists: any = await client.from("game").select("player").eq("id", token);
 
-            if (gameExists.data.length == 0) {
+            if (!gameExists.data || gameExists.data.length == 0) {
                 setGameReady(false);
-                alert("Game not found !");
+                if (isFirstCheck) {
+                    alert("Game not found !");
+                } else {
+                    alert("You have been kicked !");
+                }
                 router.push("/qr");
                 client.removeChannel(channel)
                 return;
@@ -71,6 +94,8 @@ export default function GamePage() {
                 console.log("update player" + user.id);
                 await client.from("game").update({ player: user.id }).eq("id", token);
             }
+
+            setIsFirstCheck(false)
 
             // fetch user score
             let me = 0;
