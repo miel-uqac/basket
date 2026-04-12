@@ -65,7 +65,7 @@ export default function Account() {
 	}, [userData, user])
 
 	return <>
-		<Wrapper className="p-4 flex-col gap-4">
+		<Wrapper className="p-4 flex-col">
 			{(user && userData && !loading) ? (
 				<>
 				<UqacBox className="w-[90%] h-[90%] text-black text-md md:text-[1.5rem] leading-[1.5rem] md:leading-[2.5rem] flex flex-col items-center justify-center" title={"👤 Account"}>
@@ -93,7 +93,9 @@ export default function Account() {
 				</UqacBox>
 
 				{/* user stats (separate component) */}
-				<UserStats user={user.id} />
+				<div className="w-[90%] h-full flex flex-col items-center justify-center">
+					<UserStats user={user.id} />
+				</div>
 
 				<div className="flex mt-4 gap-4">
 					<Button onClick={signOut}>
