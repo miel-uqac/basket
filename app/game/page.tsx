@@ -145,9 +145,11 @@ export default function GamePage() {
             {(user && !loading && gameReady) ? (
                 <>
                 {/* user stats inside game */}
-                <UserStats user={user.id} />
+                <div className="flex flex-col items-center justify-center w-[90%] h-[90%]">
+                    <UserStats user={user.id} />
+                </div>
                 
-                <div className="flex mt-4 gap-4">
+                <div className="flex mb-4 gap-4">
                     <Button onClick={(e: any) => {leaveGame()}}>
                         <ArrowBigLeft className="mr-1" />
                         Leave game

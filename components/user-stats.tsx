@@ -52,7 +52,7 @@ export default function UserStats({user}: {user: any}) {
 	}, [])
 
 	return <>
-        <UqacBox className="w-[90%] h-[90%] text-black text-md md:text-[1.5rem] leading-[1.5rem] md:leading-[2.5rem] flex flex-col items-center justify-center" title={"📋 Stats"}>
+        <UqacBox className="w-full h-full text-black text-2xl md:text-[1.5rem] leading-[2rem] md:leading-[2.5rem] flex flex-col items-center justify-center" title={"📋 Stats"}>
             {(user && userData !== undefined) ? (
                 <>
                 <div>

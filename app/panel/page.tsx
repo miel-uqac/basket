@@ -168,15 +168,28 @@ export default function PanelPage() {
     
     return (
         <>
-        <Wrapper className="flex gap-4 p-4">
+        <Wrapper className="flex gap-4 p-2">
             {user && (
                 <>
+                {/* player stats or empty state */}
+                <div className="h-full w-[500px] flex justify-center flex-col gap-4">
+                    {currentPlayer ? (
+                        <div className="w-full flex flex-col justify-center h-full">
+                            <UserStats user={currentPlayer} />
+                        </div>
+                    ) : (
+                        <UqacBox className="flex w-full h-full flex-col items-center justify-center" title="📋 Stats">
+                            <span className="text-black text-2xl font-bold">😔 Nobody is playing...</span>
+                        </UqacBox>
+                    )}
+                </div>
+
                 {/* leaderboard follows current player */}
-                <Leaderboard user={currentPlayer} />
+                <Leaderboard user={currentPlayer} max={20} />
 
                 {/* control panel */}
-                <div className="h-full flex flex-col gap-4">
-                    <UqacBox className="h-full flex flex-col gap-2" title="Debug">
+                <div className="h-full flex justify-center flex-col gap-4">
+                    <UqacBox className="h-full flex flex-col gap-2" title="⚙ Debug">
                         <Button className="mb-4 text-[3rem]" onClick={update}>+10</Button>
 
                         <Button disabled={!currentPlayer} onClick={kickPlayer}>kick player</Button>
@@ -192,17 +205,6 @@ export default function PanelPage() {
                         <QrCodeImg disabled={currentPlayer} code={`${process.env.NEXT_PUBLIC_PROJECT_URL}/game?token=${token}`} />
                     </UqacBox>
                 </div>
-
-                {/* player stats or empty state */}
-                {currentPlayer ? (
-                    <div className="w-[500px] max-h-[700px]">
-                        <UserStats user={currentPlayer} />
-                    </div>
-                ) : (
-                    <UqacBox className="flex flex-col items-center justify-center" title="Stats">
-                        <span className="text-black">Nobody is playing...</span>
-                    </UqacBox>
-                )}
                 </>
             )}
         </Wrapper>
