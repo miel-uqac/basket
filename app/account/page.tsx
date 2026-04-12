@@ -86,7 +86,7 @@ export default function Account() {
 						<span>{formatDate(user.last_sign_in_at)}</span>
 					</div>
 
-					<Button className="bg-red-500 hover:bg-red-400 text-[1rem] p-1 mt-2" onClick={deleteAccount}>
+					<Button className="bg-red-500 hover:!bg-red-400 text-[1rem] p-1 mt-2" onClick={deleteAccount}>
 						<Trash2 className="mr-1" />
 						Delete account
 					</Button>
