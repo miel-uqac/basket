@@ -1,0 +1,87 @@
+// === Login Page ===
+// Handles user login with Supabase auth
+// - auto-redirects if already logged in
+// - email/password login
+// - shows loading + error state
+
+"use client";
+
+import { useRouter } from 'next/navigation';
+import { Loader2, Send } from "lucide-react";
+import { useEffect, useState } from "react"
+import { Button, InputBox, LoadingBox, UqacBox, Wrapper } from '@/components/uqac-utils';
+import { getClient, getUser } from '@/lib/uqac-lib';
+
+export default function Login() {
+	const client = getClient();
+	const router = useRouter();
+
+	const [isReady, setIsReady] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
+
+	// states for typed data by user
+	const [m, setM] = useState("");
+	const [p, setP] = useState("");
+	
+	const [err, setErr] = useState("");
+
+	useEffect(() => {
+		const checkUser = async () => {
+			// redirect if already logged in
+			const user = await getUser(client)
+			if (user) {
+				router.push("/leaderboard")
+			} else {
+				setIsReady(true)
+			}
+		}
+		if (!isReady) {checkUser()}
+	}, [isReady])
+
+	const login = async () => {
+		setIsLoading(true);
+		setErr("");
+
+		const { data, error } = await client.auth.signInWithPassword({
+			email: m,
+			password: p,
+		})
+
+		// set up defaults for user
+		if (error) {
+			setIsLoading(false);
+			setErr(error.toString());
+		} else {
+			router.push("/leaderboard")
+		}
+	}
+
+	return <>
+		<Wrapper>
+			{isReady ? (
+				<UqacBox className="min-w-[70%] min-h-[70%] flex flex-col items-center justify-center" title={"Login"}>
+					<InputBox placeholder={"email"} onChange={(e:any)=>setM(e.target.value)} type={"email"} className="mb-2" />
+
+					<InputBox placeholder={"password"} onChange={(e:any)=>setP(e.target.value)} type={"password"} />
+					
+					<Button disabled={isLoading} onClick={(e: any) => {login()}} className={`m-2 flex items-center justify-center border-2 border-white/40`}>
+						{isLoading ? (
+							<Loader2 className="transition animate-spin mr-1" size={20} />
+						) : (
+							<Send className="mr-1" size={20} />
+						)}
+						Confirm
+					</Button>
+
+					{/* error message */}
+					<span className="text-red-500 h-[10px]">{err}</span>
+					
+					{/* link to signup */}
+					<Button alternate={true} onClick={(e: any) => {router.push("/signup")}}>Create an account</Button>
+				</UqacBox>
+			) : (
+				<LoadingBox />
+			)}
+		</Wrapper>
+	</>
+}
