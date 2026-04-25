@@ -13,7 +13,6 @@ Le site est une application [Next.js](https://nextjs.org) entièrement statique,
 ```bash
 git clone https://github.com/miel-uqac/basket.git
 cd basket
-git checkout web
 npm install
 npm run dev
 ```
